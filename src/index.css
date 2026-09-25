@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #0b1326;
+  --color-surface-dim: #0b1326;
+  --color-surface-bright: #31394d;
+  --color-surface-container-lowest: #060e20;
+  --color-surface-container-low: #131b2e;
+  --color-surface-container: #171f33;
+  --color-surface-container-high: #222a3d;
+  --color-surface-container-highest: #2d3449;
+  --color-on-surface: #dae2fd;
+  --color-on-surface-variant: #bec8d2;
+  --color-outline: #88929b;
+  --color-outline-variant: #3e4850;
+  --color-primary: #89ceff;
+  --color-on-primary: #00344d;
+  --color-primary-container: #0ea5e9;
+  --color-on-primary-container: #003751;
+  --color-secondary: #4edea3;
+  --color-on-secondary: #003824;
+  --color-secondary-container: #00a572;
+  --color-on-secondary-container: #00311f;
+  --color-tertiary: #ffb95f;
+  --color-on-tertiary: #472a00;
+  --color-tertiary-container: #d88a00;
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+  --font-headline: 'Space Grotesk', sans-serif;
+  --font-body: 'Hanken Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Hanken Grotesk', sans-serif;
+  background-color: #0b1326;
+  color: #dae2fd;
+}
+
+.font-headline {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #060e20;
+}
+::-webkit-scrollbar-thumb {
+  background: #222a3d;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3e4850;
+}
+
+.radar-ping {
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.grid-bg {
+  background-image: radial-gradient(#1e293b 1px, transparent 1px);
+  background-size: 20px 20px;
+}
