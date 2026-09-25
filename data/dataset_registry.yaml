@@ -1,0 +1,194 @@
+# ResilientSC dataset registry — Phase 2
+#
+# Every entry below was actually downloaded and inspected in this environment
+# (see the row/column counts, missing-value counts, and quality notes — none of
+# these numbers are estimates). Entries with status NOT_ACQUIRED were
+# deliberately not downloaded, with the reason stated, per the Phase 1 rule
+# against fabricating dataset statistics. Raw files live under data/raw/<name>/
+# (gitignored — see .gitignore — this file is the durable record).
+
+datasets:
+
+  - name: demand_uci_online_retail
+    status: ACQUIRED
+    category: "A. Demand forecasting"
+    source: "UCI Machine Learning Repository"
+    url: "https://archive.ics.uci.edu/dataset/352/online+retail"
+    download_url: "https://archive.ics.uci.edu/ml/machine-learning-databases/00352/Online%20Retail.xlsx"
+    license: "CC BY 4.0 (per UCI ML Repository dataset page) — verify on the page before external redistribution"
+    file_format: xlsx
+    local_path: "data/raw/demand_uci_online_retail/Online_Retail.xlsx"
+    rows: 541909
+    columns: 8
+    column_names: [InvoiceNo, StockCode, Description, Quantity, InvoiceDate, UnitPrice, CustomerID, Country]
+    date_range: "2010-12-01 to 2011-12-09"
+    unique_products: 4070
+    unique_countries: 38
+    missing_values:
+      Description: 1454
+      CustomerID: 135080
+      other_columns: 0
+    data_quality_issues:
+      - "10,624 rows have negative Quantity — these are returns/cancelled orders (InvoiceNo starts with 'C'), not real demand; must be split out, not summed into demand_quantity as-is"
+      - "135,080 rows have no CustomerID — usable for product-level daily demand aggregation regardless, since DEMAND schema doesn't need customer identity"
+      - "Transaction-level, not pre-aggregated — needs groupby(date, StockCode, Country) to reach the internal DEMAND grain (date, product_id, location_id, demand_quantity)"
+    internal_schema_mapping:
+      DEMAND.date: "InvoiceDate (truncated to day for aggregation)"
+      DEMAND.product_id: StockCode
+      DEMAND.location_id: Country
+      DEMAND.demand_quantity: "sum(Quantity) after excluding cancelled-order rows"
+    intended_use: "Baseline + XGBoost demand forecasting training/eval data (model-plan.md)"
+    redistribution: "Permitted for hackathon use under CC BY 4.0 with attribution to UCI ML Repository / the original contributing organization"
+
+  - name: ports_world_port_index
+    status: ACQUIRED
+    category: "E. Ports / routes"
+    source: "US National Geospatial-Intelligence Agency (NGA), mirrored via Humanitarian Data Exchange (HDX)"
+    url: "https://data.humdata.org/dataset/world-port-index"
+    download_url: "https://data.humdata.org/dataset/3f976f27-2566-4ea7-b29e-7fc6ebc90aab/resource/060abaf3-8c9f-4df4-b7e3-5335a15c6247/download/world_port_index.zip"
+    license: "Public domain (US government work)"
+    file_format: "Esri Shapefile (.dbf attribute table + .shp/.shx/.prj geometry)"
+    local_path: "data/raw/ports_world_port_index/WPI.*"
+    rows: 3669
+    columns: 78
+    date_note: "HDX mirror last modified 2017-03-28 — the official NGA source (msi.nga.mil/Publications/WPI) is republished monthly; this snapshot is stale for any port whose infrastructure changed post-2017. Re-pull from the official source before relying on this for anything beyond hackathon-demo port coordinates/characteristics."
+    key_columns: [INDEX_NO, PORT_NAME, COUNTRY, LATITUDE, LONGITUDE, HARBORSIZE, HARBORTYPE, CHAN_DEPTH, CARGODEPTH, MAX_VESSEL, CRANEFIXED, CRANEMOBIL]
+    missing_values: "Most of the 78 facility/service flag columns are sparse (blank = 'not reported', not necessarily 'absent') — expected for this dataset, not a defect; only PORT_NAME/COUNTRY/LATITUDE/LONGITUDE/HARBORSIZE/HARBORTYPE are reliably populated across all 3,669 rows"
+    data_quality_issues:
+      - "reading requires a .dbf-capable reader (dbfread) — pandas.read_csv does not apply; geopandas would be the production-grade reader if the .shp geometry is needed beyond lat/lon"
+      - "2017 vintage — flagged above; acceptable for hackathon port master data, not for a production deployment without a refresh"
+    internal_schema_mapping:
+      ROUTES.origin / ROUTES.destination: "PORT_NAME (joined via INDEX_NO) — this is port MASTER data, not origin-destination pairs; route pairs and distances still need CERDI-Searoute or a manually curated set (see Phase 2 notes below)"
+    intended_use: "Port identity/location/characteristics master data feeding ROUTES and the Logistics Network map"
+    redistribution: "Public domain; safe to redistribute"
+
+  - name: tariffs_worldbank_wdi
+    status: ACQUIRED
+    category: "G. Tariffs / trade"
+    source: "World Bank World Development Indicators — Tariff rate, applied, weighted mean, all products (%)"
+    url: "https://data.worldbank.org/indicator/TM.TAX.MRCH.WM.AR.ZS"
+    download_url: "https://api.worldbank.org/v2/en/indicator/TM.TAX.MRCH.WM.AR.ZS?downloadformat=csv"
+    license: "CC BY-4.0"
+    file_format: csv
+    local_path: "data/raw/tariffs_worldbank_wdi/API_TM.TAX.MRCH.WM.AR.ZS_DS2_en_csv_v2_35363.csv"
+    rows: 265
+    columns: 70
+    year_range: "1960-2025 (one column per year; 2025 present but empty)"
+    missing_values:
+      "2020": "40.4% of countries missing"
+      "2021": "40.0% of countries missing"
+      "2022": "45.7% of countries missing"
+      "2023": "100% missing (not yet published)"
+    data_quality_issues:
+      - "country-year grain, NOT country-pair × product like the brief's TARIFFS schema wants (origin_country, destination_country, product_id/category) — this is a real, honest gap: WITS/TRAINS bulk (SDMX) has the granular version but needs a documented reporter/partner/product code lookup that wasn't completed in this pass. Recorded as a Phase 3 follow-up, not silently worked around."
+      - "265 rows includes regional aggregates (e.g. 'World', 'European Union') alongside individual countries — must filter by Metadata_Country's Region field to isolate actual countries before use"
+      - "most recent usable year is 2022 for most countries; 2023+ is not yet populated by World Bank"
+    internal_schema_mapping:
+      TARIFFS.origin_country: "not directly available at this grain — see gap above"
+      TARIFFS.tariff_rate: "applied_weighted_mean by (country, year), used as a country-level proxy until WITS/TRAINS granular data is pulled"
+    intended_use: "Tariff Increase scenario realism + optimization engine's tariff-cost term (country-level proxy for the MVP)"
+    redistribution: "Permitted under CC BY-4.0 with attribution to the World Bank"
+
+  - name: weather_noaa_storm_events
+    status: ACQUIRED
+    category: "H. Weather"
+    source: "NOAA National Centers for Environmental Information — Storm Events Database"
+    url: "https://www.ncei.noaa.gov/stormevents/"
+    download_url: "https://www.ncei.noaa.gov/pub/data/swdi/stormevents/csvfiles/StormEvents_details-ftp_v1.0_d2024_c20260728.csv.gz"
+    license: "Public domain (US government work)"
+    file_format: csv
+    local_path: "data/raw/weather_noaa_storm_events/StormEvents_details_2024.csv"
+    rows: 69801
+    columns: 51
+    date_range: "2024-01 to 2024-12"
+    states_covered: 68
+    top_event_types: {Thunderstorm Wind: 19940, Hail: 8941, Flash Flood: 4661, High Wind: 3994, Winter Weather: 3557}
+    missing_values:
+      CATEGORY: 69725
+      "TOR_* columns": "~67,450-69,450 (expected — only populated for tornado events)"
+      MAGNITUDE: 33334
+      note: "high missingness on event-type-specific columns is structural (a Hail row has no TOR_F_SCALE), not a data quality defect"
+    data_quality_issues:
+      - "US-only coverage — fine for grounding the Severe Weather scenario's shape (real event types, durations, damage fields), not usable as-is for the platform's Asia/Europe/Suez-corridor narrative; treat as a structural/statistical reference, not a literal source of in-scenario events"
+    internal_schema_mapping:
+      DISRUPTIONS.event_type: "EVENT_TYPE (real category vocabulary for the Sensing Agent's structured-event schema)"
+      DISRUPTIONS.severity: "derivable from MAGNITUDE / DAMAGE_PROPERTY / DAMAGE_CROPS"
+      DISRUPTIONS.start_date/end_date: "BEGIN_DATE_TIME / END_DATE_TIME"
+    intended_use: "Grounds the Severe Weather disruption scenario's event shape and severity distribution; not the source of the literal demo events"
+    redistribution: "Public domain; safe to redistribute"
+
+  - name: supplier_master_data
+    status: NOT_ACQUIRED
+    category: "B. Supplier information"
+    reason: >
+      No public dataset carries supplier capacity, lead time, unit cost, or
+      reliability — these are commercially sensitive and not published by
+      any source I could find. Open Supply Hub (opensupplyhub.org) has real
+      facility identity/location data but its API returned 401 Unauthorized
+      for every unauthenticated request tested — it requires a registered API
+      token, which this environment doesn't have. Per data-plan.md, supplier
+      capacity/cost/lead-time fields will be synthesized on top of either
+      Open Supply Hub identities (if a token becomes available) or plausible
+      manually-curated supplier names, with the synthesis method documented
+      in the Phase 3 preprocessing code — not left implicit.
+    attempted_sources:
+      - {name: "Open Supply Hub API", url: "https://opensupplyhub.org/api/facilities/", result: "401 Unauthorized — needs API token"}
+
+  - name: inventory_snapshots
+    status: NOT_ACQUIRED
+    category: "C. Inventory"
+    reason: >
+      Confirmed in Phase 1 (data-plan.md) and unchanged after Phase 2 search —
+      warehouse-level opening/closing stock ledgers are internal ERP data that
+      isn't published anywhere public. Will be derived from
+      demand_uci_online_retail + a synthetic starting-stock assumption during
+      Phase 3 preprocessing, labeled as derived/simulated everywhere it
+      surfaces in the UI.
+
+  - name: shipment_records
+    status: NOT_ACQUIRED
+    category: "D. Transportation / logistics"
+    reason: >
+      The strongest real candidate (Kaggle's "DataCo Smart Supply Chain
+      Dataset") requires a Kaggle account + API token, which this environment
+      doesn't have — acquiring it needs a human to either (a) run
+      `kaggle datasets download -d shashwatwork/dataco-smart-supply-chain-for-big-data-analysis`
+      with their own Kaggle credentials, or (b) manually download it from
+      kaggle.com and drop it in data/raw/. Two non-Kaggle alternatives were
+      tested and rejected: FHWA's Freight Analysis Framework (FAF5) is real
+      and downloadable (140MB, state-to-state commodity flow) but is
+      aggregate freight-flow data, not individual shipment records, so it
+      doesn't fit the SHIPMENTS schema's grain; BTS's Port Performance
+      Freight Statistics Program blocked automated access (403, bot
+      protection). Shipment-level data for the demo will use World Port
+      Index locations (acquired above) with route distances/costs computed
+      from the CERDI-Searoute methodology once that dataset's access terms
+      are confirmed, or a small manually-constructed shipment set if that
+      also falls through — decided in Phase 3, not guessed here.
+    attempted_sources:
+      - {name: "FHWA Freight Analysis Framework (FAF5) State", url: "https://faf.ornl.gov/faf5/data/download_files/FAF5.6.1_State.zip", result: "200 OK, 140MB — real but wrong grain (state-to-state aggregate, not shipment-level)"}
+      - {name: "BTS Port Performance Freight Statistics Program", url: "https://www.bts.gov/ports-performance", result: "403 Forbidden (Akamai bot protection)"}
+
+  - name: disruption_event_log
+    status: PARTIAL
+    category: "F. Disruptions / events"
+    reason: >
+      As flagged in Phase 1: real disruption events are inherently sparse
+      (a handful of real occurrences per scenario type, not a big dataset).
+      weather_noaa_storm_events (acquired above) grounds the Severe Weather
+      scenario's statistical shape. The other five scenario types
+      (Suez Canal Closure, Major Supplier Failure, Tariff Increase, Port
+      Congestion, Demand Surge) will be a small manually curated event log
+      built from public historical record (e.g. the 2021 Ever Given/Suez
+      closure's real dates and duration) — this is Phase 3 work, not
+      fabricated here.
+
+# Phase 2 summary
+# Acquired (4): demand_uci_online_retail, ports_world_port_index,
+#   tariffs_worldbank_wdi, weather_noaa_storm_events — all real, all
+#   inspected, all numbers above measured directly from the downloaded files.
+# Not acquired (3): supplier_master_data, inventory_snapshots,
+#   shipment_records — genuine public-data gaps or a Kaggle credential
+#   requirement, documented rather than worked around silently.
+# Partial (1): disruption_event_log — real statistical grounding for one
+#   scenario type, curated log needed for the rest.

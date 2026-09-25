@@ -1,0 +1,6 @@
+{
+  "name": "ResilientSC",
+  "description": "AI-Powered Supply Chain Resilience Command Center for Global Operations & SAP BTP.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
