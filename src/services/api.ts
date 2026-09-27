@@ -30,7 +30,7 @@ import {
 // The real API (docs/api-plan.md), backed by the actual pipeline (Phase 15).
 // Override the host with VITE_API_BASE_URL. An empty value means "this origin": behind the SAP Approuter (BTP) the UI and
 // the API share one host, and the browser session — not this code — carries the sign-in (`npm run build:btp`).
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
 
 // Behind the Approuter every state-changing request must carry its CSRF token. The protocol is the Approuter's: ask for a
 // token with `X-CSRF-Token: Fetch` on a GET, send it back on POSTs, and ask again when a POST is refused with
