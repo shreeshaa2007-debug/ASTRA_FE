@@ -1,68 +1,93 @@
 @import "tailwindcss";
 
+/*
+ * Light SaaS dashboard theme: a cool grey canvas, white rounded cards floating on it with a soft shadow, one violet accent,
+ * pastel chips for status. Components use these names (bg-card, text-ink, border-line, ...) and never a hex, so retheming is
+ * this block. Status text tokens are dark enough to hold ~4.5:1 on white; the *-soft tints are for chips and badges behind them.
+ */
 @theme {
-  --color-surface: #0b1326;
-  --color-surface-dim: #0b1326;
-  --color-surface-bright: #31394d;
-  --color-surface-container-lowest: #060e20;
-  --color-surface-container-low: #131b2e;
-  --color-surface-container: #171f33;
-  --color-surface-container-high: #222a3d;
-  --color-surface-container-highest: #2d3449;
-  --color-on-surface: #dae2fd;
-  --color-on-surface-variant: #bec8d2;
-  --color-outline: #88929b;
-  --color-outline-variant: #3e4850;
-  --color-primary: #89ceff;
-  --color-on-primary: #00344d;
-  --color-primary-container: #0ea5e9;
-  --color-on-primary-container: #003751;
-  --color-secondary: #4edea3;
-  --color-on-secondary: #003824;
-  --color-secondary-container: #00a572;
-  --color-on-secondary-container: #00311f;
-  --color-tertiary: #ffb95f;
-  --color-on-tertiary: #472a00;
-  --color-tertiary-container: #d88a00;
-  --color-error: #ffb4ab;
-  --color-error-container: #93000a;
-  --font-headline: 'Space Grotesk', sans-serif;
-  --font-body: 'Hanken Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --color-canvas: #eceef1;
+  --color-card: #ffffff;
+  --color-inset: #f4f5fa;
+  --color-raised: #eceff8;
+  --color-line: #e4e6f0;
+
+  --color-ink: #1b1646;
+  --color-ink-2: #565b7c;
+  --color-muted: #8489a6;
+
+  --color-primary: #5b3df5;
+  --color-primary-strong: #4a2de0;
+  --color-primary-soft: #efebff;
+
+  --color-success: #0b8f60;
+  --color-success-soft: #e0f6ed;
+  --color-warning: #c96a06;
+  --color-warning-soft: #fff0dc;
+  --color-danger: #d4353f;
+  --color-danger-soft: #fdeaec;
+
+  /* categorical series, in fixed order (validated: CVD-separated neighbours; the orange and cyan sit under 3:1 on white, so
+     every mark that uses them carries a visible label). Status colours above are never used for a series. */
+  --color-cat-1: #5b3df5;
+  --color-cat-2: #e8743b;
+  --color-cat-3: #1fa2c9;
+  --color-cat-4: #c2409a;
+  --color-cat-5: #3f9b3f;
+  --color-accent: var(--color-cat-2);
+
+  --font-headline: 'Plus Jakarta Sans', 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Hanken Grotesk', system-ui, sans-serif;
+  /* the interface has no monospace look any more: ids and numbers are set in the same sans (tabular, so columns still line up) */
+  --font-mono: 'Plus Jakarta Sans', 'Hanken Grotesk', system-ui, sans-serif;
+  --font-code: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-lg: 0.625rem;
+  --radius-2xl: 1.25rem;
+
+  --shadow-card: 0 1px 2px rgb(27 22 70 / 0.04), 0 8px 24px rgb(27 22 70 / 0.05);
+  --shadow-pop: 0 12px 40px rgb(27 22 70 / 0.16);
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  font-family: 'Hanken Grotesk', sans-serif;
-  background-color: #0b1326;
-  color: #dae2fd;
+  font-family: var(--font-body);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
 }
 
 .font-headline {
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-headline);
 }
 
+/* ids and figures in tables/lists should line up; the big standalone figures stay proportional (they do not use font-mono) */
 .font-mono {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+pre.font-mono,
+code.font-mono {
+  font-family: var(--font-code);
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #060e20;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #222a3d;
-  border-radius: 3px;
+  background: #d4d7e6;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3e4850;
+  background: #b9bdd3;
 }
 
 .radar-ping {
@@ -77,6 +102,98 @@ body {
 }
 
 .grid-bg {
-  background-image: radial-gradient(#1e293b 1px, transparent 1px);
+  background-image: radial-gradient(#dfe2ef 1px, transparent 1px);
   background-size: 20px 20px;
+}
+
+/* --- Logistics map (components/common/GlobalMap.tsx) --- */
+/* dashes travel along the lanes the plan uses, in the direction of travel; the period is the dash pattern's (10 + 6) */
+.route-flow {
+  animation: route-flow 1.4s linear infinite;
+}
+
+@keyframes route-flow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-flow {
+    animation: none;
+  }
+}
+
+.leaflet-tooltip.map-label {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  font: 600 11px 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  /* a white halo keeps a label readable over land, water and a lane alike */
+  text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 0 8px #fff;
+  pointer-events: none;
+}
+
+.leaflet-tooltip.map-label::before {
+  display: none;
+}
+
+.map-label-port {
+  color: #1b1646;
+}
+
+.map-label-choke {
+  color: #b45f00;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.map-label-blocked {
+  color: #c62d36;
+  font-size: 10px;
+}
+
+.leaflet-tooltip.map-tip {
+  background: #ffffff;
+  border: 1px solid #e4e6f0;
+  color: #1b1646;
+  font: 500 11px 'Plus Jakarta Sans', system-ui, sans-serif;
+  border-radius: 10px;
+  padding: 7px 10px;
+  line-height: 1.5;
+  box-shadow: 0 8px 24px rgb(27 22 70 / 0.14);
+}
+
+.leaflet-tooltip.map-tip::before {
+  display: none;
+}
+
+.ocean-label {
+  display: block;
+  width: 160px;
+  text-align: center;
+  font: 600 10px 'Plus Jakarta Sans', system-ui, sans-serif;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(91, 61, 245, 0.28);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.leaflet-container {
+  font-family: var(--font-body);
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+  color: #1b1646;
+  border-bottom-color: #e4e6f0;
+}
+.leaflet-bar {
+  border: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgb(27 22 70 / 0.12) !important;
 }

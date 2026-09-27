@@ -3,6 +3,7 @@
 export type ViewMode =
   | 'overview'
   | 'disruptions'
+  | 'ports'
   | 'simulator'
   | 'orchestration'
   | 'decisions'
@@ -11,4 +12,5 @@ export type ViewMode =
   | 'sourcing'
   | 'compliance'
   | 'scenarios'
-  | 'monitor';
+  | 'monitor'
+  | 'sap_architecture';

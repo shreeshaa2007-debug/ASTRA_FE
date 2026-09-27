@@ -58,9 +58,9 @@ interface NotificationDrawerProps {
 }
 
 const tones = {
-  critical: { border: 'border-[#93000a]', tag: 'bg-[#93000a] text-[#ffdad6]' },
-  warning: { border: 'border-[#d88a00]', tag: 'bg-[#d88a00]/30 text-[#ffb95f]' },
-  info: { border: 'border-[#3e4850]', tag: 'bg-[#1e293b] text-[#bec8d2]' },
+  critical: { border: 'border-danger/40', tag: 'bg-danger-soft text-danger' },
+  warning: { border: 'border-warning/50', tag: 'bg-warning/15 text-warning' },
+  info: { border: 'border-line', tag: 'bg-raised text-ink-2' },
 };
 
 export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({ isOpen, onClose, onNavigateToView }) => {
@@ -68,36 +68,36 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({ isOpen, 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="w-full max-w-md h-full bg-[#0b1326] border-l border-[#3e4850] shadow-2xl flex flex-col justify-between">
-        <div className="p-4 bg-[#131b2e] border-b border-[#3e4850] flex items-center justify-between">
+    <div className="fixed inset-0 z-50 flex justify-end bg-ink/30 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="w-full max-w-md h-full bg-canvas border-l border-line shadow-pop flex flex-col justify-between">
+        <div className="p-4 bg-card border-b border-line flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#89ceff]">notifications_active</span>
-            <span className="font-headline font-bold text-white text-sm">Operational Alerts ({alerts.length})</span>
+            <span className="material-symbols-outlined text-primary">notifications_active</span>
+            <span className="font-headline font-bold text-ink text-sm">Operational Alerts ({alerts.length})</span>
           </div>
-          <button onClick={onClose} className="p-1 text-[#88929b] hover:text-white hover:bg-[#222a3d] rounded transition-colors">
+          <button onClick={onClose} className="p-1 text-muted hover:text-ink hover:bg-raised rounded-lg transition-colors">
             <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
           {alerts.length === 0 && (
-            <div className="p-3 bg-[#060e20] border border-[#3e4850] rounded-lg text-[#88929b] font-body text-[11px]">
+            <div className="p-3 bg-inset border border-line rounded-2xl text-muted font-body text-[11px]">
               No alerts. Alerts come from a simulation run — they are not scripted, so there is nothing here until one has produced something to report.
             </div>
           )}
           {alerts.map((a) => (
-            <div key={a.id} className={`p-3 bg-[#131b2e] border ${tones[a.tone].border} rounded-lg space-y-2`}>
-              <span className={`px-2 py-0.5 text-[9px] font-bold rounded ${tones[a.tone].tag}`}>{a.tag}</span>
-              <h4 className="font-headline font-bold text-white text-sm">{a.title}</h4>
-              {a.body && <p className="font-body text-[#bec8d2] text-[11px]">{a.body}</p>}
+            <div key={a.id} className={`p-3 bg-card border ${tones[a.tone].border} rounded-2xl space-y-2`}>
+              <span className={`px-2 py-0.5 text-[9px] font-bold rounded-lg ${tones[a.tone].tag}`}>{a.tag}</span>
+              <h4 className="font-headline font-bold text-ink text-sm">{a.title}</h4>
+              {a.body && <p className="font-body text-ink-2 text-[11px]">{a.body}</p>}
               {a.action && (
                 <button
                   onClick={() => {
                     onClose();
                     onNavigateToView(a.action!.view);
                   }}
-                  className="text-[#89ceff] hover:underline text-[11px] font-bold flex items-center gap-1"
+                  className="text-primary hover:underline text-[11px] font-bold flex items-center gap-1"
                 >
                   <span>{a.action.label}</span>
                   <span className="material-symbols-outlined text-[13px]">arrow_forward</span>
@@ -107,8 +107,8 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({ isOpen, 
           ))}
         </div>
 
-        <div className="p-3 bg-[#131b2e] border-t border-[#3e4850] text-center">
-          <span className="text-[10px] font-mono text-[#88929b]">Derived from the current simulation's status</span>
+        <div className="p-3 bg-card border-t border-line text-center">
+          <span className="text-[10px] font-mono text-muted">Derived from the current simulation's status</span>
         </div>
       </div>
     </div>

@@ -35,24 +35,24 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({ onNavigate }) => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-[#3e4850]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2 border-b border-line">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2 py-0.5 bg-[#0ea5e9]/20 text-[#89ceff] text-[10px] font-mono font-bold rounded">SCENARIO BENCHMARK</span>
-            <span className="text-[11px] font-mono text-[#88929b]">Normal operations vs. doing nothing vs. the optimized response · computed live, no LLM</span>
+            <span className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-mono font-bold rounded-lg">SCENARIO BENCHMARK</span>
+            <span className="text-[11px] font-mono text-muted">Normal operations vs. doing nothing vs. the optimized response · computed live, no LLM</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-white tracking-tight mt-1">Scenario Comparison</h1>
-          <p className="text-sm font-body text-[#bec8d2] mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-headline font-bold text-ink tracking-tight mt-1">Scenario Comparison</h1>
+          <p className="text-sm font-body text-ink-2 mt-0.5">
             What a disruption does to a product's supply plan, and what the optimizer's response costs and buys. The baseline is a modeled counterfactual — there are no shipment records.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
-          <label className="text-[10px] font-mono uppercase text-[#88929b]">Product</label>
+          <label className="text-[10px] font-mono uppercase text-muted">Product</label>
           <select
             value={productId}
             onChange={(e) => setProductId(e.target.value)}
-            className="h-8 bg-[#060e20] text-xs font-mono text-white rounded border border-[#3e4850] focus:outline-hidden focus:border-[#89ceff] px-2"
+            className="h-8 bg-inset text-xs font-mono text-ink rounded-lg border border-line focus:outline-hidden focus:border-primary px-2"
           >
             {(products.plannable.length ? products.plannable : [{ product_id: productId, supplier_count: 0, has_suppliers: true }]).map((p) => (
               <option key={p.product_id} value={p.product_id}>{productLabel(p)}</option>
@@ -65,39 +65,39 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({ onNavigate }) => {
       {scenarios.loading && !scenarios.data && <LoadingBlock label="Loading the scenario definitions…" />}
 
       {list.length > 0 && (
-        <div className="p-5 bg-[#131b2e] border border-[#3e4850] rounded-lg space-y-4">
-          <label className="text-[11px] font-mono uppercase tracking-wider text-[#88929b] block font-semibold">Pick a scenario:</label>
+        <div className="p-5 bg-card rounded-2xl space-y-4 shadow-card">
+          <label className="text-[11px] font-mono uppercase tracking-wider text-muted block font-semibold">Pick a scenario:</label>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
             {list.map((s) => (
               <button
                 key={s.scenario_id}
                 onClick={() => setSelectedId(s.scenario_id)}
-                className={`p-3 text-left rounded border transition-all text-xs font-mono flex flex-col gap-1 ${
+                className={`p-3 text-left rounded-lg border transition-all text-xs font-mono flex flex-col gap-1 ${
                   s.scenario_id === selectedId
-                    ? 'bg-[#222a3d] border-[#89ceff] text-[#89ceff] shadow-md shadow-[#0ea5e9]/10'
+                    ? 'bg-raised border-primary text-primary shadow-md shadow-primary/10'
                     : s.modeled
-                    ? 'bg-[#060e20] border-[#3e4850] text-[#bec8d2] hover:border-[#88929b] hover:text-white'
-                    : 'bg-[#060e20] border-[#3e4850]/60 text-[#88929b] hover:border-[#88929b]'
+                    ? 'bg-inset border-line text-ink-2 hover:border-muted hover:text-ink'
+                    : 'bg-inset border-line text-muted hover:border-muted'
                 }`}
               >
                 <span className="font-bold">{s.label}</span>
                 {s.modeled ? (
-                  <span className="text-[10px] text-[#88929b]">
+                  <span className="text-[10px] text-muted">
                     {s.event?.severity} · {s.event?.estimated_duration}d · {s.event?.event_type.replace(/_/g, ' ')}
                   </span>
                 ) : (
-                  <span className="text-[10px] text-[#ffb95f]">NOT MODELED YET</span>
+                  <span className="text-[10px] text-warning">NOT MODELED YET</span>
                 )}
               </button>
             ))}
           </div>
 
           {selected && (
-            <div className="pt-3 border-t border-[#3e4850] flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div className="pt-3 border-t border-line flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div className="space-y-1 max-w-3xl">
-                <p className="text-sm font-body text-[#bec8d2]">{selected.description}</p>
+                <p className="text-sm font-body text-ink-2">{selected.description}</p>
                 {selected.event && (
-                  <p className="text-[11px] font-mono text-[#88929b]">
+                  <p className="text-[11px] font-mono text-muted">
                     {selected.event.location}
                     {selected.event.affected_routes.length > 0 && ` · routes ${selected.event.affected_routes.join(', ')}`}
                     {selected.event.affected_suppliers.length > 0 && selected.modeled && selected.tariff_changes.length === 0 && ` · suppliers ${selected.event.affected_suppliers.join(', ')}`}
@@ -109,7 +109,7 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({ onNavigate }) => {
                 <button
                   onClick={runThrough}
                   disabled={sim.busy}
-                  className="px-4 py-2 bg-[#0ea5e9] hover:bg-[#89ceff] hover:text-[#00344d] disabled:opacity-50 text-white font-headline text-xs font-bold rounded flex items-center gap-2 whitespace-nowrap transition-colors self-start md:self-center"
+                  className="px-4 py-2 bg-primary hover:bg-primary-strong disabled:opacity-50 text-white font-headline text-xs font-bold rounded-lg flex items-center gap-2 whitespace-nowrap transition-colors self-start md:self-center"
                   title="Creates a simulation and runs the full pipeline on it (sensing, agents, optimizer, compliance) — no LLM call"
                 >
                   <span className="material-symbols-outlined text-[16px]">play_arrow</span>
@@ -122,22 +122,22 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({ onNavigate }) => {
       )}
 
       {sim.error && (
-        <div className="p-3 bg-[#131b2e] border border-[#93000a] rounded-lg text-xs font-mono text-[#ffb4ab] flex items-start justify-between gap-3">
+        <div className="p-3 bg-card border border-danger/40 rounded-2xl text-xs font-mono text-danger flex items-start justify-between gap-3 shadow-card">
           <span>{sim.error}</span>
-          <button onClick={sim.clearError} className="text-[#88929b] hover:text-white">
+          <button onClick={sim.clearError} className="text-muted hover:text-ink">
             <span className="material-symbols-outlined text-[16px]">close</span>
           </button>
         </div>
       )}
 
       {selected && !selected.modeled && (
-        <div className="p-5 bg-[#131b2e] border border-[#ffb95f]/50 rounded-lg space-y-2">
-          <div className="flex items-center gap-2 text-[#ffb95f] text-xs font-mono font-bold uppercase">
+        <div className="p-5 bg-card border border-warning/50 rounded-2xl space-y-2 shadow-card">
+          <div className="flex items-center gap-2 text-warning text-xs font-mono font-bold uppercase">
             <span className="material-symbols-outlined text-[18px]">block</span>
             <span>Not simulated: the model can't represent it yet</span>
           </div>
-          <p className="text-sm font-body text-[#bec8d2]">{selected.not_modeled_reason}</p>
-          <p className="text-xs font-body text-[#88929b]">A number here would have to be invented, so there isn't one.</p>
+          <p className="text-sm font-body text-ink-2">{selected.not_modeled_reason}</p>
+          <p className="text-xs font-body text-muted">A number here would have to be invented, so there isn't one.</p>
         </div>
       )}
 

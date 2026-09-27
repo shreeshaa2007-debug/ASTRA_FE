@@ -17,6 +17,12 @@ import { LogisticsView } from './components/views/LogisticsView';
 import { ComplianceView } from './components/views/ComplianceView';
 import { ScenariosView } from './components/views/ScenariosView';
 import { AgentMonitorView } from './components/views/AgentMonitorView';
+import { LivePortsView } from './components/views/LivePortsView';
+import { SapArchitectureView } from './components/views/SapArchitectureView';
+import { HumanizeProvider } from './context/HumanizeContext';
+import { AgentCopilotDrawer } from './components/common/AgentCopilotDrawer';
+import { GuidedTourModal } from './components/common/GuidedTourModal';
+import { FloatingCopilotButton } from './components/common/FloatingCopilotButton';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewMode>('overview');
@@ -34,23 +40,32 @@ export default function App() {
 
   return (
     <SimulationProvider>
-      <Shell currentView={currentView} onNavigate={handleNavigate}>
-        {(currentView === 'overview' || currentView === 'disruptions') && (
-          <DashboardView onNavigate={handleNavigate} onSelectRoute={handleSelectRoute} />
-        )}
-        {(currentView === 'simulator' || currentView === 'orchestration') && (
-          <SimulatorView onNavigate={handleNavigate} />
-        )}
-        {currentView === 'decisions' && <DecisionView onNavigate={handleNavigate} />}
-        {currentView === 'inventory' && <InventoryView onNavigate={handleNavigate} />}
-        {currentView === 'sourcing' && <SourcingView onNavigate={handleNavigate} />}
-        {currentView === 'logistics' && (
-          <LogisticsView onNavigate={handleNavigate} initialRouteId={selectedRoute?.route_id} />
-        )}
-        {currentView === 'compliance' && <ComplianceView onNavigate={handleNavigate} />}
-        {currentView === 'scenarios' && <ScenariosView onNavigate={handleNavigate} />}
-        {currentView === 'monitor' && <AgentMonitorView onNavigate={handleNavigate} />}
-      </Shell>
+      <HumanizeProvider>
+        <Shell currentView={currentView} onNavigate={handleNavigate}>
+          {(currentView === 'overview' || currentView === 'disruptions') && (
+            <DashboardView onNavigate={handleNavigate} onSelectRoute={handleSelectRoute} />
+          )}
+          {currentView === 'ports' && <LivePortsView onNavigate={handleNavigate} />}
+          {(currentView === 'simulator' || currentView === 'orchestration') && (
+            <SimulatorView onNavigate={handleNavigate} />
+          )}
+          {currentView === 'decisions' && <DecisionView onNavigate={handleNavigate} />}
+          {currentView === 'inventory' && <InventoryView onNavigate={handleNavigate} />}
+          {currentView === 'sourcing' && <SourcingView onNavigate={handleNavigate} />}
+          {currentView === 'logistics' && (
+            <LogisticsView onNavigate={handleNavigate} initialRouteId={selectedRoute?.route_id} />
+          )}
+          {currentView === 'compliance' && <ComplianceView onNavigate={handleNavigate} />}
+          {currentView === 'scenarios' && <ScenariosView onNavigate={handleNavigate} />}
+          {currentView === 'monitor' && <AgentMonitorView onNavigate={handleNavigate} />}
+          {currentView === 'sap_architecture' && <SapArchitectureView onNavigate={handleNavigate} />}
+        </Shell>
+
+        {/* Humanized & Innovative Copilot, Guided Tour, and Quick Launcher */}
+        <AgentCopilotDrawer />
+        <GuidedTourModal onNavigate={handleNavigate} />
+        <FloatingCopilotButton />
+      </HumanizeProvider>
     </SimulationProvider>
   );
 }

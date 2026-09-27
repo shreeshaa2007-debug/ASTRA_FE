@@ -16,16 +16,16 @@ const ms = (v: number | null | undefined) => (v === null || v === undefined ? '�
 const by = (rows: CounterRow[], key: string) => rows.map((r) => `${r.labels[key]} ${fmtNumber(r.value)}`).join(' · ') || '—';
 
 const Card: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div className="p-4 bg-[#060e20] rounded-lg border border-[#3e4850]/70 space-y-2 text-xs font-mono">
-    <span className="text-[10px] uppercase tracking-wider text-[#88929b] block font-bold">{title}</span>
+  <div className="p-4 bg-inset rounded-2xl border border-line space-y-2 text-xs font-mono">
+    <span className="text-[10px] uppercase tracking-wider text-muted block font-bold">{title}</span>
     {children}
   </div>
 );
 
 const Line: React.FC<{ label: string; value: React.ReactNode; tone?: 'bad' | 'good' | 'warn' }> = ({ label, value, tone }) => (
   <div className="flex justify-between gap-3">
-    <span className="text-[#88929b] truncate min-w-0" title={label}>{label}</span>
-    <span className={`font-bold text-right whitespace-nowrap ${tone === 'bad' ? 'text-[#ffb4ab]' : tone === 'good' ? 'text-[#4edea3]' : tone === 'warn' ? 'text-[#ffb95f]' : 'text-white'}`}>{value}</span>
+    <span className="text-muted truncate min-w-0" title={label}>{label}</span>
+    <span className={`font-bold text-right whitespace-nowrap ${tone === 'bad' ? 'text-danger' : tone === 'good' ? 'text-success' : tone === 'warn' ? 'text-warning' : 'text-ink'}`}>{value}</span>
   </div>
 );
 
@@ -63,16 +63,16 @@ export const OperationsPanel: React.FC<{ refreshOn: unknown[]; defaultProductId?
   const llmErrors = llmCalls.filter((r) => r.labels.result === 'error').reduce((n, r) => n + r.value, 0);
 
   return (
-    <div className="bg-[#131b2e] border border-[#3e4850] rounded-lg p-5 space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#3e4850] pb-3">
+    <div className="bg-card rounded-2xl p-5 space-y-4 shadow-card">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
         <div>
-          <h3 className="text-base font-headline font-bold text-white">Operations</h3>
-          <p className="text-[11px] font-mono text-[#88929b]">
+          <h3 className="text-base font-headline font-bold text-ink">Operations</h3>
+          <p className="text-[11px] font-mono text-muted">
             This process since it started{m ? ` (${Math.round(m.uptime_seconds / 60)} min)` : ''} · counters are in-process: one backend worker, or scrape each ·{' '}
-            <span className="text-[#89ceff]">/api/metrics?format=prometheus</span> for a scraper
+            <span className="text-primary">/api/metrics?format=prometheus</span> for a scraper
           </p>
         </div>
-        <button onClick={() => { metrics.reload(); model.reload(); ready.reload(); }} className="px-2.5 py-1 rounded border border-[#3e4850] text-[#bec8d2] hover:bg-[#222a3d] text-[11px] font-mono">
+        <button onClick={() => { metrics.reload(); model.reload(); ready.reload(); }} className="px-2.5 py-1 rounded-lg border border-line text-ink-2 hover:bg-raised text-[11px] font-mono">
           Refresh
         </button>
       </div>
@@ -116,7 +116,7 @@ export const OperationsPanel: React.FC<{ refreshOn: unknown[]; defaultProductId?
             <Line label="Retries" value={fmtNumber(total(counters(m, 'llm_retries_total')))} />
             <Line label="Refused (circuit open)" value={fmtNumber(total(counters(m, 'llm_circuit_open_total')))} tone={total(counters(m, 'llm_circuit_open_total')) > 0 ? 'bad' : undefined} />
             <Line label="Sensing" value={by(counters(m, 'sensing_outcomes_total'), 'status')} />
-            {llmCalls.length === 0 && <p className="text-[10px] font-body text-[#88929b]">No call yet — a defined scenario's trigger is structured, so it never calls the model.</p>}
+            {llmCalls.length === 0 && <p className="text-[10px] font-body text-muted">No call yet — a defined scenario's trigger is structured, so it never calls the model.</p>}
           </Card>
         </div>
       )}
@@ -142,36 +142,36 @@ export const OperationsPanel: React.FC<{ refreshOn: unknown[]; defaultProductId?
                 tone={d.status === 'DRIFT' ? 'warn' : d.status === 'OK' ? 'good' : undefined}
               />
             ))}
-            <p className="text-[10px] font-body text-[#88929b]">A warning means recent demand looks unlike the training data, so forecasts deserve more suspicion — not that they are wrong. {mm.drift.window_days}-day window vs. training-time 28-day means.</p>
+            <p className="text-[10px] font-body text-muted">A warning means recent demand looks unlike the training data, so forecasts deserve more suspicion — not that they are wrong. {mm.drift.window_days}-day window vs. training-time 28-day means.</p>
           </Card>
 
           <Card title="Prediction error (backtest)">
             {Object.values(mm.backtests).map((b) => (
               <Line key={b.product_id} label={`product ${b.product_id} · ${b.horizon_days}d to ${b.as_of}`} value={b.wape === null ? 'n/a' : `WAPE ${(b.wape * 100).toFixed(0)}%`} tone={b.wape !== null && b.wape > 0.5 ? 'warn' : 'good'} />
             ))}
-            {Object.keys(mm.backtests).length === 0 && <p className="text-[10px] font-body text-[#88929b]">Not measured yet. A backtest forecasts the last days of known history from before them and scores it against what happened.</p>}
-            <button onClick={runBacktest} disabled={backtesting} className="px-2.5 py-1 rounded border border-[#3e4850] text-[#89ceff] hover:bg-[#222a3d] disabled:opacity-50 text-[11px]">
+            {Object.keys(mm.backtests).length === 0 && <p className="text-[10px] font-body text-muted">Not measured yet. A backtest forecasts the last days of known history from before them and scores it against what happened.</p>}
+            <button onClick={runBacktest} disabled={backtesting} className="px-2.5 py-1 rounded-lg border border-line text-primary hover:bg-raised disabled:opacity-50 text-[11px]">
               {backtesting ? 'Scoring…' : `Backtest product ${defaultProductId}`}
             </button>
-            {backtestError && <p className="text-[10px] text-[#ffb4ab]">{backtestError}</p>}
+            {backtestError && <p className="text-[10px] text-danger">{backtestError}</p>}
           </Card>
         </div>
       )}
 
       {ready.data && (
-        <div className="p-4 bg-[#060e20] rounded-lg border border-[#3e4850]/70 space-y-2 text-xs font-mono">
+        <div className="p-4 bg-inset rounded-2xl border border-line space-y-2 text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase tracking-wider text-[#88929b] font-bold">Readiness</span>
-            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${ready.data.ready ? (ready.data.degraded ? 'bg-[#d88a00]/30 text-[#ffb95f]' : 'bg-[#00a572]/20 text-[#4edea3]') : 'bg-[#93000a] text-[#ffdad6]'}`}>
+            <span className="text-[10px] uppercase tracking-wider text-muted font-bold">Readiness</span>
+            <span className={`px-2 py-0.5 rounded-lg text-[10px] font-bold ${ready.data.ready ? (ready.data.degraded ? 'bg-warning/15 text-warning' : 'bg-success/10 text-success') : 'bg-danger-soft text-danger'}`}>
               {ready.data.ready ? (ready.data.degraded ? 'READY · DEGRADED' : 'READY') : 'NOT READY'}
             </span>
           </div>
           <ul className="space-y-1">
             {ready.data.checks.map((c) => (
               <li key={c.name} className="flex items-start gap-2">
-                <span className={c.ok ? 'text-[#4edea3]' : c.required ? 'text-[#ffb4ab]' : 'text-[#ffb95f]'}>{c.ok ? '✓' : c.required ? '✗' : '!'}</span>
-                <span className="text-white w-28 flex-shrink-0">{c.name}{c.required ? '' : ' (optional)'}</span>
-                <span className="text-[#bec8d2] font-body">{c.detail}</span>
+                <span className={c.ok ? 'text-success' : c.required ? 'text-danger' : 'text-warning'}>{c.ok ? '✓' : c.required ? '✗' : '!'}</span>
+                <span className="text-ink w-28 flex-shrink-0">{c.name}{c.required ? '' : ' (optional)'}</span>
+                <span className="text-ink-2 font-body">{c.detail}</span>
               </li>
             ))}
           </ul>
