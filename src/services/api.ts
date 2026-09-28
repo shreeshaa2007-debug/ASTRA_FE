@@ -22,15 +22,12 @@ import {
   ScenarioRow,
   ScenarioComparison,
   ScenarioRunAccepted,
-  RealtimePort,
-  MaritimeChokepoint,
-  PortsSummary,
 } from '../types/api';
 
 // The real API (docs/api-plan.md), backed by the actual pipeline (Phase 15).
 // Override the host with VITE_API_BASE_URL. An empty value means "this origin": behind the SAP Approuter (BTP) the UI and
 // the API share one host, and the browser session — not this code — carries the sign-in (`npm run build:btp`).
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
 
 // Behind the Approuter every state-changing request must carry its CSRF token. The protocol is the Approuter's: ask for a
 // token with `X-CSRF-Token: Fetch` on a GET, send it back on POSTs, and ask again when a POST is refused with
@@ -205,23 +202,3 @@ export const getReady = async (): Promise<ReadyResponse> => {
   if (!body.data) throw new ApiError(body.error?.message ?? `Readiness check failed (${res.status})`, res.status, body.error?.error_code);
   return body.data;
 };
-
-// --- Real-time Port Telemetry & Chokepoints (Phase 20) ---
-export const getRealtimePorts = (status?: string, severity?: string) =>
-  apiGet<RealtimePort[]>(`/api/ports/realtime${qs({ status, severity })}`);
-
-export const getMaritimeChokepoints = () =>
-  apiGet<MaritimeChokepoint[]>('/api/ports/chokepoints');
-
-export const getPortsSummary = () =>
-  apiGet<PortsSummary>('/api/ports/summary');
-
-export const refreshPortsTelemetry = () =>
-  apiPost<{ message: string; summary: PortsSummary; ports_count: number }>('/api/ports/refresh', {});
-
-export const getPortModelMetrics = () =>
-  apiGet<any>('/api/ports/model-metrics');
-
-export const predictPortDelay = (portId?: string) =>
-  apiGet<any>(`/api/ports/predict-delay${qs({ port_id: portId })}`);
-

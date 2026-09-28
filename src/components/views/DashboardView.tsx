@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getDashboard, getDisruptions, getRoutes } from '../../services/api';
 import { useFetch } from '../../hooks/useFetch';
 import { useSimulation } from '../../context/SimulationContext';
@@ -8,7 +8,6 @@ import { Card, CardTitle, Donut, IconChip, MiniRing, Segment, StackedMeter, Stat
 import { ViewMode } from '../../types';
 import { ApiRoute, DashboardResponse } from '../../types/api';
 import { fmtCost, fmtNumber, fmtPct, titleCase } from '../../utils/format';
-import { HumanizedNarrativeBanner } from '../common/HumanizedNarrativeBanner';
 
 interface DashboardViewProps {
   onNavigate: (view: ViewMode) => void;
@@ -127,7 +126,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
       ]
     : [];
   const modeRows = routes.data ? byMode(routes.data.routes) : [];
-  const [selectedRouteId, setSelectedRouteId] = useState<string>('SHA-ROT-CAPE');
 
   return (
     <div className="space-y-5">
@@ -170,14 +168,6 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
         </div>
       </div>
 
-      {/* Humanized Narrative Briefing with Single-Route Mitigation & Searchable Menu */}
-      <HumanizedNarrativeBanner
-        onNavigate={onNavigate}
-        routes={routes.data?.routes}
-        selectedRouteId={selectedRouteId}
-        onSelectRoute={(r) => setSelectedRouteId(r.route_id)}
-      />
-
       {dashboard.error && <ErrorBlock error={dashboard.error} onRetry={dashboard.reload} />}
       {dashboard.loading && !d && <LoadingBlock />}
 
@@ -194,17 +184,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ onNavigate, onSele
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
         <div className="xl:col-span-7 flex flex-col">
           {routes.error && <ErrorBlock error={routes.error} onRetry={routes.reload} />}
-          {routes.data && (
-            <GlobalMap
-              routes={routes.data.routes}
-              selectedRouteId={selectedRouteId}
-              onSelectRoute={(r) => {
-                setSelectedRouteId(r.route_id);
-                onSelectRoute?.(r);
-              }}
-              emptyHint="Hover a route for its facts · click one to open it in Logistics."
-            />
-          )}
+          {routes.data && <GlobalMap routes={routes.data.routes} onSelectRoute={onSelectRoute} emptyHint="Hover a route for its facts · click one to open it in Logistics." />}
           {routes.loading && !routes.data && <LoadingBlock label="Loading the route network…" />}
         </div>
 

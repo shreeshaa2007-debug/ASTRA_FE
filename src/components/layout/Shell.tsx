@@ -62,7 +62,6 @@ export const Shell: React.FC<ShellProps> = ({ currentView, onNavigate, children 
 
   const navItems: { id: ViewMode; label: string; icon: string; badge?: string }[] = [
     { id: 'overview', label: 'Overview', icon: 'dashboard' },
-    { id: 'ports', label: 'Live Port Telemetry', icon: 'anchor', badge: 'Live AIS' },
     { id: 'disruptions', label: 'Disruptions', icon: 'crisis_alert' },
     { id: 'simulator', label: 'Disruption Simulator', icon: 'bolt' },
     { id: 'orchestration', label: 'Agent Orchestration', icon: 'smart_toy' },
@@ -73,7 +72,6 @@ export const Shell: React.FC<ShellProps> = ({ currentView, onNavigate, children 
     { id: 'compliance', label: 'Compliance & Approvals', icon: 'verified_user', badge: status?.awaiting_approval ? 'Action' : undefined },
     { id: 'scenarios', label: 'Scenarios', icon: 'compare_arrows' },
     { id: 'monitor', label: 'Agent Monitor', icon: 'monitor_heart' },
-    { id: 'sap_architecture', label: 'SAP BTP & Agents', icon: 'hub', badge: 'SAP' },
   ];
 
   // "Jump to": screens by name, and what an id points at. Nothing is searched in the data; an id goes to the screen that shows that kind of thing.
@@ -255,19 +253,6 @@ export const Shell: React.FC<ShellProps> = ({ currentView, onNavigate, children 
               <span className="material-symbols-outlined text-[17px] text-primary">schedule</span>
               <span>{utcTime || 'UTC 14:38:09'}</span>
             </div>
-
-            {/* Approval Portal Quick Link */}
-            <a
-              href="http://localhost:8000/approval"
-              target="_blank"
-              rel="noreferrer"
-              className="hidden md:flex items-center gap-1.5 h-10 px-3.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-xl text-[12px] font-bold transition-all"
-              title="Open Built-in Approval Portal (SAP SBPA Replacement)"
-            >
-              <span className="material-symbols-outlined text-[17px]">verified_user</span>
-              <span>Approval Portal</span>
-              <span className="material-symbols-outlined text-[13px] opacity-70">open_in_new</span>
-            </a>
 
             {/* Notifications Trigger */}
             <button
