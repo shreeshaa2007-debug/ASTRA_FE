@@ -11,6 +11,7 @@ interface ShellProps {
 export const OilShieldShell: React.FC<ShellProps> = ({ children }) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState<boolean>(false);
+  const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState<boolean>(false);
   const { currentView } = useOilShield();
 
   return (
@@ -19,14 +20,18 @@ export const OilShieldShell: React.FC<ShellProps> = ({ children }) => {
       <OilShieldSidebar
         isCollapsed={isSidebarCollapsed}
         onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+        isEmergencyModalOpen={isEmergencyModalOpen}
+        onEmergencyModalOpenChange={setIsEmergencyModalOpen}
       />
 
       {/* Main Content Area */}
       <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
-        {/* Top Navigation Bar */}
-        <OilShieldHeader
-          onOpenNotifications={() => setIsNotificationOpen(true)}
-        />
+        {/* Top Navigation Bar — hidden while the Emergency Disruptions modal is open */}
+        {!isEmergencyModalOpen && (
+          <OilShieldHeader
+            onOpenNotifications={() => setIsNotificationOpen(true)}
+          />
+        )}
 
         {/* Viewport Canvas */}
         <main className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 flex flex-col">
@@ -37,11 +42,11 @@ export const OilShieldShell: React.FC<ShellProps> = ({ children }) => {
           <footer className="mt-8 pt-3 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 flex-shrink-0">
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-semibold text-slate-700">
-                OilShield AI
+                ASTRA AI
               </span>
               <span className="text-slate-300">•</span>
               <span className="text-slate-600">Shipment Operations Control Tower</span>
-              <span className="px-2 py-0.5 bg-emerald-50 rounded-md border border-emerald-200 text-emerald-700 font-semibold text-[11px]">
+              <span className="px-2 py-0.5 bg-primary-soft rounded-md border border-primary-border text-accent-strong font-semibold text-[11px]">
                 Human Approval Enforced
               </span>
               <span className="px-2 py-0.5 bg-slate-100 rounded-md border border-slate-200 text-slate-700 font-medium text-[11px]">

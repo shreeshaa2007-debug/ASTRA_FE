@@ -48,9 +48,9 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({
       case 'WARNING':
         return <AlertTriangle className="w-4 h-4 text-amber-600" />;
       case 'SUCCESS':
-        return <CheckCircle className="w-4 h-4 text-emerald-600" />;
+        return <CheckCircle className="w-4 h-4 text-success" />;
       default:
-        return <Info className="w-4 h-4 text-[#154734]" />;
+        return <Info className="w-4 h-4 text-accent" />;
     }
   };
 
@@ -68,7 +68,7 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({
           {/* Header */}
           <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
             <div className="flex items-center gap-2">
-              <span className="p-2 bg-emerald-50 text-[#154734] border border-emerald-200/60 rounded-lg">
+              <span className="p-2 bg-primary-soft text-accent border border-primary-border/60 rounded-lg">
                 <Bell className="w-4 h-4" />
               </span>
               <div>
@@ -80,7 +80,7 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={markAllNotificationsRead}
-                className="text-xs text-[#154734] hover:text-[#0e3325] font-semibold px-2 py-1 transition-colors"
+                className="text-xs text-accent hover:text-accent-strong font-semibold px-2 py-1 transition-colors"
               >
                 Mark all read
               </button>
@@ -106,7 +106,7 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({
                   onClick={() => handleItemClick(item.id, item.targetView)}
                   className={`p-3.5 rounded-xl border transition-all cursor-pointer hover:shadow-md ${
                     item.unread
-                      ? 'bg-emerald-50/40 border-emerald-200/80 shadow-xs'
+                      ? 'bg-primary-soft/60 border-primary-border shadow-xs'
                       : 'bg-white border-slate-200'
                   }`}
                 >
@@ -125,7 +125,7 @@ export const NotificationDrawer: React.FC<NotificationDrawerProps> = ({
                         {item.message}
                       </p>
                       <div className="mt-2 flex items-center justify-between text-[11px]">
-                        <span className="text-[#154734] font-semibold flex items-center gap-1">
+                        <span className="text-accent font-semibold flex items-center gap-1">
                           Jump to {item.targetView}
                           <ArrowRight className="w-3 h-3" />
                         </span>

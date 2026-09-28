@@ -11,6 +11,10 @@ import {
   XCircle,
   FileCheck,
   Hash,
+  Users,
+  Factory,
+  Ship,
+  TrendingUp,
 } from 'lucide-react';
 import { useOilShield } from '../../context/OilShieldContext';
 import { StatusBadge } from '../common/StatusBadge';
@@ -25,6 +29,7 @@ export const DecisionCenterView: React.FC = () => {
     selectedRecoveryOption,
     selectedRecoveryOptionId,
     setSelectedRecoveryOptionId,
+    selectedIncident,
     approveRecoveryOption,
     rejectRecoveryOption,
     modifyRecoveryOption,
@@ -130,21 +135,21 @@ export const DecisionCenterView: React.FC = () => {
 
       {/* Official Approval Status Banner if Authorized */}
       {isApproved && (
-        <div className="p-4 bg-emerald-50 border-2 border-emerald-400 rounded-xl shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 animate-fadeIn">
+        <div className="p-4 bg-success-soft border-2 border-success/50 rounded-xl shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 animate-fadeIn">
           <div className="flex items-start gap-3">
-            <span className="p-2 bg-emerald-600 text-white rounded-lg flex-shrink-0">
+            <span className="p-2 bg-success text-white rounded-lg flex-shrink-0">
               <CheckCircle2 className="w-5 h-5" />
             </span>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-extrabold text-emerald-950 text-sm">
+                <span className="font-extrabold text-success text-sm">
                   PLAN OFFICIALLY AUTHORIZED FOR EXECUTION
                 </span>
-                <span className="px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 font-mono text-[10px] font-bold">
+                <span className="px-2 py-0.5 rounded bg-success-soft text-success font-mono text-[10px] font-bold">
                   ERP WORK ORDERS DISPATCHED
                 </span>
               </div>
-              <p className="text-xs text-emerald-800 mt-0.5">
+              <p className="text-xs text-success mt-0.5">
                 Authorized by <strong>{selectedRecoveryOption.approvedBy || userProfile.name}</strong> at{' '}
                 {selectedRecoveryOption.approvedAt || 'Immediate'}. Notes: "{selectedRecoveryOption.approvalNotes || 'Operational sign-off granted.'}"
               </p>
@@ -153,7 +158,7 @@ export const DecisionCenterView: React.FC = () => {
 
           <button
             onClick={() => setCurrentView('audit')}
-            className="px-3 py-1.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold transition-colors whitespace-nowrap self-end md:self-center"
+            className="px-3 py-1.5 bg-success hover:opacity-90 text-white rounded-lg text-xs font-bold transition-colors whitespace-nowrap self-end md:self-center"
           >
             Inspect Audit Entry →
           </button>
@@ -178,174 +183,243 @@ export const DecisionCenterView: React.FC = () => {
         </div>
       )}
 
-      {/* Main Grid: Plan Details (Left) + Integrated Compliance & Approvals (Right) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Left 2 Cols: Selected Recovery Action Details */}
-        <div className="lg:col-span-2 bg-white rounded-xl border border-slate-200 shadow-xs p-5 space-y-4">
-          <div className="border-b border-slate-100 pb-3 flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <span className="text-[10px] font-bold font-mono text-slate-400 uppercase tracking-wider">
-                {selectedRecoveryOption.category}
+      {/* Stakeholder Impact Split: who is exposed if unresolved (left) vs who benefits from the AI-proposed plan (right) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch">
+        {/* LEFT: Stakeholders facing the alert / threat from the live disruption */}
+        <div className="bg-white rounded-xl border-2 border-red-200 shadow-xs overflow-hidden flex flex-col">
+          <div className="p-4 bg-red-50 border-b border-red-200 flex items-start justify-between gap-2">
+            <div className="flex items-start gap-2.5">
+              <span className="p-1.5 bg-red-600 text-white rounded-lg flex-shrink-0 mt-0.5">
+                <AlertTriangle className="w-4 h-4" />
               </span>
-              <h2 className="text-lg font-bold text-slate-900 leading-snug">
-                {selectedRecoveryOption.title}
-              </h2>
+              <div>
+                <h3 className="text-sm font-bold text-red-900">Stakeholders Facing Impact</h3>
+                <p className="text-[11px] text-red-700 mt-0.5">
+                  {selectedIncident.type} at {selectedIncident.location} — exposure if left unresolved
+                </p>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5">
-              <StatusBadge status={selectedRecoveryOption.complianceStatus} size="sm" />
-              <StatusBadge status={selectedRecoveryOption.humanApprovalStatus} size="sm" />
-            </div>
+            <StatusBadge status={selectedIncident.severity} size="sm" />
           </div>
 
-          {/* Key Metrics Strip */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-            <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Recovered Cargo</span>
-              <span className="font-mono font-bold text-sm text-slate-900 block mt-0.5">
-                {selectedRecoveryOption.quantityBarrels.toLocaleString()} bbl
-              </span>
-              <span className="text-[10px] text-slate-500 block">100% of cargo</span>
+          <div className="p-4 space-y-3 flex-1">
+            {/* Exposure Metrics */}
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="p-2.5 bg-red-50/70 rounded-lg border border-red-100">
+                <span className="text-[9px] text-red-600 font-bold uppercase block">Exposure</span>
+                <span className="font-mono font-bold text-sm text-red-800 block mt-0.5">
+                  ${(selectedIncident.estimatedExposureValueUsd / 1000).toFixed(0)}k
+                </span>
+              </div>
+              <div className="p-2.5 bg-red-50/70 rounded-lg border border-red-100">
+                <span className="text-[9px] text-red-600 font-bold uppercase block">Barrels at Risk</span>
+                <span className="font-mono font-bold text-sm text-red-800 block mt-0.5">
+                  {selectedIncident.totalNetworkExposureBarrels.toLocaleString()}
+                </span>
+              </div>
+              <div className="p-2.5 bg-red-50/70 rounded-lg border border-red-100">
+                <span className="text-[9px] text-red-600 font-bold uppercase block">Delay</span>
+                <span className="font-mono font-bold text-sm text-red-800 block mt-0.5">
+                  +{selectedIncident.estimatedDelayHours}h
+                </span>
+              </div>
             </div>
 
-            <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Recovery Delay</span>
-              <span className="font-mono font-bold text-sm text-slate-900 block mt-0.5">
-                +{selectedRecoveryOption.etaDeltaHours}h
-              </span>
-              <span className="text-[10px] text-emerald-700 font-semibold block">
-                {selectedShipment.delayHours > selectedRecoveryOption.etaDeltaHours
-                  ? `-${selectedShipment.delayHours - selectedRecoveryOption.etaDeltaHours}h saved`
-                  : 'Baseline'}
-              </span>
-            </div>
-
-            <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Approved Spend</span>
-              <span className="font-mono font-bold text-sm text-slate-900 block mt-0.5">
-                ${(selectedRecoveryOption.costUsd / 1000).toFixed(0)}k
-              </span>
-              <span className="text-[10px] text-slate-500 font-mono block">
-                ${selectedRecoveryOption.costPerBbl.toFixed(2)}/bbl
-              </span>
-            </div>
-
-            <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-              <span className="text-[10px] text-slate-400 font-bold uppercase block">Feasibility</span>
-              <span className="font-mono font-bold text-sm text-emerald-600 block mt-0.5">
-                {selectedRecoveryOption.feasibilityScore}%
-              </span>
-              <span className="text-[10px] text-slate-500 block">Validated</span>
-            </div>
-          </div>
-
-          {/* Operational Scope */}
-          <div className="space-y-2 text-xs">
-            <span className="font-bold text-slate-800 block">Operational Execution Summary</span>
-            <p className="text-slate-600 bg-slate-50 p-3 rounded-lg border border-slate-100 leading-relaxed">
-              {selectedRecoveryOption.operationalSummary}
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            {/* Affected Stakeholders */}
+            <div className="space-y-2">
               <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                <span className="text-slate-500 block text-[11px]">Route & Destination:</span>
-                <span className="font-semibold text-slate-800 block mt-0.5">{selectedRecoveryOption.route}</span>
-                <span className="text-slate-600 text-[11px] block mt-0.5">→ {selectedRecoveryOption.destination}</span>
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                  <Users className="w-3.5 h-3.5 text-red-500" />
+                  <span>Offtake Customer</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900 mt-0.5">{selectedIncident.affectedCustomer}</div>
+                <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                  Awaiting {selectedIncident.quantityBarrels.toLocaleString()} bbl {selectedIncident.product}. {selectedIncident.berthDelayTrend}
+                </p>
               </div>
 
               <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                <span className="text-slate-500 block text-[11px]">Downstream Impact:</span>
-                <span className="font-semibold text-slate-800 block mt-0.5">{selectedRecoveryOption.inventoryImpact}</span>
-                <span className="text-slate-600 text-[11px] block mt-0.5">{selectedRecoveryOption.customerImpact}</span>
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                  <Factory className="w-3.5 h-3.5 text-red-500" />
+                  <span>Downstream Refinery</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900 mt-0.5">{selectedIncident.affectedRefinery}</div>
+                <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">{selectedIncident.rootCause}</p>
+              </div>
+
+              <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                  <ShieldAlert className="w-3.5 h-3.5 text-red-500" />
+                  <span>Fleet / Network Operator</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900 mt-0.5">
+                  {selectedIncident.affectedShipmentCount} shipment{selectedIncident.affectedShipmentCount === 1 ? '' : 's'} affected
+                </div>
+                <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                  {selectedIncident.totalNetworkExposureBarrels.toLocaleString()} bbl network-wide exposure while disruption persists.
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right 1 Col: Integrated Compliance & Action Buttons (Section 12 Requirement) */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-5 space-y-4 flex flex-col justify-between">
-          <div className="space-y-3.5">
-            {/* Compliance Header */}
-            <div className="border-b border-slate-100 pb-2.5 flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                <span>Compliance Checks</span>
-              </h3>
-              <StatusBadge status={selectedRecoveryOption.complianceStatus} size="sm" />
+        {/* RIGHT: Stakeholders benefiting from the agentic AI's proposed recovery plan */}
+        <div className="bg-white rounded-xl border-2 border-success/40 shadow-xs overflow-hidden flex flex-col">
+          <div className="p-4 bg-success-soft border-b border-success/30 flex items-start justify-between gap-2">
+            <div className="flex items-start gap-2.5">
+              <span className="p-1.5 bg-success text-white rounded-lg flex-shrink-0 mt-0.5">
+                <TrendingUp className="w-4 h-4" />
+              </span>
+              <div>
+                <h3 className="text-sm font-bold text-success">Stakeholders Benefiting From Recovery Plan</h3>
+                <p className="text-[11px] text-success/80 mt-0.5">{selectedRecoveryOption.title}</p>
+              </div>
             </div>
-
-            {/* Compliance Checks List (Only for this specific option) */}
-            <div className="space-y-2 text-xs">
-              {selectedRecoveryOption.complianceChecks.map((chk, idx) => (
-                <div key={idx} className="p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-0.5">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-800">{chk.name}</span>
-                    <span
-                      className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded ${
-                        chk.status === 'PASS'
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-amber-100 text-amber-800'
-                      }`}
-                    >
-                      {chk.status}
-                    </span>
-                  </div>
-                  <p className="text-[11px] text-slate-500 leading-snug">
-                    {chk.detail}
-                  </p>
-                </div>
-              ))}
-
-              {/* Warning/Blocker Banner if spending exceeds limit */}
-              {selectedRecoveryOption.costUsd > emergencySpendLimit && (
-                <div className="p-3 bg-amber-50 rounded-lg border border-amber-300 text-amber-900 space-y-1">
-                  <div className="font-bold text-xs flex items-center gap-1 text-amber-800">
-                    <ShieldAlert className="w-4 h-4" />
-                    <span>Delegation Threshold Warning</span>
-                  </div>
-                  <p className="text-[11px] text-amber-800">
-                    Cost of ${(selectedRecoveryOption.costUsd / 1000).toFixed(0)}k exceeds single-operator delegated spending limit of ${(emergencySpendLimit / 1000).toFixed(0)}k. Secondary executive sign-off recorded.
-                  </p>
-                </div>
-              )}
-            </div>
+            <StatusBadge status={selectedRecoveryOption.complianceStatus} size="sm" />
           </div>
 
-          {/* Action Buttons Together on this page (Approve, Modify, Reject) */}
-          <div className="space-y-2 pt-3 border-t border-slate-100">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block text-center">
-              Human Authorization Actions
-            </span>
+          <div className="p-4 space-y-3 flex-1">
+            {/* Benefit Metrics */}
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div className="p-2.5 bg-success-soft/70 rounded-lg border border-success/20">
+                <span className="text-[9px] text-success font-bold uppercase block">Recovered</span>
+                <span className="font-mono font-bold text-sm text-success block mt-0.5">
+                  {selectedRecoveryOption.quantityBarrels.toLocaleString()} bbl
+                </span>
+              </div>
+              <div className="p-2.5 bg-success-soft/70 rounded-lg border border-success/20">
+                <span className="text-[9px] text-success font-bold uppercase block">Spend</span>
+                <span className="font-mono font-bold text-sm text-success block mt-0.5">
+                  ${(selectedRecoveryOption.costUsd / 1000).toFixed(0)}k
+                </span>
+              </div>
+              <div className="p-2.5 bg-success-soft/70 rounded-lg border border-success/20">
+                <span className="text-[9px] text-success font-bold uppercase block">Feasibility</span>
+                <span className="font-mono font-bold text-sm text-success block mt-0.5">
+                  {selectedRecoveryOption.feasibilityScore}%
+                </span>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100 leading-relaxed">
+              {selectedRecoveryOption.operationalSummary}
+            </p>
+
+            {/* Benefiting Stakeholders — same real-world entities as the left column, now protected */}
+            <div className="space-y-2">
+              <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                  <Users className="w-3.5 h-3.5 text-success" />
+                  <span>Offtake Customer — Protected</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900 mt-0.5">{selectedIncident.affectedCustomer}</div>
+                <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">{selectedRecoveryOption.customerImpact}</p>
+              </div>
+
+              <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                  <Factory className="w-3.5 h-3.5 text-success" />
+                  <span>Downstream Refinery — Secured</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900 mt-0.5">{selectedIncident.affectedRefinery}</div>
+                <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">{selectedRecoveryOption.inventoryImpact}</p>
+              </div>
+
+              <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-slate-500 uppercase tracking-wide">
+                  <Ship className="w-3.5 h-3.5 text-success" />
+                  <span>Recovery Supplier</span>
+                </div>
+                <div className="text-sm font-bold text-slate-900 mt-0.5">{selectedRecoveryOption.supplier}</div>
+                <p className="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
+                  {selectedRecoveryOption.quantityBarrels.toLocaleString()} bbl via {selectedRecoveryOption.route} → {selectedRecoveryOption.destination} (+{selectedRecoveryOption.etaDeltaHours}h)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Compliance Checks — full width, below the stakeholder comparison */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-5 space-y-3">
+        <div className="border-b border-slate-100 pb-2.5 flex items-center justify-between">
+          <h3 className="text-sm font-bold text-slate-900 flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-success" />
+            <span>Compliance Checks</span>
+          </h3>
+          <StatusBadge status={selectedRecoveryOption.complianceStatus} size="sm" />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+          {selectedRecoveryOption.complianceChecks.map((chk, idx) => (
+            <div key={idx} className="p-2.5 bg-slate-50 rounded-lg border border-slate-100 space-y-0.5">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-slate-800">{chk.name}</span>
+                <span
+                  className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded ${
+                    chk.status === 'PASS'
+                      ? 'bg-success-soft text-success'
+                      : 'bg-amber-100 text-amber-800'
+                  }`}
+                >
+                  {chk.status}
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 leading-snug">{chk.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Warning/Blocker Banner if spending exceeds limit */}
+        {selectedRecoveryOption.costUsd > emergencySpendLimit && (
+          <div className="p-3 bg-amber-50 rounded-lg border border-amber-300 text-amber-900 space-y-1">
+            <div className="font-bold text-xs flex items-center gap-1 text-amber-800">
+              <ShieldAlert className="w-4 h-4" />
+              <span>Delegation Threshold Warning</span>
+            </div>
+            <p className="text-[11px] text-amber-800">
+              Cost of ${(selectedRecoveryOption.costUsd / 1000).toFixed(0)}k exceeds single-operator delegated spending limit of ${(emergencySpendLimit / 1000).toFixed(0)}k. Secondary executive sign-off recorded.
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Human Authorization Actions — full width action bar, below both stakeholder columns and compliance */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            Human Authorization Actions
+          </span>
+
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <button
+              onClick={() => setIsRejectModalOpen(true)}
+              className="px-4 py-2.5 bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-red-700 rounded-lg text-xs font-bold transition-colors border border-slate-200 flex items-center justify-center gap-1.5"
+            >
+              <XCircle className="w-3.5 h-3.5" />
+              <span>Reject</span>
+            </button>
+
+            <button
+              onClick={() => setIsModifyModalOpen(true)}
+              className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors border border-slate-200 flex items-center justify-center gap-1.5"
+            >
+              <Edit3 className="w-3.5 h-3.5" />
+              <span>Modify</span>
+            </button>
 
             <button
               onClick={() => setIsApproveModalOpen(true)}
               disabled={isApproved}
-              className={`w-full py-2.5 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 ${
+              className={`flex-1 sm:flex-initial px-5 py-2.5 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 ${
                 isApproved
-                  ? 'bg-emerald-100 text-emerald-800 cursor-not-allowed border border-emerald-300'
-                  : 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                  ? 'bg-success-soft text-success cursor-not-allowed border border-success/30'
+                  : 'bg-success hover:opacity-90 text-white'
               }`}
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>{isApproved ? 'Plan Already Authorized' : 'Approve & Execute Action'}</span>
             </button>
-
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => setIsModifyModalOpen(true)}
-                className="py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-colors border border-slate-200 flex items-center justify-center gap-1"
-              >
-                <Edit3 className="w-3.5 h-3.5" />
-                <span>Modify</span>
-              </button>
-
-              <button
-                onClick={() => setIsRejectModalOpen(true)}
-                className="py-2 bg-slate-100 hover:bg-red-50 text-slate-700 hover:text-red-700 rounded-lg text-xs font-bold transition-colors border border-slate-200 flex items-center justify-center gap-1"
-              >
-                <XCircle className="w-3.5 h-3.5" />
-                <span>Reject</span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -384,7 +458,7 @@ export const DecisionCenterView: React.FC = () => {
                 value={approvalNotes}
                 onChange={(e) => setApprovalNotes(e.target.value)}
                 rows={3}
-                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:border-[#154734] focus:ring-1 focus:ring-[#154734]/20"
+                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/20"
               />
             </div>
 
@@ -397,7 +471,7 @@ export const DecisionCenterView: React.FC = () => {
               </button>
               <button
                 onClick={handleConfirmApprove}
-                className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow-xs"
+                className="px-4 py-1.5 bg-success hover:opacity-90 text-white rounded-lg text-xs font-bold shadow-xs"
               >
                 Sign & Dispatch Orders
               </button>
@@ -508,7 +582,7 @@ export const DecisionCenterView: React.FC = () => {
               </button>
               <button
                 onClick={handleConfirmModify}
-                className="px-4 py-1.5 bg-[#154734] hover:bg-[#1b5941] text-white rounded-lg text-xs font-bold shadow-xs"
+                className="px-4 py-1.5 bg-primary hover:bg-primary-strong text-ink rounded-lg text-xs font-bold shadow-xs"
               >
                 Save & Authorize
               </button>

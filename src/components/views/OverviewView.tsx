@@ -15,9 +15,12 @@ import {
   ChevronRight,
   MapPin,
   Flame,
+  Plus,
 } from 'lucide-react';
 import { useOilShield } from '../../context/OilShieldContext';
 import { StatusBadge } from '../common/StatusBadge';
+import { FormModal, Field, TextInput, TextArea, Select } from '../common/FormModal';
+import { DisruptionSeverity } from '../../types/oilshield';
 
 type AgentTabKey = 'disruption' | 'supplier' | 'logistics' | 'inventory' | 'scenario' | 'compliance';
 
@@ -32,9 +35,99 @@ export const OverviewView: React.FC = () => {
     dynamicRecoveryOptions,
     setSelectedRecoveryOptionId,
     emergencySpendLimit,
+    addShipment,
+    logDisruption,
   } = useOilShield();
 
   const [activeTab, setActiveTab] = useState<AgentTabKey>('disruption');
+
+  // Add Shipment modal state
+  const [isAddShipmentOpen, setIsAddShipmentOpen] = useState(false);
+  const [shipVesselName, setShipVesselName] = useState('');
+  const [shipCargo, setShipCargo] = useState('');
+  const [shipQuantityBarrels, setShipQuantityBarrels] = useState(0);
+  const [shipOrigin, setShipOrigin] = useState('');
+  const [shipDestination, setShipDestination] = useState('');
+  const [shipSupplier, setShipSupplier] = useState('');
+  const [shipEta, setShipEta] = useState('');
+  const [shipDelayHours, setShipDelayHours] = useState(0);
+
+  const resetAddShipmentForm = () => {
+    setShipVesselName('');
+    setShipCargo('');
+    setShipQuantityBarrels(0);
+    setShipOrigin('');
+    setShipDestination('');
+    setShipSupplier('');
+    setShipEta('');
+    setShipDelayHours(0);
+  };
+
+  const handleAddShipmentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addShipment({
+      vesselName: shipVesselName,
+      cargo: shipCargo,
+      quantityBarrels: shipQuantityBarrels,
+      origin: shipOrigin,
+      destination: shipDestination,
+      supplier: shipSupplier,
+      eta: shipEta,
+      delayHours: shipDelayHours,
+    });
+    resetAddShipmentForm();
+    setIsAddShipmentOpen(false);
+  };
+
+  // Log Disruption modal state
+  const [isLogDisruptionOpen, setIsLogDisruptionOpen] = useState(false);
+  const [discTitle, setDiscTitle] = useState('');
+  const [discType, setDiscType] = useState('');
+  const [discLocation, setDiscLocation] = useState('');
+  const [discLinkedShipmentId, setDiscLinkedShipmentId] = useState('');
+  const [discVesselName, setDiscVesselName] = useState('');
+  const [discProduct, setDiscProduct] = useState('');
+  const [discQuantityBarrels, setDiscQuantityBarrels] = useState(0);
+  const [discSeverity, setDiscSeverity] = useState<DisruptionSeverity>('MEDIUM');
+  const [discEstimatedDelayHours, setDiscEstimatedDelayHours] = useState(0);
+  const [discAffectedRefinery, setDiscAffectedRefinery] = useState('');
+  const [discAffectedCustomer, setDiscAffectedCustomer] = useState('');
+  const [discRootCause, setDiscRootCause] = useState('');
+
+  const resetLogDisruptionForm = () => {
+    setDiscTitle('');
+    setDiscType('');
+    setDiscLocation('');
+    setDiscLinkedShipmentId('');
+    setDiscVesselName('');
+    setDiscProduct('');
+    setDiscQuantityBarrels(0);
+    setDiscSeverity('MEDIUM');
+    setDiscEstimatedDelayHours(0);
+    setDiscAffectedRefinery('');
+    setDiscAffectedCustomer('');
+    setDiscRootCause('');
+  };
+
+  const handleLogDisruptionSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    logDisruption({
+      title: discTitle,
+      type: discType,
+      location: discLocation,
+      linkedShipmentId: discLinkedShipmentId || undefined,
+      vesselName: discVesselName,
+      product: discProduct,
+      quantityBarrels: discQuantityBarrels,
+      severity: discSeverity,
+      estimatedDelayHours: discEstimatedDelayHours,
+      affectedRefinery: discAffectedRefinery,
+      affectedCustomer: discAffectedCustomer,
+      rootCause: discRootCause,
+    });
+    resetLogDisruptionForm();
+    setIsLogDisruptionOpen(false);
+  };
 
   const emergencyShipment = operationalShipments.find((s) => s.isEmergency) || operationalShipments[0];
 
@@ -62,8 +155,22 @@ export const OverviewView: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setIsAddShipmentOpen(true)}
+            className="px-3.5 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Shipment</span>
+          </button>
+          <button
+            onClick={() => setIsLogDisruptionOpen(true)}
+            className="px-3.5 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Log Disruption</span>
+          </button>
+          <button
             onClick={() => setCurrentView('decisions')}
-            className="px-3.5 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-3.5 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
           >
             <span>Approvals & Decisions</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -204,7 +311,7 @@ export const OverviewView: React.FC = () => {
             </span>
             <button
               onClick={() => setCurrentView('scenarios')}
-              className="text-[11px] text-[#154734] hover:text-[#0e3325] font-bold flex items-center gap-0.5 mt-1"
+              className="text-[11px] text-accent hover:text-accent-strong font-bold flex items-center gap-0.5 mt-1"
             >
               <span>Recovery Options</span>
               <ChevronRight className="w-3 h-3" />
@@ -226,11 +333,11 @@ export const OverviewView: React.FC = () => {
                 onClick={() => setActiveTab(tab.key)}
                 className={`flex items-center gap-2 px-3.5 py-2.5 text-xs font-bold rounded-t-lg transition-all border-b-2 whitespace-nowrap ${
                   isActive
-                    ? 'border-[#154734] text-[#154734] bg-white shadow-xs'
+                    ? 'border-accent text-accent bg-white shadow-xs'
                     : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#154734]' : 'text-slate-400'}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-accent' : 'text-slate-400'}`} />
                 <span>{tab.label}</span>
               </button>
             );
@@ -307,7 +414,7 @@ export const OverviewView: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setCurrentView('suppliers')}
-                  className="text-xs text-[#154734] hover:text-[#0e3325] font-bold flex items-center gap-1"
+                  className="text-xs text-accent hover:text-accent-strong font-bold flex items-center gap-1"
                 >
                   <span>Supplier Intelligence</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -318,7 +425,7 @@ export const OverviewView: React.FC = () => {
                 <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-slate-800">Saudi Aramco</span>
-                    <span className="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded">
+                    <span className="px-2 py-0.5 bg-success-soft text-success text-[10px] font-bold rounded">
                       PRIMARY
                     </span>
                   </div>
@@ -332,7 +439,7 @@ export const OverviewView: React.FC = () => {
                 <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-slate-800">ADNOC Global Trading</span>
-                    <span className="px-2 py-0.5 bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-[10px] font-bold rounded">
+                    <span className="px-2 py-0.5 bg-success-soft text-success border border-success/30 text-[10px] font-bold rounded">
                       BACKUP SPOT
                     </span>
                   </div>
@@ -374,7 +481,7 @@ export const OverviewView: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setCurrentView('logistics')}
-                  className="text-xs text-[#154734] hover:text-[#0e3325] font-bold flex items-center gap-1"
+                  className="text-xs text-accent hover:text-accent-strong font-bold flex items-center gap-1"
                 >
                   <span>Open Logistics Map</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -382,14 +489,14 @@ export const OverviewView: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs">
-                <div className="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-950 space-y-2">
+                <div className="p-3.5 bg-success-soft rounded-xl border border-success/30 text-success space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="font-bold text-emerald-900">Kamarajar Port (Ennore)</span>
-                    <span className="px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-bold rounded">
+                    <span className="font-bold text-success">Kamarajar Port (Ennore)</span>
+                    <span className="px-2 py-0.5 bg-success text-white text-[10px] font-bold rounded">
                       RECOMMENDED
                     </span>
                   </div>
-                  <div className="text-[11px] text-emerald-800 space-y-1">
+                  <div className="text-[11px] text-success space-y-1">
                     <div>Diversion Distance: 28 km North</div>
                     <div>Transit Delay: <strong>+6.5 hours</strong> (saves 11.5h)</div>
                     <div>Draft: 16.5m (vessel draft 15.2m - verified)</div>
@@ -466,10 +573,10 @@ export const OverviewView: React.FC = () => {
                 <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 space-y-2.5">
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-slate-800">Kochi Strategic Reserve (Donor Buffer)</span>
-                    <span className="text-emerald-700 font-bold">5.1 Days Coverage Post-Draw</span>
+                    <span className="text-success font-bold">5.1 Days Coverage Post-Draw</span>
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-                    <div className="bg-emerald-500 h-full rounded-full" style={{ width: '68%' }} />
+                    <div className="bg-success h-full rounded-full" style={{ width: '68%' }} />
                   </div>
                   <div className="flex justify-between text-[11px] text-slate-500">
                     <span>Available on Hand: 15,000 bbl</span>
@@ -497,7 +604,7 @@ export const OverviewView: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setCurrentView('scenarios')}
-                  className="px-3 py-1.5 bg-[#154734] hover:bg-[#1b5941] text-white rounded-lg text-xs font-bold transition-colors shadow-xs flex items-center gap-1"
+                  className="px-3 py-1.5 bg-primary hover:bg-primary-strong text-ink rounded-lg text-xs font-bold transition-colors shadow-xs flex items-center gap-1"
                 >
                   <span>Compare All Options</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -514,7 +621,7 @@ export const OverviewView: React.FC = () => {
                     }}
                     className={`p-3.5 rounded-xl border transition-all cursor-pointer hover:shadow-xs flex flex-col justify-between ${
                       opt.isRecommended
-                        ? 'bg-emerald-50/40 border-[#154734]/30 ring-1 ring-[#154734]/30'
+                        ? 'bg-primary-soft/60 border-accent/30 ring-1 ring-accent/30'
                         : 'bg-white border-slate-200 hover:border-slate-300'
                     }`}
                   >
@@ -524,7 +631,7 @@ export const OverviewView: React.FC = () => {
                           {opt.category}
                         </span>
                         {opt.isRecommended && (
-                          <span className="px-1.5 py-0.2 bg-[#154734] text-white text-[10px] font-bold rounded">
+                          <span className="px-1.5 py-0.2 bg-primary text-ink text-[10px] font-bold rounded">
                             RECOMMENDED
                           </span>
                         )}
@@ -548,7 +655,7 @@ export const OverviewView: React.FC = () => {
                       </div>
                       <div>
                         <span className="text-[9px] text-slate-400 block font-sans">FEASIBILITY</span>
-                        <span className="font-bold text-emerald-600">{opt.feasibilityScore}%</span>
+                        <span className="font-bold text-success">{opt.feasibilityScore}%</span>
                       </div>
                     </div>
                   </div>
@@ -579,29 +686,29 @@ export const OverviewView: React.FC = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 space-y-1">
-                  <div className="font-bold text-emerald-900 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="p-3 bg-success-soft rounded-xl border border-success/30 space-y-1">
+                  <div className="font-bold text-success flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
                     <span>Supplier Sanctions & AML</span>
                   </div>
-                  <p className="text-[11px] text-emerald-800">
+                  <p className="text-[11px] text-success">
                     Primary and secondary suppliers verified against international sanctions and ESG rules.
                   </p>
                 </div>
 
-                <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 space-y-1">
-                  <div className="font-bold text-emerald-900 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="p-3 bg-success-soft rounded-xl border border-success/30 space-y-1">
+                  <div className="font-bold text-success flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
                     <span>Maritime Port Safety</span>
                   </div>
-                  <p className="text-[11px] text-emerald-800">
+                  <p className="text-[11px] text-success">
                     Kamarajar Port Berth 1 has 16.5m draft clearance (exceeds 15.2m vessel draft requirement).
                   </p>
                 </div>
 
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-1">
                   <div className="font-bold text-slate-800 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-700" />
+                    <CheckCircle2 className="w-4 h-4 text-success" />
                     <span>Spend Delegation ($100k Cap)</span>
                   </div>
                   <p className="text-[11px] text-slate-600">
@@ -609,12 +716,12 @@ export const OverviewView: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 space-y-1">
-                  <div className="font-bold text-emerald-900 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="p-3 bg-success-soft rounded-xl border border-success/30 space-y-1">
+                  <div className="font-bold text-success flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-success" />
                     <span>Crude Compatibility</span>
                   </div>
-                  <p className="text-[11px] text-emerald-800">
+                  <p className="text-[11px] text-success">
                     API gravity and sulfur limits match Chennai CPCL refinery technical specifications.
                   </p>
                 </div>
@@ -623,6 +730,202 @@ export const OverviewView: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Add Shipment Modal */}
+      {isAddShipmentOpen && (
+        <FormModal
+          title="Add Shipment"
+          subtitle="Register a new operational shipment into the fleet."
+          onClose={() => {
+            resetAddShipmentForm();
+            setIsAddShipmentOpen(false);
+          }}
+          onSubmit={handleAddShipmentSubmit}
+          submitLabel="Add Shipment"
+        >
+          <Field label="Vessel Name" required>
+            <TextInput
+              value={shipVesselName}
+              onChange={(e) => setShipVesselName(e.target.value)}
+              placeholder="MT Ocean Vanguard"
+              required
+            />
+          </Field>
+          <Field label="Cargo" required>
+            <TextInput
+              value={shipCargo}
+              onChange={(e) => setShipCargo(e.target.value)}
+              placeholder="Crude Oil (Arab Light)"
+              required
+            />
+          </Field>
+          <Field label="Quantity (Barrels)" required>
+            <TextInput
+              type="number"
+              value={shipQuantityBarrels}
+              onChange={(e) => setShipQuantityBarrels(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Origin" required>
+            <TextInput
+              value={shipOrigin}
+              onChange={(e) => setShipOrigin(e.target.value)}
+              placeholder="Ras Tanura, Saudi Arabia"
+              required
+            />
+          </Field>
+          <Field label="Destination" required>
+            <TextInput
+              value={shipDestination}
+              onChange={(e) => setShipDestination(e.target.value)}
+              placeholder="Chennai Port"
+              required
+            />
+          </Field>
+          <Field label="Supplier" required>
+            <TextInput
+              value={shipSupplier}
+              onChange={(e) => setShipSupplier(e.target.value)}
+              placeholder="Saudi Aramco"
+              required
+            />
+          </Field>
+          <Field label="ETA" required>
+            <TextInput
+              value={shipEta}
+              onChange={(e) => setShipEta(e.target.value)}
+              placeholder="2026-10-02 14:00 UTC"
+              required
+            />
+          </Field>
+          <Field label="Delay (Hours)">
+            <TextInput
+              type="number"
+              value={shipDelayHours}
+              onChange={(e) => setShipDelayHours(Number(e.target.value))}
+            />
+          </Field>
+        </FormModal>
+      )}
+
+      {/* Log Disruption Modal */}
+      {isLogDisruptionOpen && (
+        <FormModal
+          title="Log Disruption"
+          subtitle="Manually report a new disruption incident for agent analysis."
+          onClose={() => {
+            resetLogDisruptionForm();
+            setIsLogDisruptionOpen(false);
+          }}
+          onSubmit={handleLogDisruptionSubmit}
+          submitLabel="Log Disruption"
+        >
+          <Field label="Title" required>
+            <TextInput
+              value={discTitle}
+              onChange={(e) => setDiscTitle(e.target.value)}
+              placeholder="Port Congestion at Chennai"
+              required
+            />
+          </Field>
+          <Field label="Type" required>
+            <TextInput
+              value={discType}
+              onChange={(e) => setDiscType(e.target.value)}
+              placeholder="Port Congestion"
+              required
+            />
+          </Field>
+          <Field label="Location" required>
+            <TextInput
+              value={discLocation}
+              onChange={(e) => setDiscLocation(e.target.value)}
+              placeholder="Chennai Port"
+              required
+            />
+          </Field>
+          <Field label="Linked Shipment">
+            <Select
+              value={discLinkedShipmentId}
+              onChange={(e) => setDiscLinkedShipmentId(e.target.value)}
+            >
+              <option value="">None</option>
+              {operationalShipments.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.id} — {s.vesselName}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label="Vessel Name" required>
+            <TextInput
+              value={discVesselName}
+              onChange={(e) => setDiscVesselName(e.target.value)}
+              required
+            />
+          </Field>
+          <Field label="Product" required>
+            <TextInput
+              value={discProduct}
+              onChange={(e) => setDiscProduct(e.target.value)}
+              placeholder="Crude Oil (Arab Light)"
+              required
+            />
+          </Field>
+          <Field label="Quantity (Barrels)" required>
+            <TextInput
+              type="number"
+              value={discQuantityBarrels}
+              onChange={(e) => setDiscQuantityBarrels(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Severity" required>
+            <Select
+              value={discSeverity}
+              onChange={(e) => setDiscSeverity(e.target.value as DisruptionSeverity)}
+            >
+              <option value="CRITICAL">CRITICAL</option>
+              <option value="HIGH">HIGH</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="LOW">LOW</option>
+            </Select>
+          </Field>
+          <Field label="Estimated Delay (Hours)" required>
+            <TextInput
+              type="number"
+              value={discEstimatedDelayHours}
+              onChange={(e) => setDiscEstimatedDelayHours(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Affected Refinery" required>
+            <TextInput
+              value={discAffectedRefinery}
+              onChange={(e) => setDiscAffectedRefinery(e.target.value)}
+              placeholder="Chennai Refinery (CPCL Manali)"
+              required
+            />
+          </Field>
+          <Field label="Affected Customer" required>
+            <TextInput
+              value={discAffectedCustomer}
+              onChange={(e) => setDiscAffectedCustomer(e.target.value)}
+              placeholder="Customer C104"
+              required
+            />
+          </Field>
+          <Field label="Root Cause" required>
+            <TextArea
+              value={discRootCause}
+              onChange={(e) => setDiscRootCause(e.target.value)}
+              rows={3}
+              required
+            />
+          </Field>
+        </FormModal>
+      )}
     </div>
   );
 };

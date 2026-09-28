@@ -12,10 +12,12 @@ import {
   Clock,
   Boxes,
   ShieldCheck,
+  Plus,
 } from 'lucide-react';
 import { useOilShield } from '../../context/OilShieldContext';
-import { DynamicRecoveryOption } from '../../types/oilshield';
+import { DynamicRecoveryOption, TransportMode } from '../../types/oilshield';
 import { StatusBadge } from '../common/StatusBadge';
+import { FormModal, Field, TextInput, TextArea, Select } from '../common/FormModal';
 
 export const RecoveryScenariosView: React.FC = () => {
   const {
@@ -28,12 +30,57 @@ export const RecoveryScenariosView: React.FC = () => {
     setSelectedRecoveryOptionId,
     setCurrentView,
     emergencySpendLimit,
+    proposeRecoveryOption,
   } = useOilShield();
 
   // Track expanded details for each option
   const [expandedOptionIds, setExpandedOptionIds] = useState<Record<string, boolean>>({
     'REC-OPT-01': true, // Expand first by default
   });
+
+  // Propose Option modal state
+  const [isProposeOptionOpen, setIsProposeOptionOpen] = useState(false);
+  const [optTitle, setOptTitle] = useState('');
+  const [optCategory, setOptCategory] = useState<DynamicRecoveryOption['category']>('Maritime Diversion');
+  const [optSupplier, setOptSupplier] = useState('');
+  const [optRoute, setOptRoute] = useState('');
+  const [optDestination, setOptDestination] = useState('');
+  const [optTransportMode, setOptTransportMode] = useState<TransportMode>('SEA');
+  const [optQuantityBarrels, setOptQuantityBarrels] = useState(0);
+  const [optEtaDeltaHours, setOptEtaDeltaHours] = useState(0);
+  const [optCostUsd, setOptCostUsd] = useState(0);
+  const [optOperationalSummary, setOptOperationalSummary] = useState('');
+
+  const resetProposeOptionForm = () => {
+    setOptTitle('');
+    setOptCategory('Maritime Diversion');
+    setOptSupplier('');
+    setOptRoute('');
+    setOptDestination('');
+    setOptTransportMode('SEA');
+    setOptQuantityBarrels(0);
+    setOptEtaDeltaHours(0);
+    setOptCostUsd(0);
+    setOptOperationalSummary('');
+  };
+
+  const handleProposeOptionSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    proposeRecoveryOption({
+      title: optTitle,
+      category: optCategory,
+      supplier: optSupplier,
+      route: optRoute,
+      destination: optDestination,
+      transportMode: optTransportMode,
+      quantityBarrels: optQuantityBarrels,
+      etaDeltaHours: optEtaDeltaHours,
+      costUsd: optCostUsd,
+      operationalSummary: optOperationalSummary,
+    });
+    resetProposeOptionForm();
+    setIsProposeOptionOpen(false);
+  };
 
   const toggleExpand = (id: string) => {
     setExpandedOptionIds((prev) => ({
@@ -68,7 +115,7 @@ export const RecoveryScenariosView: React.FC = () => {
           <select
             value={selectedShipmentId}
             onChange={(e) => setSelectedShipmentId(e.target.value)}
-            className="bg-white border border-slate-300 text-xs font-bold rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-hidden focus:border-[#154734] focus:ring-2 focus:ring-[#154734]/15 shadow-xs"
+            className="bg-white border border-slate-300 text-xs font-bold rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-hidden focus:border-accent focus:ring-2 focus:ring-accent/15 shadow-xs"
           >
             {operationalShipments.map((shp) => (
               <option key={shp.id} value={shp.id}>
@@ -76,6 +123,14 @@ export const RecoveryScenariosView: React.FC = () => {
               </option>
             ))}
           </select>
+
+          <button
+            onClick={() => setIsProposeOptionOpen(true)}
+            className="px-3 py-1.5 bg-primary hover:bg-primary-strong text-ink rounded-lg text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Propose Option</span>
+          </button>
         </div>
       </div>
 
@@ -83,7 +138,7 @@ export const RecoveryScenariosView: React.FC = () => {
       <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-lg bg-emerald-50 text-[#154734] flex items-center justify-center font-bold text-xs border border-emerald-200/80">
+            <div className="h-8 w-8 rounded-lg bg-primary-soft text-accent flex items-center justify-center font-bold text-xs border border-primary-border">
               {selectedShipment.id.split('-')[1] || 'SHP'}
             </div>
             <div>
@@ -144,7 +199,7 @@ export const RecoveryScenariosView: React.FC = () => {
               key={opt.id}
               className={`rounded-xl border transition-all duration-150 overflow-hidden shadow-xs ${
                 isSelected
-                  ? 'bg-emerald-50/20 border-[#154734] ring-2 ring-[#154734]/20'
+                  ? 'bg-primary-soft/20 border-accent ring-2 ring-accent/20'
                   : 'bg-white border-slate-200 hover:border-slate-300'
               }`}
             >
@@ -157,13 +212,13 @@ export const RecoveryScenariosView: React.FC = () => {
                         {opt.category}
                       </span>
                       {opt.isRecommended && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#154734] text-white">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-primary text-ink">
                           AI RECOMMENDED
                         </span>
                       )}
                       <StatusBadge status={opt.complianceStatus} size="sm" />
                       {isApproved && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-success-soft text-success border border-success/30">
                           APPROVED BY OPERATOR
                         </span>
                       )}
@@ -185,7 +240,7 @@ export const RecoveryScenariosView: React.FC = () => {
                       <span className="font-mono font-bold text-sm text-slate-900 block mt-0.5">
                         +{opt.etaDeltaHours}h
                       </span>
-                      <span className="text-[10px] text-emerald-700 font-semibold block">
+                      <span className="text-[10px] text-success font-semibold block">
                         {selectedShipment.delayHours > opt.etaDeltaHours
                           ? `-${selectedShipment.delayHours - opt.etaDeltaHours}h saved`
                           : 'Baseline'}
@@ -204,7 +259,7 @@ export const RecoveryScenariosView: React.FC = () => {
 
                     <div className="text-center min-w-[75px]">
                       <span className="text-[10px] text-slate-400 uppercase font-bold block">FEASIBILITY</span>
-                      <span className="font-mono font-bold text-sm text-emerald-600 block mt-0.5">
+                      <span className="font-mono font-bold text-sm text-success block mt-0.5">
                         {opt.feasibilityScore}%
                       </span>
                       <span className="text-[10px] text-slate-500 block">Verified</span>
@@ -216,7 +271,7 @@ export const RecoveryScenariosView: React.FC = () => {
                         onClick={() => handleSelectAndSubmit(opt)}
                         className={`px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 whitespace-nowrap ${
                           isSelected
-                            ? 'bg-[#154734] hover:bg-[#1b5941] text-white'
+                            ? 'bg-primary hover:bg-primary-strong text-ink'
                             : 'bg-slate-900 hover:bg-slate-800 text-white'
                         }`}
                       >
@@ -260,7 +315,7 @@ export const RecoveryScenariosView: React.FC = () => {
                             <span
                               className={`font-semibold font-mono ${
                                 c.status === 'OK'
-                                  ? 'text-emerald-700'
+                                  ? 'text-success'
                                   : c.status === 'WARNING'
                                   ? 'text-amber-700'
                                   : 'text-red-700'
@@ -298,6 +353,88 @@ export const RecoveryScenariosView: React.FC = () => {
           );
         })}
       </div>
+
+      {/* Propose Option Modal */}
+      {isProposeOptionOpen && (
+        <FormModal
+          title="Propose Recovery Option"
+          subtitle="Manually propose a new recovery option. It will appear in Approvals & Decisions awaiting review."
+          onClose={() => {
+            resetProposeOptionForm();
+            setIsProposeOptionOpen(false);
+          }}
+          onSubmit={handleProposeOptionSubmit}
+          submitLabel="Propose Option"
+        >
+          <Field label="Title" required>
+            <TextInput value={optTitle} onChange={(e) => setOptTitle(e.target.value)} placeholder="Kamarajar Port Diversion" required />
+          </Field>
+          <Field label="Category" required>
+            <Select
+              value={optCategory}
+              onChange={(e) => setOptCategory(e.target.value as DynamicRecoveryOption['category'])}
+            >
+              <option value="Maritime Diversion">Maritime Diversion</option>
+              <option value="Pipeline Transfer">Pipeline Transfer</option>
+              <option value="Spot Tender">Spot Tender</option>
+              <option value="Rail Transport">Rail Transport</option>
+            </Select>
+          </Field>
+          <Field label="Supplier" required>
+            <TextInput value={optSupplier} onChange={(e) => setOptSupplier(e.target.value)} required />
+          </Field>
+          <Field label="Route" required>
+            <TextInput value={optRoute} onChange={(e) => setOptRoute(e.target.value)} required />
+          </Field>
+          <Field label="Destination" required>
+            <TextInput value={optDestination} onChange={(e) => setOptDestination(e.target.value)} required />
+          </Field>
+          <Field label="Transport Mode" required>
+            <Select
+              value={optTransportMode}
+              onChange={(e) => setOptTransportMode(e.target.value as TransportMode)}
+            >
+              <option value="SEA">SEA</option>
+              <option value="PIPELINE">PIPELINE</option>
+              <option value="RAIL">RAIL</option>
+              <option value="ROAD">ROAD</option>
+              <option value="AIR">AIR</option>
+            </Select>
+          </Field>
+          <Field label="Quantity (Barrels)" required>
+            <TextInput
+              type="number"
+              value={optQuantityBarrels}
+              onChange={(e) => setOptQuantityBarrels(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="ETA Delta (Hours)" required>
+            <TextInput
+              type="number"
+              value={optEtaDeltaHours}
+              onChange={(e) => setOptEtaDeltaHours(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Cost (USD)" required>
+            <TextInput
+              type="number"
+              value={optCostUsd}
+              onChange={(e) => setOptCostUsd(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Operational Summary" required>
+            <TextArea
+              value={optOperationalSummary}
+              onChange={(e) => setOptOperationalSummary(e.target.value)}
+              rows={3}
+              required
+            />
+          </Field>
+        </FormModal>
+      )}
     </div>
   );
 };

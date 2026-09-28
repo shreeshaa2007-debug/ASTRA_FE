@@ -37,7 +37,7 @@ export const ComplianceCenterView: React.FC = () => {
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
               Compliance Center & Governance Guardrails
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-xs font-bold font-mono">
+            <span className="px-2.5 py-0.5 rounded-full bg-primary-soft text-accent-strong border border-primary-border text-xs font-bold font-mono">
               Agent 6 Policy Validator
             </span>
           </div>
@@ -49,7 +49,7 @@ export const ComplianceCenterView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setCurrentView('decisions')}
-            className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
           >
             <span>Go to Human Decision Center</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -60,7 +60,7 @@ export const ComplianceCenterView: React.FC = () => {
       {/* Strict Compliance Enforcement Banner */}
       <div className="p-4 bg-slate-900 text-white rounded-2xl border border-slate-800 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="p-2.5 bg-[#154734] text-white rounded-xl flex-shrink-0">
+          <span className="p-2.5 bg-primary text-ink rounded-xl flex-shrink-0">
             <Lock className="w-5 h-5" />
           </span>
           <div className="space-y-1">
@@ -77,7 +77,7 @@ export const ComplianceCenterView: React.FC = () => {
         </div>
 
         <div className="text-right flex-shrink-0">
-          <span className="text-xs font-mono font-bold text-emerald-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 block">
+          <span className="text-xs font-mono font-bold text-success bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 block">
             GRC Audit Status: ACTIVE
           </span>
         </div>
@@ -95,7 +95,7 @@ export const ComplianceCenterView: React.FC = () => {
               key={sc.id}
               className={`p-4 rounded-xl border bg-white shadow-xs space-y-2 ${
                 isCompliant
-                  ? 'border-emerald-200'
+                  ? 'border-success/30'
                   : isRequiresReview
                   ? 'border-amber-200'
                   : 'border-red-200'
@@ -114,7 +114,7 @@ export const ComplianceCenterView: React.FC = () => {
 
               <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-500">
                 {isCompliant ? (
-                  <span className="text-emerald-700 font-medium">
+                  <span className="text-success font-medium">
                     ✓ Pre-audited supplier & approved port terminal.
                   </span>
                 ) : isRequiresReview ? (

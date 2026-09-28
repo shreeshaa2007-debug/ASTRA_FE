@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   LayoutDashboard,
   AlertOctagon,
@@ -16,6 +16,8 @@ import {
   ChevronRight,
   ShieldAlert,
   Droplet,
+  X,
+  Zap,
 } from 'lucide-react';
 import { useOilShield } from '../../context/OilShieldContext';
 import { OilShieldView } from '../../types/oilshield';
@@ -23,6 +25,8 @@ import { OilShieldView } from '../../types/oilshield';
 interface SidebarProps {
   isCollapsed: boolean;
   onToggleCollapse: () => void;
+  isEmergencyModalOpen: boolean;
+  onEmergencyModalOpenChange: (open: boolean) => void;
 }
 
 interface NavItem {
@@ -36,6 +40,8 @@ interface NavItem {
 export const OilShieldSidebar: React.FC<SidebarProps> = ({
   isCollapsed,
   onToggleCollapse,
+  isEmergencyModalOpen,
+  onEmergencyModalOpenChange,
 }) => {
   const {
     currentView,
@@ -45,14 +51,27 @@ export const OilShieldSidebar: React.FC<SidebarProps> = ({
     selectedShipmentId,
     setSelectedShipmentId,
     dynamicRecoveryOptions,
+    triggerAutomation,
   } = useOilShield();
+
+  const [processingShipmentId, setProcessingShipmentId] = useState<string | null>(null);
 
   const pendingApprovalsCount = dynamicRecoveryOptions.filter(
     (o) => o.humanApprovalStatus === 'AWAITING_APPROVAL'
   ).length;
 
-  const emergencyShipment =
-    operationalShipments.find((s) => s.isEmergency) || operationalShipments[0];
+  const emergencyShipments = operationalShipments.filter(
+    (s) => s.isEmergency || s.status === 'EMERGENCY_DISRUPTED'
+  );
+
+  const handleTriggerAutomation = (shipmentId: string) => {
+    setProcessingShipmentId(shipmentId);
+    setTimeout(() => {
+      triggerAutomation(shipmentId);
+      setProcessingShipmentId(null);
+      onEmergencyModalOpenChange(false);
+    }, 1300);
+  };
 
   const navItems: NavItem[] = [
     { id: 'overview', label: 'Overview & Shipments', icon: LayoutDashboard },
@@ -79,23 +98,27 @@ export const OilShieldSidebar: React.FC<SidebarProps> = ({
     >
       {/* Top Header & Brand */}
       <div className="flex flex-col min-h-0">
-        <div className="p-3.5 border-b border-slate-200 flex items-center justify-between">
+        <div
+          className={`px-3.5 border-b border-slate-200 flex items-center ${
+            isCollapsed ? 'min-h-16 py-2.5 flex-col gap-2' : 'h-16 justify-between'
+          }`}
+        >
           <div
             onClick={() => setCurrentView('overview')}
             className="flex items-center gap-2.5 cursor-pointer min-w-0"
-            title="OilShield — AI Supply Chain Control Tower"
+            title="ASTRA — AI Supply Chain Control Tower"
           >
-            <div className="h-9 w-9 rounded-xl bg-[#154734] text-white flex items-center justify-center flex-shrink-0 shadow-sm ring-1 ring-emerald-800/30">
-              <Droplet className="w-5 h-5 fill-white/20" />
+            <div className="h-9 w-9 rounded-xl bg-primary text-ink flex items-center justify-center flex-shrink-0 shadow-sm ring-1 ring-accent/30">
+              <Droplet className="w-5 h-5 fill-ink/20" />
             </div>
 
             {!isCollapsed && (
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="font-extrabold text-slate-900 text-base tracking-tight">
-                    OilShield
+                    ASTRA
                   </span>
-                  <span className="text-[10px] px-1.5 py-0.2 bg-emerald-50 text-emerald-800 font-mono rounded border border-emerald-200/80 font-bold">
+                  <span className="text-[10px] px-1.5 py-0.2 bg-primary-soft text-accent-strong font-mono rounded border border-primary-border font-bold">
                     SAP
                   </span>
                 </div>
@@ -119,28 +142,116 @@ export const OilShieldSidebar: React.FC<SidebarProps> = ({
           </button>
         </div>
 
-        {/* Active Emergency Shipment Capsule in Sidebar */}
-        {!isCollapsed && emergencyShipment && (
-          <div
-            onClick={() => {
-              setSelectedShipmentId(emergencyShipment.id);
-              setCurrentView('overview');
-            }}
-            className="p-3 mx-3 my-2.5 bg-red-50/90 hover:bg-red-100/80 transition-colors rounded-xl border border-red-200 cursor-pointer shadow-xs"
-            title="Click to inspect emergency shipment"
+        {/* Emergency Disruptions button — opens a list of ALL current emergencies, not just one */}
+        {!isCollapsed && emergencyShipments.length > 0 && (
+          <button
+            onClick={() => onEmergencyModalOpenChange(true)}
+            className="p-3 mx-3 my-2.5 bg-red-50/90 hover:bg-red-100/80 transition-colors rounded-xl border border-red-200 text-left shadow-xs"
+            title="View all emergency disruptions"
           >
             <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-red-700 mb-1">
-              <span>Emergency Disruption</span>
-              <span className="text-red-700 flex items-center gap-1 font-mono">
+              <span className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-red-600 radar-ping" />
-                CRITICAL
+                Emergency Disruption{emergencyShipments.length === 1 ? '' : 's'}
               </span>
+              <span className="font-mono">{emergencyShipments.length}</span>
             </div>
-            <div className="text-xs font-bold text-slate-900 truncate">
-              {emergencyShipment.id}: {emergencyShipment.vesselName}
+            {emergencyShipments.length === 1 ? (
+              <>
+                <div className="text-xs font-bold text-slate-900 truncate">
+                  {emergencyShipments[0].id}: {emergencyShipments[0].vesselName}
+                </div>
+                <div className="text-[11px] text-red-700 font-semibold truncate mt-0.5">
+                  {emergencyShipments[0].destination} • +{emergencyShipments[0].delayHours}h Delay
+                </div>
+              </>
+            ) : (
+              <div className="text-xs font-bold text-slate-900">
+                {emergencyShipments.length} shipments need recovery action
+              </div>
+            )}
+            <div className="text-[11px] text-red-700 font-semibold mt-1 flex items-center gap-1">
+              View &amp; trigger automation
+              <ChevronRight className="w-3 h-3" />
             </div>
-            <div className="text-[11px] text-red-700 font-semibold truncate mt-0.5">
-              {emergencyShipment.destination} • +{emergencyShipment.delayHours}h Delay
+          </button>
+        )}
+
+        {/* Emergency Disruptions Modal — lists every emergency, each with its own Trigger Automation action */}
+        {isEmergencyModalOpen && (
+          <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs">
+            <div className="w-full max-w-lg max-h-[80vh] bg-white rounded-2xl shadow-pop border border-slate-200 flex flex-col overflow-hidden">
+              <div className="p-5 border-b border-red-200 bg-red-50 flex items-start justify-between gap-3 flex-shrink-0">
+                <div className="flex items-start gap-2.5">
+                  <span className="p-1.5 bg-red-600 text-white rounded-lg flex-shrink-0 mt-0.5">
+                    <ShieldAlert className="w-4 h-4" />
+                  </span>
+                  <div>
+                    <h3 className="font-bold text-sm text-red-900">Emergency Disruptions</h3>
+                    <p className="text-[11px] text-red-700 mt-0.5">
+                      {emergencyShipments.length} shipment{emergencyShipments.length === 1 ? '' : 's'} require immediate recovery action.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => onEmergencyModalOpenChange(false)}
+                  className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 flex-shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-3 space-y-2 overflow-y-auto">
+                {emergencyShipments.map((s) => {
+                  const isProcessing = processingShipmentId === s.id;
+                  return (
+                    <div key={s.id} className="p-3 bg-red-50/60 border border-red-200 rounded-xl">
+                      <div className="flex items-center justify-between gap-2 text-[10px] font-bold uppercase tracking-wider text-red-700">
+                        <span>{s.id}</span>
+                        <span className="flex items-center gap-1 font-mono">
+                          <span className="h-1.5 w-1.5 rounded-full bg-red-600 radar-ping" />
+                          {s.delayHours > 0 ? `+${s.delayHours}h` : 'CRITICAL'}
+                        </span>
+                      </div>
+                      <div className="text-xs font-bold text-slate-900 mt-0.5">{s.vesselName}</div>
+                      <div className="text-[11px] text-red-700 mt-0.5">
+                        → {s.destination}
+                        {s.disruptionSummary ? ` · ${s.disruptionSummary}` : ''}
+                      </div>
+
+                      <div className="flex items-center gap-2 mt-2.5">
+                        <button
+                          onClick={() => {
+                            setSelectedShipmentId(s.id);
+                            setCurrentView('overview');
+                            onEmergencyModalOpenChange(false);
+                          }}
+                          className="flex-1 py-1.5 bg-white border border-red-200 text-red-700 hover:bg-red-50 rounded-lg text-[11px] font-bold transition-colors"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          disabled={isProcessing}
+                          onClick={() => handleTriggerAutomation(s.id)}
+                          className="flex-1 py-1.5 bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white rounded-lg text-[11px] font-bold transition-colors flex items-center justify-center gap-1.5"
+                        >
+                          {isProcessing ? (
+                            <>
+                              <span className="h-3 w-3 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                              <span>AI Analyzing…</span>
+                            </>
+                          ) : (
+                            <>
+                              <Zap className="w-3.5 h-3.5" />
+                              <span>Trigger Automation</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         )}
@@ -159,14 +270,14 @@ export const OilShieldSidebar: React.FC<SidebarProps> = ({
                   isCollapsed ? 'h-10 justify-center px-0' : 'px-3 py-2.5'
                 } ${
                   isActive
-                    ? 'bg-[#154734] text-white font-bold shadow-sm shadow-emerald-950/20 ring-1 ring-[#154734]'
+                    ? 'bg-primary text-ink font-bold shadow-sm shadow-ink/20 ring-1 ring-primary-strong'
                     : 'text-slate-600 hover:bg-slate-100/80 hover:text-slate-900 font-medium'
                 }`}
                 title={item.label}
               >
                 <Icon
                   className={`w-4 h-4 flex-shrink-0 ${
-                    isActive ? 'text-white' : 'text-slate-400'
+                    isActive ? 'text-ink' : 'text-slate-400'
                   }`}
                 />
 
@@ -178,12 +289,12 @@ export const OilShieldSidebar: React.FC<SidebarProps> = ({
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider ${
                       isActive
-                        ? 'bg-white/20 text-white border border-white/30'
+                        ? 'bg-ink/10 text-ink border border-ink/20'
                         : item.badgeTone === 'danger'
                         ? 'bg-red-100 text-red-700 border border-red-200'
                         : item.badgeTone === 'warning'
                         ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                        : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                        : 'bg-primary-soft text-accent-strong border border-primary-border'
                     }`}
                   >
                     {item.badge}
@@ -209,8 +320,8 @@ export const OilShieldSidebar: React.FC<SidebarProps> = ({
           <div className="space-y-1.5 text-[11px] text-slate-500">
             <div className="flex justify-between items-center">
               <span>Agent Network</span>
-              <span className="font-semibold text-emerald-700 flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600" />
+              <span className="font-semibold text-success flex items-center gap-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-success" />
                 6/6 Active
               </span>
             </div>

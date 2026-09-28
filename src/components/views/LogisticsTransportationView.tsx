@@ -9,13 +9,15 @@ import {
   Clock,
   MapPin,
   ExternalLink,
+  Plus,
 } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, Marker, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useOilShield } from '../../context/OilShieldContext';
-import { TransportMode } from '../../types/oilshield';
+import { TransportMode, LogisticsOption } from '../../types/oilshield';
 import { StatusBadge } from '../common/StatusBadge';
+import { FormModal, Field, TextInput, TextArea, Select } from '../common/FormModal';
 
 // Helper for divIcon
 const createMapMarkerIcon = (color: string, label: string, isAlert = false) =>
@@ -37,10 +39,58 @@ export const LogisticsTransportationView: React.FC = () => {
     operationalShipments,
     selectedShipmentId,
     setSelectedShipmentId,
+    addLogisticsOption,
   } = useOilShield();
 
   const [selectedRouteId, setSelectedRouteId] = useState<string>('LOG-02');
   const [modeFilter, setModeFilter] = useState<string>('ALL');
+
+  // Add Route modal state
+  const [isAddRouteOpen, setIsAddRouteOpen] = useState(false);
+  const [routeName, setRouteName] = useState('');
+  const [routeOrigin, setRouteOrigin] = useState('');
+  const [routeDestination, setRouteDestination] = useState('');
+  const [routeCurrentRoute, setRouteCurrentRoute] = useState('');
+  const [routeAlternativeRoute, setRouteAlternativeRoute] = useState('');
+  const [routeTransportMode, setRouteTransportMode] = useState<TransportMode>('SEA');
+  const [routeEstimatedTravelHours, setRouteEstimatedTravelHours] = useState(0);
+  const [routeTransportCostPerBbl, setRouteTransportCostPerBbl] = useState(0);
+  const [routeAvailableCapacityBarrels, setRouteAvailableCapacityBarrels] = useState(0);
+  const [routeRisk, setRouteRisk] = useState<LogisticsOption['routeRisk']>('LOW');
+  const [routeInfrastructureNotes, setRouteInfrastructureNotes] = useState('');
+
+  const resetAddRouteForm = () => {
+    setRouteName('');
+    setRouteOrigin('');
+    setRouteDestination('');
+    setRouteCurrentRoute('');
+    setRouteAlternativeRoute('');
+    setRouteTransportMode('SEA');
+    setRouteEstimatedTravelHours(0);
+    setRouteTransportCostPerBbl(0);
+    setRouteAvailableCapacityBarrels(0);
+    setRouteRisk('LOW');
+    setRouteInfrastructureNotes('');
+  };
+
+  const handleAddRouteSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addLogisticsOption({
+      name: routeName,
+      origin: routeOrigin,
+      destination: routeDestination,
+      currentRoute: routeCurrentRoute,
+      alternativeRoute: routeAlternativeRoute,
+      transportMode: routeTransportMode,
+      estimatedTravelHours: routeEstimatedTravelHours,
+      transportCostPerBbl: routeTransportCostPerBbl,
+      availableCapacityBarrels: routeAvailableCapacityBarrels,
+      routeRisk,
+      infrastructureNotes: routeInfrastructureNotes,
+    });
+    resetAddRouteForm();
+    setIsAddRouteOpen(false);
+  };
 
   const selectedRoute = logistics.find((r) => r.id === selectedRouteId) || logistics[0];
 
@@ -123,7 +173,7 @@ export const LogisticsTransportationView: React.FC = () => {
           <select
             value={selectedShipmentId}
             onChange={(e) => setSelectedShipmentId(e.target.value)}
-            className="bg-white border border-slate-300 text-xs font-bold rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-hidden focus:border-[#154734] focus:ring-2 focus:ring-[#154734]/15 shadow-xs"
+            className="bg-white border border-slate-300 text-xs font-bold rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-hidden focus:border-accent focus:ring-2 focus:ring-accent/15 shadow-xs"
           >
             {operationalShipments.map((s) => (
               <option key={s.id} value={s.id}>
@@ -133,8 +183,16 @@ export const LogisticsTransportationView: React.FC = () => {
           </select>
 
           <button
+            onClick={() => setIsAddRouteOpen(true)}
+            className="px-3 py-1.5 bg-primary hover:bg-primary-strong text-ink rounded-lg text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5 ml-2"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Route</span>
+          </button>
+
+          <button
             onClick={() => setCurrentView('scenarios')}
-            className="px-3 py-1.5 bg-[#154734] hover:bg-[#1b5941] text-white rounded-lg text-xs font-bold transition-colors shadow-xs flex items-center gap-1 ml-2"
+            className="px-3 py-1.5 bg-primary hover:bg-primary-strong text-ink rounded-lg text-xs font-bold transition-colors shadow-xs flex items-center gap-1 ml-2"
           >
             <span>Recovery Options</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -145,7 +203,7 @@ export const LogisticsTransportationView: React.FC = () => {
       {/* Selected Shipment Operational Callout */}
       <div className="p-3.5 bg-white border border-slate-200 rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-xs">
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-lg bg-emerald-50 text-[#154734] border border-emerald-200/80 flex items-center justify-center flex-shrink-0">
+          <div className="h-9 w-9 rounded-lg bg-primary-soft text-accent border border-primary-border flex items-center justify-center flex-shrink-0">
             <Ship className="w-5 h-5" />
           </div>
           <div>
@@ -185,7 +243,7 @@ export const LogisticsTransportationView: React.FC = () => {
               <span className="w-2.5 h-2.5 rounded-full bg-red-500" /> Disrupted Passage
             </span>
             <span className="flex items-center gap-1.5 text-slate-600 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Recommended Diversion (Ennore)
+              <span className="w-2.5 h-2.5 rounded-full bg-success" /> Recommended Diversion (Ennore)
             </span>
             <span className="flex items-center gap-1.5 text-slate-600 text-[11px]">
               <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> Pipeline Corridor (Kochi)
@@ -198,8 +256,8 @@ export const LogisticsTransportationView: React.FC = () => {
           </div>
         </div>
 
-        {/* Leaflet Map Canvas */}
-        <div className="w-full relative" style={{ height: '360px' }}>
+        {/* Leaflet Map Canvas — isolate so its internal panes/controls (z-index up to 1000) never stack above page overlays like modals */}
+        <div className="w-full relative isolate" style={{ height: '360px' }}>
           <MapContainer
             center={[16.0, 68.0]}
             zoom={4}
@@ -327,13 +385,13 @@ export const LogisticsTransportationView: React.FC = () => {
                     key={route.id}
                     onClick={() => setSelectedRouteId(route.id)}
                     className={`hover:bg-slate-50 transition-colors cursor-pointer ${
-                      isSelected ? 'bg-emerald-50/50 ring-1 ring-[#154734] ring-inset' : ''
+                      isSelected ? 'bg-primary-soft/50 ring-1 ring-accent ring-inset' : ''
                     } ${isDisrupted ? 'bg-red-50/30' : ''}`}
                   >
                     <td className="py-2.5 px-3 font-bold text-slate-900">
                       <div className="flex items-center gap-1.5">
                         {isAlternative && (
-                          <span className="px-1.5 py-0.2 rounded bg-emerald-600 text-white font-mono text-[9px] font-bold">
+                          <span className="px-1.5 py-0.2 rounded bg-success text-white font-mono text-[9px] font-bold">
                             REC
                           </span>
                         )}
@@ -353,7 +411,7 @@ export const LogisticsTransportationView: React.FC = () => {
                     </td>
 
                     <td className="py-2.5 px-3 font-mono font-bold">
-                      <span className={isDisrupted ? 'text-red-600' : 'text-emerald-700'}>
+                      <span className={isDisrupted ? 'text-red-600' : 'text-success'}>
                         +{route.estimatedTravelHours}h
                       </span>
                     </td>
@@ -383,6 +441,90 @@ export const LogisticsTransportationView: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* Add Route Modal */}
+      {isAddRouteOpen && (
+        <FormModal
+          title="Add Route"
+          subtitle="Register a new logistics/transport route option."
+          onClose={() => {
+            resetAddRouteForm();
+            setIsAddRouteOpen(false);
+          }}
+          onSubmit={handleAddRouteSubmit}
+          submitLabel="Add Route"
+        >
+          <Field label="Name" required>
+            <TextInput value={routeName} onChange={(e) => setRouteName(e.target.value)} placeholder="Kamarajar Port Diversion" required />
+          </Field>
+          <Field label="Origin" required>
+            <TextInput value={routeOrigin} onChange={(e) => setRouteOrigin(e.target.value)} required />
+          </Field>
+          <Field label="Destination" required>
+            <TextInput value={routeDestination} onChange={(e) => setRouteDestination(e.target.value)} required />
+          </Field>
+          <Field label="Current Route" required>
+            <TextInput value={routeCurrentRoute} onChange={(e) => setRouteCurrentRoute(e.target.value)} required />
+          </Field>
+          <Field label="Alternative Route" required>
+            <TextInput value={routeAlternativeRoute} onChange={(e) => setRouteAlternativeRoute(e.target.value)} required />
+          </Field>
+          <Field label="Transport Mode" required>
+            <Select
+              value={routeTransportMode}
+              onChange={(e) => setRouteTransportMode(e.target.value as TransportMode)}
+            >
+              <option value="SEA">SEA</option>
+              <option value="PIPELINE">PIPELINE</option>
+              <option value="RAIL">RAIL</option>
+              <option value="ROAD">ROAD</option>
+              <option value="AIR">AIR</option>
+            </Select>
+          </Field>
+          <Field label="Estimated Travel Hours" required>
+            <TextInput
+              type="number"
+              value={routeEstimatedTravelHours}
+              onChange={(e) => setRouteEstimatedTravelHours(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Transport Cost ($/bbl)" required>
+            <TextInput
+              type="number"
+              value={routeTransportCostPerBbl}
+              onChange={(e) => setRouteTransportCostPerBbl(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Available Capacity (Barrels)" required>
+            <TextInput
+              type="number"
+              value={routeAvailableCapacityBarrels}
+              onChange={(e) => setRouteAvailableCapacityBarrels(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Route Risk" required>
+            <Select
+              value={routeRisk}
+              onChange={(e) => setRouteRisk(e.target.value as LogisticsOption['routeRisk'])}
+            >
+              <option value="LOW">LOW</option>
+              <option value="MEDIUM">MEDIUM</option>
+              <option value="HIGH">HIGH</option>
+            </Select>
+          </Field>
+          <Field label="Infrastructure Notes" required>
+            <TextArea
+              value={routeInfrastructureNotes}
+              onChange={(e) => setRouteInfrastructureNotes(e.target.value)}
+              rows={3}
+              required
+            />
+          </Field>
+        </FormModal>
+      )}
     </div>
   );
 };
