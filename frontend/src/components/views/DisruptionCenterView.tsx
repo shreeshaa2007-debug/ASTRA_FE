@@ -88,7 +88,7 @@ export const DisruptionCenterView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setCurrentView('agents')}
-            className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
           >
             <span>Trigger Agent Impact Analysis</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -106,7 +106,7 @@ export const DisruptionCenterView: React.FC = () => {
               onClick={() => setSelectedIncidentId(inc.id)}
               className={`p-4 rounded-xl border transition-all cursor-pointer ${
                 isSelected
-                  ? 'bg-white border-[#154734] shadow-md ring-2 ring-[#154734]/20'
+                  ? 'bg-white border-accent shadow-md ring-2 ring-accent/20'
                   : 'bg-white/80 border-slate-200 hover:bg-white hover:border-slate-300'
               }`}
             >
@@ -200,13 +200,13 @@ export const DisruptionCenterView: React.FC = () => {
 
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
             <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
-              <Activity className="w-4 h-4 text-emerald-600" />
+              <Activity className="w-4 h-4 text-accent" />
               <span>Supply Exposure Impact</span>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
               18,000 barrels total crude delayed. Downstream Chennai CPCL Refinery will hit minimum operating threshold in 26.4 hours, triggering an un-scheduled CDU shutdown costing ~$420,000.
             </p>
-            <div className="pt-2 text-[11px] font-mono text-[#154734] font-semibold">
+            <div className="pt-2 text-[11px] font-mono text-accent font-semibold">
               Refinery Throttle Countdown: 26.4 hrs
             </div>
           </div>
@@ -216,7 +216,7 @@ export const DisruptionCenterView: React.FC = () => {
         <div className="space-y-3 pt-2">
           <div className="flex items-center justify-between">
             <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-              <Ship className="w-4 h-4 text-[#154734]" />
+              <Ship className="w-4 h-4 text-accent" />
               <span>Affected Shipments in Chennai Maritime Cluster</span>
             </h3>
             <span className="text-xs text-slate-500">3 Vessels Directly Impacted</span>

@@ -1155,7 +1155,7 @@ export const INITIAL_AUDIT_LOG: AuditEvent[] = [
     timeFormatted: '14:39:15',
     event: 'Human Review Requested in Decision Center',
     actorType: 'SYSTEM_MONITOR',
-    actorName: 'OilShield Orchestrator',
+    actorName: 'ASTRA Orchestrator',
     actorRole: 'Enterprise Human-in-the-Loop Gateway',
     incidentId: 'OIL-1042',
     status: 'TRIGGERED',

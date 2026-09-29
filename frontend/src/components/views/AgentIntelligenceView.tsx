@@ -48,7 +48,7 @@ export const AgentIntelligenceView: React.FC = () => {
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
               Agent Intelligence Command
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-xs font-bold font-mono">
+            <span className="px-2.5 py-0.5 rounded-full bg-primary-soft text-accent-strong border border-primary-border text-xs font-bold font-mono">
               6 Specialized AI Agents
             </span>
           </div>
@@ -60,7 +60,7 @@ export const AgentIntelligenceView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setCurrentView('decisions')}
-            className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
           >
             <span>Go to Human Decision Center</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -73,14 +73,14 @@ export const AgentIntelligenceView: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
             <h2 className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <Share2 className="w-4 h-4 text-[#154734]" />
+              <Share2 className="w-4 h-4 text-accent" />
               <span>Multi-Agent Recovery Workflow Architecture</span>
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
               Strict acyclic coordination protocol: Disruption Sensing → Impact Topology → Parallel Domain Specialists → Recovery Synthesis → Compliance Gate → Human Authority.
             </p>
           </div>
-          <div className="text-xs font-mono text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+          <div className="text-xs font-mono text-success bg-success-soft px-2.5 py-1 rounded-md border border-success/30">
             Pipeline Latency: 2,852ms
           </div>
         </div>
@@ -103,63 +103,63 @@ export const AgentIntelligenceView: React.FC = () => {
               onClick={() => setSelectedAgentId('agent-1')}
               className={`p-3 rounded-xl border text-center flex flex-col justify-between space-y-1 cursor-pointer transition-all ${
                 selectedAgentId === 'agent-1'
-                  ? 'bg-[#154734] text-white border-[#154734] shadow-md ring-2 ring-[#154734]/30'
+                  ? 'bg-primary text-ink border-accent shadow-md ring-2 ring-accent/30'
                   : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className={`text-[9px] font-bold uppercase font-mono ${selectedAgentId === 'agent-1' ? 'text-emerald-200' : 'text-[#154734]'}`}>Agent 1</span>
-                <span className={`h-1.5 w-1.5 rounded-full ${selectedAgentId === 'agent-1' ? 'bg-white' : 'bg-emerald-500'}`} />
+                <span className={`text-[9px] font-bold uppercase font-mono ${selectedAgentId === 'agent-1' ? 'text-ink/70' : 'text-accent'}`}>Agent 1</span>
+                <span className={`h-1.5 w-1.5 rounded-full ${selectedAgentId === 'agent-1' ? 'bg-ink' : 'bg-success'}`} />
               </div>
               <div>
                 <div className="text-xs font-bold truncate">Impact Agent</div>
-                <div className={`text-[10px] truncate ${selectedAgentId === 'agent-1' ? 'text-emerald-100' : 'text-slate-500'}`}>18,000 bbl exp.</div>
+                <div className={`text-[10px] truncate ${selectedAgentId === 'agent-1' ? 'text-ink/70' : 'text-slate-500'}`}>18,000 bbl exp.</div>
               </div>
-              <div className={`text-[9px] font-mono pt-1 border-t ${selectedAgentId === 'agent-1' ? 'border-emerald-700 text-emerald-200' : 'border-slate-200 text-slate-400'}`}>14:33:12 UTC</div>
+              <div className={`text-[9px] font-mono pt-1 border-t ${selectedAgentId === 'agent-1' ? 'border-ink/15 text-ink/60' : 'border-slate-200 text-slate-400'}`}>14:33:12 UTC</div>
             </div>
 
             {/* Step 3: Parallel Domain Specialists (Agents 2, 3, 4) */}
             <div className="lg:col-span-2 p-2 bg-slate-100/90 rounded-xl border border-dashed border-slate-300 flex flex-col justify-between space-y-1">
               <div className="flex items-center justify-between px-1">
                 <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Stage 3: Parallel Specialists</span>
-                <span className="text-[9px] text-emerald-600 font-mono font-bold">3 Agents</span>
+                <span className="text-[9px] text-accent font-mono font-bold">3 Agents</span>
               </div>
               <div className="grid grid-cols-3 gap-1">
                 <button
                   onClick={() => setSelectedAgentId('agent-2')}
                   className={`p-1.5 rounded-lg text-center border transition-all ${
                     selectedAgentId === 'agent-2'
-                      ? 'bg-[#154734] text-white border-[#154734] shadow-xs'
-                      : 'bg-white hover:bg-emerald-50/50 text-slate-800 border-slate-200'
+                      ? 'bg-primary text-ink border-accent shadow-xs'
+                      : 'bg-white hover:bg-primary-soft/50 text-slate-800 border-slate-200'
                   }`}
                   title="Supplier Agent: Evaluates alternative approved crude sources"
                 >
                   <div className="text-[10px] font-bold">Supplier</div>
-                  <div className={`text-[9px] ${selectedAgentId === 'agent-2' ? 'text-emerald-100' : 'text-slate-400'}`}>Agent 2</div>
+                  <div className={`text-[9px] ${selectedAgentId === 'agent-2' ? 'text-ink/70' : 'text-slate-400'}`}>Agent 2</div>
                 </button>
                 <button
                   onClick={() => setSelectedAgentId('agent-3')}
                   className={`p-1.5 rounded-lg text-center border transition-all ${
                     selectedAgentId === 'agent-3'
-                      ? 'bg-[#154734] text-white border-[#154734] shadow-xs'
-                      : 'bg-white hover:bg-emerald-50/50 text-slate-800 border-slate-200'
+                      ? 'bg-primary text-ink border-accent shadow-xs'
+                      : 'bg-white hover:bg-primary-soft/50 text-slate-800 border-slate-200'
                   }`}
                   title="Logistics Agent: Evaluates Ennore diversion & pipeline routing"
                 >
                   <div className="text-[10px] font-bold">Logistics</div>
-                  <div className={`text-[9px] ${selectedAgentId === 'agent-3' ? 'text-emerald-100' : 'text-slate-400'}`}>Agent 3</div>
+                  <div className={`text-[9px] ${selectedAgentId === 'agent-3' ? 'text-ink/70' : 'text-slate-400'}`}>Agent 3</div>
                 </button>
                 <button
                   onClick={() => setSelectedAgentId('agent-4')}
                   className={`p-1.5 rounded-lg text-center border transition-all ${
                     selectedAgentId === 'agent-4'
-                      ? 'bg-[#154734] text-white border-[#154734] shadow-xs'
-                      : 'bg-white hover:bg-emerald-50/50 text-slate-800 border-slate-200'
+                      ? 'bg-primary text-ink border-accent shadow-xs'
+                      : 'bg-white hover:bg-primary-soft/50 text-slate-800 border-slate-200'
                   }`}
                   title="Inventory Agent: Calculates facility buffers & transfer feasibility"
                 >
                   <div className="text-[10px] font-bold">Inventory</div>
-                  <div className={`text-[9px] ${selectedAgentId === 'agent-4' ? 'text-emerald-100' : 'text-slate-400'}`}>Agent 4</div>
+                  <div className={`text-[9px] ${selectedAgentId === 'agent-4' ? 'text-ink/70' : 'text-slate-400'}`}>Agent 4</div>
                 </button>
               </div>
               <div className="text-[9px] text-center text-slate-400 font-mono">14:34:05 - 14:36:22 UTC</div>
@@ -170,19 +170,19 @@ export const AgentIntelligenceView: React.FC = () => {
               onClick={() => setSelectedAgentId('agent-5')}
               className={`p-3 rounded-xl border text-center flex flex-col justify-between space-y-1 cursor-pointer transition-all ${
                 selectedAgentId === 'agent-5'
-                  ? 'bg-[#154734] text-white border-[#154734] shadow-md ring-2 ring-emerald-200'
+                  ? 'bg-primary text-ink border-accent shadow-md ring-2 ring-accent/20'
                   : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className={`text-[9px] font-bold uppercase font-mono ${selectedAgentId === 'agent-5' ? 'text-emerald-200' : 'text-[#154734]'}`}>Agent 5</span>
-                <span className={`h-1.5 w-1.5 rounded-full ${selectedAgentId === 'agent-5' ? 'bg-white' : 'bg-emerald-500'}`} />
+                <span className={`text-[9px] font-bold uppercase font-mono ${selectedAgentId === 'agent-5' ? 'text-ink/70' : 'text-accent'}`}>Agent 5</span>
+                <span className={`h-1.5 w-1.5 rounded-full ${selectedAgentId === 'agent-5' ? 'bg-ink' : 'bg-success'}`} />
               </div>
               <div>
                 <div className="text-xs font-bold truncate">Scenario Agent</div>
-                <div className={`text-[10px] truncate ${selectedAgentId === 'agent-5' ? 'text-emerald-100' : 'text-slate-500'}`}>4 Strategies</div>
+                <div className={`text-[10px] truncate ${selectedAgentId === 'agent-5' ? 'text-ink/70' : 'text-slate-500'}`}>4 Strategies</div>
               </div>
-              <div className={`text-[9px] font-mono pt-1 border-t ${selectedAgentId === 'agent-5' ? 'border-[#1b5941] text-emerald-200' : 'border-slate-200 text-slate-400'}`}>14:37:45 UTC</div>
+              <div className={`text-[9px] font-mono pt-1 border-t ${selectedAgentId === 'agent-5' ? 'border-accent/30 text-ink/70' : 'border-slate-200 text-slate-400'}`}>14:37:45 UTC</div>
             </div>
 
             {/* Step 5: Agent 6 - Compliance Agent */}
@@ -190,32 +190,32 @@ export const AgentIntelligenceView: React.FC = () => {
               onClick={() => setSelectedAgentId('agent-6')}
               className={`p-3 rounded-xl border text-center flex flex-col justify-between space-y-1 cursor-pointer transition-all ${
                 selectedAgentId === 'agent-6'
-                  ? 'bg-[#154734] text-white border-[#154734] shadow-md ring-2 ring-emerald-200'
+                  ? 'bg-primary text-ink border-accent shadow-md ring-2 ring-accent/20'
                   : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200'
               }`}
             >
               <div className="flex items-center justify-between">
-                <span className={`text-[9px] font-bold uppercase font-mono ${selectedAgentId === 'agent-6' ? 'text-emerald-200' : 'text-[#154734]'}`}>Agent 6</span>
-                <span className={`h-1.5 w-1.5 rounded-full ${selectedAgentId === 'agent-6' ? 'bg-white' : 'bg-emerald-500'}`} />
+                <span className={`text-[9px] font-bold uppercase font-mono ${selectedAgentId === 'agent-6' ? 'text-ink/70' : 'text-accent'}`}>Agent 6</span>
+                <span className={`h-1.5 w-1.5 rounded-full ${selectedAgentId === 'agent-6' ? 'bg-ink' : 'bg-success'}`} />
               </div>
               <div>
                 <div className="text-xs font-bold truncate">Compliance Agent</div>
-                <div className={`text-[10px] truncate ${selectedAgentId === 'agent-6' ? 'text-emerald-100' : 'text-slate-500'}`}>GRC Gatekeeper</div>
+                <div className={`text-[10px] truncate ${selectedAgentId === 'agent-6' ? 'text-ink/70' : 'text-slate-500'}`}>GRC Gatekeeper</div>
               </div>
-              <div className={`text-[9px] font-mono pt-1 border-t ${selectedAgentId === 'agent-6' ? 'border-[#1b5941] text-emerald-200' : 'border-slate-200 text-slate-400'}`}>14:38:50 UTC</div>
+              <div className={`text-[9px] font-mono pt-1 border-t ${selectedAgentId === 'agent-6' ? 'border-accent/30 text-ink/70' : 'border-slate-200 text-slate-400'}`}>14:38:50 UTC</div>
             </div>
 
             {/* Step 6: Human Decision Center */}
             <div
               onClick={() => setCurrentView('decisions')}
-              className="p-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 rounded-xl text-center flex flex-col justify-between space-y-1 cursor-pointer transition-all ring-1 ring-emerald-200"
+              className="p-3 bg-primary-soft hover:bg-primary-border/30 border border-primary-border rounded-xl text-center flex flex-col justify-between space-y-1 cursor-pointer transition-all ring-1 ring-primary-border/50"
             >
-              <span className="text-[9px] font-bold text-emerald-700 uppercase font-mono">Stage 6</span>
+              <span className="text-[9px] font-bold text-accent-strong uppercase font-mono">Stage 6</span>
               <div>
-                <div className="text-xs font-bold text-emerald-950">Human Decision</div>
-                <div className="text-[10px] text-emerald-700 font-semibold">Review & Sign-Off</div>
+                <div className="text-xs font-bold text-accent-strong">Human Decision</div>
+                <div className="text-[10px] text-accent-strong font-semibold">Review & Sign-Off</div>
               </div>
-              <div className="text-[9px] text-emerald-600 font-mono pt-1 border-t border-emerald-200">Awaiting Human</div>
+              <div className="text-[9px] text-accent font-mono pt-1 border-t border-primary-border">Awaiting Human</div>
             </div>
 
             {/* Step 7 & 8: Approved Action & Execution Monitoring */}
@@ -233,11 +233,11 @@ export const AgentIntelligenceView: React.FC = () => {
           <div className="p-4 bg-slate-900 text-slate-200 rounded-xl border border-slate-800 space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Code className="w-4 h-4 text-emerald-400" />
+                <Code className="w-4 h-4 text-primary" />
                 <span className="text-xs font-bold text-white uppercase tracking-wider font-mono">
                   Structured Information Exchange Schema (Cross-Agent Contract)
                 </span>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-300 font-mono border border-emerald-700">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-primary/10 text-primary font-mono border border-primary/30">
                   JSON REST API
                 </span>
               </div>
@@ -246,7 +246,7 @@ export const AgentIntelligenceView: React.FC = () => {
               </span>
             </div>
 
-            <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-[11px] font-mono text-emerald-400 overflow-x-auto">
+            <div className="bg-slate-950 p-3 rounded-lg border border-slate-800 text-[11px] font-mono text-primary overflow-x-auto">
               <pre>{`{
   "incident_id": "${selectedIncident.id}",
   "affected_location": "${selectedIncident.location}",
@@ -273,7 +273,7 @@ export const AgentIntelligenceView: React.FC = () => {
               key={agent.id}
               className={`bg-white rounded-2xl border transition-all duration-200 p-5 flex flex-col justify-between shadow-xs ${
                 isSelected
-                  ? 'border-[#154734] shadow-md ring-2 ring-[#154734]/20'
+                  ? 'border-accent shadow-md ring-2 ring-accent/20'
                   : 'border-slate-200 hover:border-slate-300'
               }`}
             >
@@ -281,7 +281,7 @@ export const AgentIntelligenceView: React.FC = () => {
                 {/* Agent Header */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-2.5">
-                    <div className="p-2.5 rounded-xl bg-emerald-50 text-[#154734] border border-emerald-100">
+                    <div className="p-2.5 rounded-xl bg-primary-soft text-accent border border-primary-border">
                       <Icon className="w-5 h-5" />
                     </div>
                     <div>
@@ -298,7 +298,7 @@ export const AgentIntelligenceView: React.FC = () => {
                   </div>
 
                   <div className="text-right">
-                    <span className="text-[10px] font-mono text-emerald-600 font-bold block">
+                    <span className="text-[10px] font-mono text-success font-bold block">
                       {agent.confidenceScore}% conf
                     </span>
                     <span className="text-[10px] font-mono text-slate-400">
@@ -313,9 +313,9 @@ export const AgentIntelligenceView: React.FC = () => {
                 </p>
 
                 {/* Latest Finding Callout */}
-                <div className="p-3 rounded-xl bg-emerald-50/60 border border-emerald-100 text-xs text-emerald-950 space-y-1">
-                  <div className="font-bold flex items-center gap-1 text-[11px] text-emerald-800 uppercase tracking-wider">
-                    <Zap className="w-3 h-3 text-[#154734]" />
+                <div className="p-3 rounded-xl bg-primary-soft/60 border border-primary-border text-xs text-accent-strong space-y-1">
+                  <div className="font-bold flex items-center gap-1 text-[11px] text-accent-strong uppercase tracking-wider">
+                    <Zap className="w-3 h-3 text-accent" />
                     <span>Key Agent Finding</span>
                   </div>
                   <p className="leading-relaxed font-medium">
@@ -343,7 +343,7 @@ export const AgentIntelligenceView: React.FC = () => {
                   </button>
 
                   {isJsonExpanded && (
-                    <div className="mt-2 p-3 bg-slate-900 text-emerald-400 rounded-xl font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800">
+                    <div className="mt-2 p-3 bg-slate-900 text-primary rounded-xl font-mono text-[11px] overflow-x-auto max-h-48 border border-slate-800">
                       <pre>{JSON.stringify(agent.structuredOutput, null, 2)}</pre>
                     </div>
                   )}
@@ -362,7 +362,7 @@ export const AgentIntelligenceView: React.FC = () => {
                     if (agent.id === 'agent-5') setCurrentView('scenarios');
                     if (agent.id === 'agent-6') setCurrentView('compliance');
                   }}
-                  className="font-bold text-[#154734] hover:text-[#0e3325] flex items-center gap-1"
+                  className="font-bold text-accent hover:text-accent-strong flex items-center gap-1"
                 >
                   <span>Open Deep Dive</span>
                   <ArrowRight className="w-3 h-3" />
@@ -451,15 +451,15 @@ export const AgentIntelligenceView: React.FC = () => {
           </div>
 
           {/* Example Finding Callout */}
-          <div className="p-3.5 bg-emerald-50/70 border border-emerald-200 rounded-xl text-xs text-emerald-950 flex items-start gap-3">
-            <span className="p-1.5 bg-[#154734] text-white rounded-lg flex-shrink-0">
+          <div className="p-3.5 bg-primary-soft/70 border border-primary-border rounded-xl text-xs text-accent-strong flex items-start gap-3">
+            <span className="p-1.5 bg-primary text-ink rounded-lg flex-shrink-0">
               <Zap className="w-3.5 h-3.5" />
             </span>
             <div>
-              <div className="font-bold text-[#154734]">
+              <div className="font-bold text-accent">
                 Agent 1 Certified Impact Assessment Finding:
               </div>
-              <p className="mt-0.5 text-emerald-950 font-medium">
+              <p className="mt-0.5 text-accent-strong font-medium">
                 "Port congestion at Chennai Port is affecting 3 shipments and exposing approximately 18,000 barrels of supply."
               </p>
             </div>
@@ -512,7 +512,7 @@ export const AgentIntelligenceView: React.FC = () => {
               </span>
               <button
                 onClick={() => setCurrentView('logistics')}
-                className="text-xs font-bold text-[#154734] hover:text-[#0e3325] whitespace-nowrap ml-3"
+                className="text-xs font-bold text-accent hover:text-accent-strong whitespace-nowrap ml-3"
               >
                 Inspect Logistics Routes →
               </button>

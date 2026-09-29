@@ -13,16 +13,38 @@ import {
   Hash,
   Search,
   FileSpreadsheet,
+  Plus,
 } from 'lucide-react';
 import { useOilShield } from '../../context/OilShieldContext';
 import { AuditEvent } from '../../types/oilshield';
 import { StatusBadge } from '../common/StatusBadge';
+import { FormModal, Field, TextInput, TextArea } from '../common/FormModal';
 
 export const AuditTrailView: React.FC = () => {
-  const { auditLogs, setCurrentView, selectedIncident } = useOilShield();
+  const { auditLogs, setCurrentView, selectedIncident, addManualAuditEntry } = useOilShield();
 
   const [actorFilter, setActorFilter] = useState<'ALL' | 'AI_AGENT' | 'HUMAN_OPERATOR' | 'SYSTEM_MONITOR'>('ALL');
   const [searchTerm, setSearchTerm] = useState<string>('');
+
+  // Log Entry modal state
+  const [isLogEntryOpen, setIsLogEntryOpen] = useState(false);
+  const [entryEvent, setEntryEvent] = useState('');
+  const [entryDetails, setEntryDetails] = useState('');
+
+  const resetLogEntryForm = () => {
+    setEntryEvent('');
+    setEntryDetails('');
+  };
+
+  const handleLogEntrySubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addManualAuditEntry({
+      event: entryEvent,
+      details: entryDetails,
+    });
+    resetLogEntryForm();
+    setIsLogEntryOpen(false);
+  };
 
   const filteredLogs = auditLogs.filter((log) => {
     const matchesActor = actorFilter === 'ALL' || log.actorType === actorFilter;
@@ -68,7 +90,7 @@ export const AuditTrailView: React.FC = () => {
             <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
               Audit Trail
             </h1>
-            <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-xs font-bold font-mono">
+            <span className="px-2 py-0.5 rounded-md bg-primary-soft text-accent-strong border border-primary-border text-xs font-bold font-mono">
               Immutable Records
             </span>
           </div>
@@ -79,6 +101,13 @@ export const AuditTrailView: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setIsLogEntryOpen(true)}
+            className="px-3.5 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Log Entry</span>
+          </button>
+          <button
             onClick={handleExportCsv}
             className="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
           >
@@ -87,7 +116,7 @@ export const AuditTrailView: React.FC = () => {
           </button>
           <button
             onClick={() => setCurrentView('decisions')}
-            className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
           >
             <span>Decision Center</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -104,7 +133,7 @@ export const AuditTrailView: React.FC = () => {
             placeholder="Search events, actors, hashes, or decision notes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-8 px-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:border-[#154734] focus:ring-1 focus:ring-[#154734]/20"
+            className="w-full h-8 px-2 bg-slate-50 border border-slate-200 rounded-lg text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/20"
           />
         </div>
 
@@ -144,9 +173,9 @@ export const AuditTrailView: React.FC = () => {
                 <div
                   className={`absolute -left-6 sm:-left-8 top-1 w-5 h-5 rounded-full flex items-center justify-center ring-4 ring-white ${
                     isHuman
-                      ? 'bg-emerald-600 text-white'
+                      ? 'bg-success text-white'
                       : isAi
-                      ? 'bg-[#154734] text-white'
+                      ? 'bg-primary text-ink'
                       : 'bg-slate-700 text-white'
                   }`}
                 >
@@ -163,7 +192,7 @@ export const AuditTrailView: React.FC = () => {
                 <div
                   className={`p-4 rounded-xl border transition-all ${
                     isHuman
-                      ? 'bg-emerald-50/60 border-emerald-300 shadow-xs'
+                      ? 'bg-success-soft/60 border-success/40 shadow-xs'
                       : 'bg-slate-50 border-slate-200 hover:bg-slate-50/80'
                   }`}
                 >
@@ -175,7 +204,7 @@ export const AuditTrailView: React.FC = () => {
                       <span
                         className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
                           isHuman
-                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                            ? 'bg-success-soft text-success border border-success/30'
                             : isAi
                             ? 'bg-slate-100 text-slate-800 border border-slate-200'
                             : 'bg-slate-200 text-slate-700'
@@ -209,7 +238,7 @@ export const AuditTrailView: React.FC = () => {
                       <Hash className="w-3 h-3 text-slate-400" />
                       <span>Hash: {log.verificationHash}</span>
                     </span>
-                    <span className="text-emerald-700 font-semibold flex items-center gap-1">
+                    <span className="text-success font-semibold flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" />
                       Immutable Verified
                     </span>
@@ -220,6 +249,37 @@ export const AuditTrailView: React.FC = () => {
           })}
         </div>
       </div>
+
+      {/* Log Entry Modal */}
+      {isLogEntryOpen && (
+        <FormModal
+          title="Log Entry"
+          subtitle="Append a free-text manual audit entry, e.g. a phone call or external coordination note."
+          onClose={() => {
+            resetLogEntryForm();
+            setIsLogEntryOpen(false);
+          }}
+          onSubmit={handleLogEntrySubmit}
+          submitLabel="Log Entry"
+        >
+          <Field label="Event" required>
+            <TextInput
+              value={entryEvent}
+              onChange={(e) => setEntryEvent(e.target.value)}
+              placeholder="Coordination Call with Port Authority"
+              required
+            />
+          </Field>
+          <Field label="Details" required>
+            <TextArea
+              value={entryDetails}
+              onChange={(e) => setEntryDetails(e.target.value)}
+              rows={4}
+              required
+            />
+          </Field>
+        </FormModal>
+      )}
     </div>
   );
 };

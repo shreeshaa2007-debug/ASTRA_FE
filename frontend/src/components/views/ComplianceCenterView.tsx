@@ -17,7 +17,7 @@ import { ComplianceCheckRule, ScenarioCompliance } from '../../types/oilshield';
 import { StatusBadge } from '../common/StatusBadge';
 
 export const ComplianceCenterView: React.FC = () => {
-  const { complianceRules, complianceRationale, scenarios, setCurrentView, selectedIncident } = useOilShield();
+  const { complianceRules, scenarios, setCurrentView, selectedIncident } = useOilShield();
 
   const [categoryFilter, setCategoryFilter] = useState<string>('ALL');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
@@ -37,7 +37,7 @@ export const ComplianceCenterView: React.FC = () => {
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
               Compliance Center & Governance Guardrails
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-xs font-bold font-mono">
+            <span className="px-2.5 py-0.5 rounded-full bg-primary-soft text-accent-strong border border-primary-border text-xs font-bold font-mono">
               Agent 6 Policy Validator
             </span>
           </div>
@@ -49,7 +49,7 @@ export const ComplianceCenterView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setCurrentView('decisions')}
-            className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-2"
           >
             <span>Go to Human Decision Center</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -60,7 +60,7 @@ export const ComplianceCenterView: React.FC = () => {
       {/* Strict Compliance Enforcement Banner */}
       <div className="p-4 bg-slate-900 text-white rounded-2xl border border-slate-800 shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="p-2.5 bg-[#154734] text-white rounded-xl flex-shrink-0">
+          <span className="p-2.5 bg-primary text-ink rounded-xl flex-shrink-0">
             <Lock className="w-5 h-5" />
           </span>
           <div className="space-y-1">
@@ -77,30 +77,11 @@ export const ComplianceCenterView: React.FC = () => {
         </div>
 
         <div className="text-right flex-shrink-0">
-          <span className="text-xs font-mono font-bold text-emerald-400 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 block">
+          <span className="text-xs font-mono font-bold text-success bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 block">
             GRC Audit Status: ACTIVE
           </span>
         </div>
       </div>
-
-      {/* AI-generated plain-English narration of the current verdict — never decides it, only explains
-          the rules engine's own result (backend/agents/compliance/llm.py); absent with no GROQ_API_KEY */}
-      {complianceRationale && (
-        <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs flex items-start gap-3">
-          <span className="p-2 bg-slate-100 text-slate-600 rounded-xl flex-shrink-0">
-            <Info className="w-4 h-4" />
-          </span>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-xs text-slate-900">AI Explanation of the Verdict</span>
-              <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200 text-[9px] font-mono font-bold">
-                GROQ · NARRATES ONLY, NEVER DECIDES
-              </span>
-            </div>
-            <p className="text-xs text-slate-600 mt-1 leading-relaxed">{complianceRationale}</p>
-          </div>
-        </div>
-      )}
 
       {/* Scenario Compliance Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -114,7 +95,7 @@ export const ComplianceCenterView: React.FC = () => {
               key={sc.id}
               className={`p-4 rounded-xl border bg-white shadow-xs space-y-2 ${
                 isCompliant
-                  ? 'border-emerald-200'
+                  ? 'border-success/30'
                   : isRequiresReview
                   ? 'border-amber-200'
                   : 'border-red-200'
@@ -133,7 +114,7 @@ export const ComplianceCenterView: React.FC = () => {
 
               <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-500">
                 {isCompliant ? (
-                  <span className="text-emerald-700 font-medium">
+                  <span className="text-success font-medium">
                     ✓ Pre-audited supplier & approved port terminal.
                   </span>
                 ) : isRequiresReview ? (

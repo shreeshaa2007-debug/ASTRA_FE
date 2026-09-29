@@ -13,13 +13,15 @@ import {
   Flame,
   Info,
   SlidersHorizontal,
+  Plus,
 } from 'lucide-react';
 import { useOilShield } from '../../context/OilShieldContext';
 import { CrudeSupplier } from '../../types/oilshield';
 import { StatusBadge } from '../common/StatusBadge';
+import { FormModal, Field, TextInput, TextArea, Select, FieldRow } from '../common/FormModal';
 
 export const SupplierIntelligenceView: React.FC = () => {
-  const { suppliers, setCurrentView, selectedIncident } = useOilShield();
+  const { suppliers, setCurrentView, selectedIncident, addSupplier } = useOilShield();
 
   const [searchFilter, setSearchFilter] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('ALL');
@@ -27,6 +29,62 @@ export const SupplierIntelligenceView: React.FC = () => {
   const [minQuantity, setMinQuantity] = useState<number>(0);
   const [maxLeadTime, setMaxLeadTime] = useState<number>(48);
   const [selectedSupplier, setSelectedSupplier] = useState<CrudeSupplier | null>(null);
+
+  // Add Supplier modal state
+  const [isAddSupplierOpen, setIsAddSupplierOpen] = useState(false);
+  const [supName, setSupName] = useState('');
+  const [supLocation, setSupLocation] = useState('');
+  const [supCountry, setSupCountry] = useState('');
+  const [supCrudeGrade, setSupCrudeGrade] = useState('');
+  const [supApiGravity, setSupApiGravity] = useState(0);
+  const [supSulfurContentPct, setSupSulfurContentPct] = useState(0);
+  const [supAvailableQuantityBarrels, setSupAvailableQuantityBarrels] = useState(0);
+  const [supLeadTimeHours, setSupLeadTimeHours] = useState(0);
+  const [supReliabilityScorePct, setSupReliabilityScorePct] = useState(0);
+  const [supEstimatedCostPerBbl, setSupEstimatedCostPerBbl] = useState(0);
+  const [supCompatibilityPct, setSupCompatibilityPct] = useState(0);
+  const [supPortAccess, setSupPortAccess] = useState('');
+  const [supContractType, setSupContractType] = useState<CrudeSupplier['contractType']>('Framework Agreement');
+  const [supComplianceNotes, setSupComplianceNotes] = useState('');
+
+  const resetAddSupplierForm = () => {
+    setSupName('');
+    setSupLocation('');
+    setSupCountry('');
+    setSupCrudeGrade('');
+    setSupApiGravity(0);
+    setSupSulfurContentPct(0);
+    setSupAvailableQuantityBarrels(0);
+    setSupLeadTimeHours(0);
+    setSupReliabilityScorePct(0);
+    setSupEstimatedCostPerBbl(0);
+    setSupCompatibilityPct(0);
+    setSupPortAccess('');
+    setSupContractType('Framework Agreement');
+    setSupComplianceNotes('');
+  };
+
+  const handleAddSupplierSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addSupplier({
+      name: supName,
+      location: supLocation,
+      country: supCountry,
+      crudeGrade: supCrudeGrade,
+      apiGravity: supApiGravity,
+      sulfurContentPct: supSulfurContentPct,
+      availableQuantityBarrels: supAvailableQuantityBarrels,
+      leadTimeHours: supLeadTimeHours,
+      reliabilityScorePct: supReliabilityScorePct,
+      estimatedCostPerBbl: supEstimatedCostPerBbl,
+      compatibilityPct: supCompatibilityPct,
+      portAccess: supPortAccess,
+      contractType: supContractType,
+      complianceNotes: supComplianceNotes,
+    });
+    resetAddSupplierForm();
+    setIsAddSupplierOpen(false);
+  };
 
   const filteredSuppliers = suppliers.filter((sup) => {
     const matchesSearch =
@@ -56,7 +114,7 @@ export const SupplierIntelligenceView: React.FC = () => {
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
               Supplier Intelligence & Sourcing
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-xs font-bold font-mono">
+            <span className="px-2.5 py-0.5 rounded-full bg-primary-soft text-accent-strong border border-primary-border text-xs font-bold font-mono">
               Agent 2 Sourcing Evaluation
             </span>
           </div>
@@ -67,8 +125,15 @@ export const SupplierIntelligenceView: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <button
+            onClick={() => setIsAddSupplierOpen(true)}
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Supplier</span>
+          </button>
+          <button
             onClick={() => setCurrentView('scenarios')}
-            className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
           >
             <span>Proceed to Recovery Scenarios</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -77,9 +142,9 @@ export const SupplierIntelligenceView: React.FC = () => {
       </div>
 
       {/* Agent 2 Intelligence Banner & Governance Rule */}
-      <div className="p-4 bg-emerald-50/60 border border-emerald-200/80 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="p-4 bg-primary-soft/60 border border-primary-border/80 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className="p-2.5 bg-[#154734] text-white rounded-xl flex-shrink-0">
+          <span className="p-2.5 bg-primary text-ink rounded-xl flex-shrink-0">
             <Building2 className="w-5 h-5" />
           </span>
           <div className="text-xs text-slate-800">
@@ -89,14 +154,14 @@ export const SupplierIntelligenceView: React.FC = () => {
             <div className="text-slate-600 mt-0.5">
               Identified 2 Approved suppliers (Supplier A — Saudi Aramco contracted, Supplier B — ADNOC spot framework), 1 Pending Review (Supplier C — Basrah heavy crude), and 1 Restricted broker (Supplier D — OFAC sanction block).
             </div>
-            <div className="text-emerald-800 font-semibold mt-1">
+            <div className="text-accent-strong font-semibold mt-1">
               ⚖ Governance Rule Enforced: Agent 2 does not automatically select a supplier. Sourcing options are presented for human procurement review.
             </div>
           </div>
         </div>
 
         <div className="text-right flex-shrink-0">
-          <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-md">
+          <span className="text-xs font-mono font-bold text-success bg-success-soft px-2.5 py-1 rounded-md">
             Sourcing Compatibility: 99.2%
           </span>
         </div>
@@ -112,7 +177,7 @@ export const SupplierIntelligenceView: React.FC = () => {
               placeholder="Search by supplier name, crude grade, or port..."
               value={searchFilter}
               onChange={(e) => setSearchFilter(e.target.value)}
-              className="w-full h-9 pl-9 pr-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-hidden focus:border-[#154734] focus:ring-1 focus:ring-[#154734]/20"
+              className="w-full h-9 pl-9 pr-3 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-hidden focus:border-accent focus:ring-1 focus:ring-accent/20"
             />
           </div>
 
@@ -143,7 +208,7 @@ export const SupplierIntelligenceView: React.FC = () => {
             <select
               value={gradeFilter}
               onChange={(e) => setGradeFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-medium focus:outline-hidden focus:border-[#154734]"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-medium focus:outline-hidden focus:border-accent"
             >
               <option value="ALL">All Grades</option>
               <option value="Arab Light">Arab Light (32.8° API)</option>
@@ -160,7 +225,7 @@ export const SupplierIntelligenceView: React.FC = () => {
             <select
               value={minQuantity}
               onChange={(e) => setMinQuantity(Number(e.target.value))}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-medium focus:outline-hidden focus:border-[#154734]"
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1 text-xs text-slate-800 font-medium focus:outline-hidden focus:border-accent"
             >
               <option value={0}>Any Quantity</option>
               <option value={20000}>≥ 20,000 bbl (Full Cargo)</option>
@@ -180,7 +245,7 @@ export const SupplierIntelligenceView: React.FC = () => {
               step="4"
               value={maxLeadTime}
               onChange={(e) => setMaxLeadTime(Number(e.target.value))}
-              className="w-24 accent-[#154734] cursor-pointer"
+              className="w-24 accent-accent cursor-pointer"
             />
           </div>
         </div>
@@ -232,9 +297,7 @@ export const SupplierIntelligenceView: React.FC = () => {
                         {sup.crudeGrade}
                       </span>
                       <span className="text-[10px] text-slate-400">
-                        {Number.isNaN(sup.apiGravity) || Number.isNaN(sup.sulfurContentPct)
-                          ? 'API/sulfur not tracked in this dataset'
-                          : `${sup.apiGravity}° API • ${sup.sulfurContentPct}% S`}
+                        {sup.apiGravity}° API • {sup.sulfurContentPct}% S
                       </span>
                     </td>
 
@@ -250,7 +313,7 @@ export const SupplierIntelligenceView: React.FC = () => {
                       <span
                         className={`font-bold ${
                           sup.reliabilityScorePct >= 95
-                            ? 'text-emerald-600'
+                            ? 'text-success'
                             : sup.reliabilityScorePct >= 80
                             ? 'text-amber-600'
                             : 'text-red-600'
@@ -277,7 +340,7 @@ export const SupplierIntelligenceView: React.FC = () => {
                           <div
                             className={`h-full rounded-full ${
                               sup.compatibilityPct >= 90
-                                ? 'bg-emerald-500'
+                                ? 'bg-success'
                                 : sup.compatibilityPct >= 70
                                 ? 'bg-amber-500'
                                 : 'bg-red-500'
@@ -296,7 +359,7 @@ export const SupplierIntelligenceView: React.FC = () => {
                       ) : (
                         <button
                           onClick={() => setSelectedSupplier(sup)}
-                          className="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-[#154734] rounded-lg text-xs font-semibold transition-colors"
+                          className="px-3 py-1.5 bg-slate-100 hover:bg-primary-soft text-slate-700 hover:text-accent rounded-lg text-xs font-semibold transition-colors"
                         >
                           View Details
                         </button>
@@ -353,7 +416,7 @@ export const SupplierIntelligenceView: React.FC = () => {
                 </p>
               </div>
 
-              <div className="p-3 bg-emerald-50/60 text-emerald-950 rounded-xl border border-emerald-200/80 text-[11px]">
+              <div className="p-3 bg-primary-soft/60 text-accent-strong rounded-xl border border-primary-border/80 text-[11px]">
                 <strong>Agent 2 Sourcing Protocol:</strong> Suppliers are evaluated and ranked based on assay compatibility and lead times. Human authorization is mandatory prior to purchase contract emission.
               </div>
             </div>
@@ -370,13 +433,134 @@ export const SupplierIntelligenceView: React.FC = () => {
                   setSelectedSupplier(null);
                   setCurrentView('scenarios');
                 }}
-                className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs"
+                className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs"
               >
                 View in Recovery Scenarios
               </button>
             </div>
           </div>
         </div>
+      )}
+
+      {/* Add Supplier Modal */}
+      {isAddSupplierOpen && (
+        <FormModal
+          title="Add Supplier"
+          subtitle="Onboard a new crude supplier for sourcing evaluation."
+          onClose={() => {
+            resetAddSupplierForm();
+            setIsAddSupplierOpen(false);
+          }}
+          onSubmit={handleAddSupplierSubmit}
+          submitLabel="Add Supplier"
+        >
+          <FieldRow>
+            <Field label="Name" required>
+              <TextInput value={supName} onChange={(e) => setSupName(e.target.value)} required />
+            </Field>
+            <Field label="Location" required>
+              <TextInput value={supLocation} onChange={(e) => setSupLocation(e.target.value)} required />
+            </Field>
+          </FieldRow>
+          <FieldRow>
+            <Field label="Country" required>
+              <TextInput value={supCountry} onChange={(e) => setSupCountry(e.target.value)} required />
+            </Field>
+            <Field label="Crude Grade" required>
+              <TextInput value={supCrudeGrade} onChange={(e) => setSupCrudeGrade(e.target.value)} placeholder="Arab Light" required />
+            </Field>
+          </FieldRow>
+          <FieldRow>
+            <Field label="API Gravity" required>
+              <TextInput
+                type="number"
+                value={supApiGravity}
+                onChange={(e) => setSupApiGravity(Number(e.target.value))}
+                required
+              />
+            </Field>
+            <Field label="Sulfur Content (%)" required>
+              <TextInput
+                type="number"
+                value={supSulfurContentPct}
+                onChange={(e) => setSupSulfurContentPct(Number(e.target.value))}
+                required
+              />
+            </Field>
+          </FieldRow>
+          <FieldRow>
+            <Field label="Available Quantity (Barrels)" required>
+              <TextInput
+                type="number"
+                value={supAvailableQuantityBarrels}
+                onChange={(e) => setSupAvailableQuantityBarrels(Number(e.target.value))}
+                required
+              />
+            </Field>
+            <Field label="Lead Time (Hours)" required>
+              <TextInput
+                type="number"
+                value={supLeadTimeHours}
+                onChange={(e) => setSupLeadTimeHours(Number(e.target.value))}
+                required
+              />
+            </Field>
+          </FieldRow>
+          <FieldRow>
+            <Field label="Reliability Score (%)" required>
+              <TextInput
+                type="number"
+                min={0}
+                max={100}
+                value={supReliabilityScorePct}
+                onChange={(e) => setSupReliabilityScorePct(Number(e.target.value))}
+                required
+              />
+            </Field>
+            <Field label="Estimated Cost ($/bbl)" required>
+              <TextInput
+                type="number"
+                value={supEstimatedCostPerBbl}
+                onChange={(e) => setSupEstimatedCostPerBbl(Number(e.target.value))}
+                required
+              />
+            </Field>
+          </FieldRow>
+          <FieldRow>
+            <Field label="Compatibility (%)" required>
+              <TextInput
+                type="number"
+                min={0}
+                max={100}
+                value={supCompatibilityPct}
+                onChange={(e) => setSupCompatibilityPct(Number(e.target.value))}
+                required
+              />
+            </Field>
+            <Field label="Port Access" required>
+              <TextInput value={supPortAccess} onChange={(e) => setSupPortAccess(e.target.value)} required />
+            </Field>
+          </FieldRow>
+          <Field label="Contract Type" required>
+            <Select
+              value={supContractType}
+              onChange={(e) => setSupContractType(e.target.value as CrudeSupplier['contractType'])}
+            >
+              <option value="Framework Agreement">Framework Agreement</option>
+              <option value="Spot Tender">Spot Tender</option>
+              <option value="Internal Transfer">Internal Transfer</option>
+              <option value="Restricted Intermediary">Restricted Intermediary</option>
+            </Select>
+          </Field>
+          <Field label="Compliance Notes" required>
+            <TextArea
+              value={supComplianceNotes}
+              onChange={(e) => setSupComplianceNotes(e.target.value)}
+              rows={3}
+              required
+            />
+          </Field>
+        </FormModal>
       )}
     </div>
   );

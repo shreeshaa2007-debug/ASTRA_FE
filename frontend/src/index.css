@@ -2,44 +2,45 @@
 
 /*
  * OilShield — Agentic AI Oil Supply Chain Control Tower
- * Enterprise Design System inspired by SAP Fiori Horizon & Modern Supply Chain Control Towers
+ * Enterprise Design System — lime/ink brand language (SaaSmito template)
  */
 @theme {
-  --color-canvas: #f8fafc;
+  --color-canvas: #fafaf6;
   --color-card: #ffffff;
-  --color-inset: #f1f5f9;
-  --color-raised: #e2e8f0;
-  --color-line: #e2e8f0;
+  --color-inset: #f5f5ec;
+  --color-raised: #ececdd;
+  --color-line: #e6e6d6;
 
-  --color-ink: #111827;
-  --color-ink-2: #374151;
-  --color-muted: #6b7280;
+  --color-ink: #151605;
+  --color-ink-2: #42451c;
+  --color-muted: #6b6f52;
 
-  /* Figma-Inspired Logistics Theme: Deep Forest Green */
-  --color-primary: #154734;
-  --color-primary-strong: #0e3325;
-  --color-primary-soft: #f0fdf4;
-  --color-primary-border: #bbf7d0;
-  --color-primary-hover: #1b5941;
+  /* SaaSmito Theme: blue brand fill (light) paired with dark ink text */
+  --color-primary: #93c5fd;
+  --color-primary-strong: #60a5fa;
+  --color-primary-soft: #eff6ff;
+  --color-primary-border: #bfdbfe;
+  --color-primary-hover: #60a5fa;
 
-  /* Muted Green Accent */
-  --color-accent: #2d6a4f;
-  --color-accent-soft: #ecfdf5;
+  /* Dark, legible blue for text/icons/borders on light surfaces (the light fill above is too light for that role) */
+  --color-accent: #1d4ed8;
+  --color-accent-strong: #1e3a8a;
+  --color-accent-soft: #dbeafe;
 
   /* Charcoal / Dark Sections used selectively */
-  --color-charcoal-dark: #111827;
-  --color-charcoal-card: #1f2937;
-  --color-charcoal-border: #374151;
-  --color-charcoal-hover: #283548;
+  --color-charcoal-dark: #1c1c16;
+  --color-charcoal-card: #2e2e24;
+  --color-charcoal-border: #45453a;
+  --color-charcoal-hover: #3a3a2e;
 
   /* Backward compatibility for navy tokens mapped to selective charcoal */
-  --color-navy-dark: #111827;
-  --color-navy-card: #1f2937;
-  --color-navy-border: #374151;
-  --color-navy-hover: #283548;
-  --color-navy-accent: #154734;
+  --color-navy-dark: #1c1c16;
+  --color-navy-card: #2e2e24;
+  --color-navy-border: #45453a;
+  --color-navy-hover: #3a3a2e;
+  --color-navy-accent: #1d4ed8;
 
-  /* Distinct, Accessible Status Colors */
+  /* Distinct, Accessible Status Colors (unchanged — functional alert semantics) */
   --color-success: #15803d;
   --color-success-soft: #f0fdf4;
   --color-warning: #d97706;
@@ -49,19 +50,19 @@
   --color-info: #0284c7;
   --color-info-soft: #f0f9ff;
 
-  --font-headline: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-headline: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Hanken Grotesk', 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  --radius-sm: 0.375rem;
+  --radius-sm: 0.5rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
+  --radius-xl: 1.125rem;
+  --radius-2xl: 1.5rem;
 
-  --shadow-card: 0 1px 3px 0 rgb(17 24 39 / 0.05), 0 1px 2px -1px rgb(17 24 39 / 0.05);
-  --shadow-elevated: 0 10px 15px -3px rgb(17 24 39 / 0.07), 0 4px 6px -4px rgb(17 24 39 / 0.04);
-  --shadow-pop: 0 20px 25px -5px rgb(17 24 39 / 0.10), 0 8px 10px -6px rgb(17 24 39 / 0.06);
+  --shadow-card: 0 1px 3px 0 rgb(21 22 5 / 0.05), 0 1px 2px -1px rgb(21 22 5 / 0.05);
+  --shadow-elevated: 0 10px 15px -3px rgb(21 22 5 / 0.07), 0 4px 6px -4px rgb(21 22 5 / 0.04);
+  --shadow-pop: 0 20px 25px -5px rgb(21 22 5 / 0.10), 0 8px 10px -6px rgb(21 22 5 / 0.06);
 }
 
 :root {
@@ -127,14 +128,14 @@ body {
   }
 }
 
-/* Figma-inspired theme utilities */
+/* SaaSmito-inspired theme utilities */
 .btn-forest-primary {
   background-color: var(--color-primary);
-  color: #ffffff;
-  border-radius: var(--radius-xl);
+  color: var(--color-ink);
+  border-radius: var(--radius-md);
   font-weight: 600;
   transition: all 150ms ease;
-  box-shadow: 0 1px 2px 0 rgb(17 24 39 / 0.05);
+  box-shadow: 0 1px 2px 0 rgb(21 22 5 / 0.05);
 }
 
 .btn-forest-primary:hover {
@@ -143,16 +144,16 @@ body {
 
 .btn-forest-secondary {
   background-color: #ffffff;
-  color: #374151;
+  color: var(--color-ink-2);
   border: 1px solid var(--color-line);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-md);
   font-weight: 600;
   transition: all 150ms ease;
 }
 
 .btn-forest-secondary:hover {
-  background-color: #f8fafc;
-  color: #111827;
+  background-color: var(--color-inset);
+  color: var(--color-ink);
 }
 
 .card-panel {

@@ -64,8 +64,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
     case 'COMPLIANT':
     case 'COMPLETED':
     case 'ONLINE':
-      bgClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
-      dotClass = 'bg-emerald-500';
+      bgClass = 'bg-success-soft text-success border-success/30';
+      dotClass = 'bg-success';
       break;
 
     // Medium / Info / Processing
@@ -82,8 +82,8 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({
       break;
 
     case 'APPROVED_EXECUTING':
-      bgClass = 'bg-emerald-50 text-emerald-800 border-emerald-300';
-      dotClass = 'bg-emerald-600';
+      bgClass = 'bg-success-soft text-success border-success/50';
+      dotClass = 'bg-success';
       label = 'Executing Approved Plan';
       break;
 

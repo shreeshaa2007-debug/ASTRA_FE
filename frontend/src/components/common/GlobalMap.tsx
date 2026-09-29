@@ -42,7 +42,7 @@ interface Drawn {
 }
 
 // the theme's status colours (index.css), as literals: Leaflet writes them into SVG attributes, where a CSS variable does not resolve
-const COLORS = { disrupted: '#dc2626', plan: '#15803d', alternative: '#154734', delayed: '#d97706', normal: '#94a3b8', chokepoint: '#d97706' } as const;
+const COLORS = { disrupted: '#dc2626', plan: '#15803d', alternative: '#1d4ed8', delayed: '#d97706', normal: '#94a3b8', chokepoint: '#d97706' } as const;
 
 interface RouteVisual {
   color: string;
@@ -252,7 +252,7 @@ export const GlobalMap: React.FC<GlobalMapProps> = ({ routes, onSelectRoute, sel
       {/* Map Control Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 bg-card border-b border-line">
         <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined text-primary text-[18px]">public</span>
+          <span className="material-symbols-outlined text-accent text-[18px]">public</span>
           <span className="font-headline text-[15px] font-bold text-ink">Multi-modal logistics network</span>
           <span className="hidden sm:inline-block text-[11px] text-muted border-l border-line pl-2">
             {routes.length} ROUTES · SYNTHETIC LANES BETWEEN REAL WPI PORTS
@@ -260,7 +260,7 @@ export const GlobalMap: React.FC<GlobalMapProps> = ({ routes, onSelectRoute, sel
         </div>
 
         <div className="flex items-center gap-1 bg-inset p-1 rounded-xl text-[11px] font-semibold">
-          {filterButton('all', `All (${routes.length})`, 'bg-card text-primary font-bold shadow-card')}
+          {filterButton('all', `All (${routes.length})`, 'bg-card text-accent font-bold shadow-card')}
           {filterButton('disrupted', `Disrupted (${counts.disrupted})`, 'bg-danger-soft text-danger font-bold')}
           {filterButton('planned', `Carrying plan (${counts.planned})`, 'bg-success-soft text-success font-bold')}
         </div>
@@ -409,7 +409,7 @@ export const GlobalMap: React.FC<GlobalMapProps> = ({ routes, onSelectRoute, sel
             </div>
             <div className="p-3">
               <span className="text-muted block text-[10px] uppercase">Transit time</span>
-              <span className="text-primary font-bold text-[14px]">{fmtDays(selected.transit_time_days)}</span>
+              <span className="text-accent font-bold text-[14px]">{fmtDays(selected.transit_time_days)}</span>
               <span className="text-ink-2 text-[11px] block mt-0.5">{fmtNumber(selected.distance_km)} km</span>
             </div>
             <div className="p-3">

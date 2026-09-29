@@ -38,10 +38,10 @@ export const KpiCard: React.FC<KpiCardProps> = ({
       accent: 'text-amber-600',
     },
     success: {
-      border: 'border-emerald-100 hover:border-emerald-300',
-      iconBg: 'bg-emerald-50 text-emerald-600',
-      badge: 'bg-emerald-50 text-emerald-700',
-      accent: 'text-emerald-600',
+      border: 'border-success-soft hover:border-success/60',
+      iconBg: 'bg-success-soft text-success',
+      badge: 'bg-success-soft text-success',
+      accent: 'text-success',
     },
     info: {
       border: 'border-slate-200 hover:border-slate-300',
@@ -50,10 +50,10 @@ export const KpiCard: React.FC<KpiCardProps> = ({
       accent: 'text-slate-800',
     },
     primary: {
-      border: 'border-slate-200 hover:border-[#154734]/40',
-      iconBg: 'bg-emerald-50 text-[#154734]',
-      badge: 'bg-emerald-50 text-[#154734]',
-      accent: 'text-[#154734]',
+      border: 'border-slate-200 hover:border-accent/40',
+      iconBg: 'bg-primary-soft text-accent',
+      badge: 'bg-primary-soft text-accent',
+      accent: 'text-accent',
     },
   }[tone];
 
@@ -95,7 +95,7 @@ export const KpiCard: React.FC<KpiCardProps> = ({
                 trendDirection === 'up'
                   ? 'text-red-600'
                   : trendDirection === 'down'
-                  ? 'text-emerald-600'
+                  ? 'text-success'
                   : 'text-slate-600'
               }`}
             >

@@ -60,7 +60,7 @@ export const InventoryManagementView: React.FC = () => {
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
               Terminal Inventory & Buffer Management
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 text-xs font-bold font-mono">
+            <span className="px-2.5 py-0.5 rounded-full bg-primary-soft text-accent-strong border border-primary-border text-xs font-bold font-mono">
               Agent 4 Stock Balancer
             </span>
           </div>
@@ -72,7 +72,7 @@ export const InventoryManagementView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsTransferModalOpen(true)}
-            className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+            className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
           >
             <Shuffle className="w-3.5 h-3.5" />
             <span>View Proposed Transfers</span>
@@ -154,7 +154,7 @@ export const InventoryManagementView: React.FC = () => {
                         ? 'bg-red-500'
                         : isApproachingMin
                         ? 'bg-amber-500'
-                        : 'bg-emerald-500'
+                        : 'bg-success'
                     }`}
                     style={{ width: `${pct}%` }}
                   />
@@ -176,7 +176,7 @@ export const InventoryManagementView: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-[10px] text-slate-400 block font-medium">TRANSFERABLE</span>
-                  <span className="font-mono font-bold text-emerald-600">
+                  <span className="font-mono font-bold text-success">
                     {fac.availableTransferBarrels > 0
                       ? `${fac.availableTransferBarrels.toLocaleString()} bbl`
                       : 'None'}
@@ -249,7 +249,7 @@ export const InventoryManagementView: React.FC = () => {
                       {fac.safetyStockBarrels.toLocaleString()} bbl
                     </td>
 
-                    <td className="py-3 px-3 font-mono font-bold text-emerald-600">
+                    <td className="py-3 px-3 font-mono font-bold text-success">
                       {fac.availableTransferBarrels > 0
                         ? `${fac.availableTransferBarrels.toLocaleString()} bbl`
                         : '0 bbl'}
@@ -267,8 +267,8 @@ export const InventoryManagementView: React.FC = () => {
 
                     <td className="py-3 px-4 text-right">
                       {fac.transferFeasibility ? (
-                        <span className="inline-flex items-center gap-1 text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                        <span className="inline-flex items-center gap-1 text-success font-bold bg-success-soft px-2 py-0.5 rounded border border-success/30">
+                          <CheckCircle2 className="w-3 h-3 text-success" />
                           Feasible
                         </span>
                       ) : (
@@ -292,7 +292,7 @@ export const InventoryManagementView: React.FC = () => {
           <div className="bg-white rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-pop border border-slate-200">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <span className="text-[10px] font-mono font-bold text-[#154734] uppercase">
+                <span className="text-[10px] font-mono font-bold text-accent uppercase">
                   AGENT 4 RECOMMENDATION
                 </span>
                 <h3 className="text-lg font-bold text-slate-900">
@@ -314,7 +314,7 @@ export const InventoryManagementView: React.FC = () => {
                     <span className="font-mono font-bold text-xs text-slate-900 bg-white px-2 py-0.5 rounded border border-slate-200">
                       {trf.id}
                     </span>
-                    <span className="text-xs font-bold text-emerald-700">
+                    <span className="text-xs font-bold text-success">
                       {trf.donorSafetyStatus}
                     </span>
                   </div>
@@ -353,7 +353,7 @@ export const InventoryManagementView: React.FC = () => {
                   setIsTransferModalOpen(false);
                   setCurrentView('scenarios');
                 }}
-                className="px-4 py-2 bg-[#154734] hover:bg-[#1b5941] text-white rounded-xl text-xs font-bold transition-colors shadow-xs"
+                className="px-4 py-2 bg-primary hover:bg-primary-strong text-ink rounded-xl text-xs font-bold transition-colors shadow-xs"
               >
                 Review in Scenario C
               </button>

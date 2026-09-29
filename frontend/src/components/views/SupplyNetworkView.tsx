@@ -9,9 +9,11 @@ import {
   Building,
   ArrowRight,
   Filter,
+  Plus,
 } from 'lucide-react';
 import { useOilShield } from '../../context/OilShieldContext';
 import { SupplyChainNode } from '../../types/oilshield';
+import { FormModal, Field, TextInput, TextArea, Select } from '../common/FormModal';
 
 export const SupplyNetworkView: React.FC = () => {
   const {
@@ -21,10 +23,46 @@ export const SupplyNetworkView: React.FC = () => {
     selectedShipmentId,
     setSelectedShipmentId,
     setCurrentView,
+    addNetworkNode,
   } = useOilShield();
 
   const [selectedNodeId, setSelectedNodeId] = useState<string>('node-port-1');
   const [tierFilter, setTierFilter] = useState<string>('ALL');
+
+  // Add Node modal state
+  const [isAddNodeOpen, setIsAddNodeOpen] = useState(false);
+  const [nodeName, setNodeName] = useState('');
+  const [nodeTier, setNodeTier] = useState<SupplyChainNode['tier']>('Supplier');
+  const [nodeLocation, setNodeLocation] = useState('');
+  const [nodeThroughput, setNodeThroughput] = useState(0);
+  const [nodeCurrentCapacityPct, setNodeCurrentCapacityPct] = useState(0);
+  const [nodeProductHandling, setNodeProductHandling] = useState('');
+  const [nodeNotes, setNodeNotes] = useState('');
+
+  const resetAddNodeForm = () => {
+    setNodeName('');
+    setNodeTier('Supplier');
+    setNodeLocation('');
+    setNodeThroughput(0);
+    setNodeCurrentCapacityPct(0);
+    setNodeProductHandling('');
+    setNodeNotes('');
+  };
+
+  const handleAddNodeSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    addNetworkNode({
+      name: nodeName,
+      tier: nodeTier,
+      location: nodeLocation,
+      throughputBarrelsPerDay: nodeThroughput,
+      currentCapacityPct: nodeCurrentCapacityPct,
+      productHandling: nodeProductHandling,
+      notes: nodeNotes,
+    });
+    resetAddNodeForm();
+    setIsAddNodeOpen(false);
+  };
 
   const tiers: ('Supplier' | 'Port' | 'Refinery' | 'Storage' | 'Transportation' | 'Customer')[] = [
     'Supplier',
@@ -56,7 +94,7 @@ export const SupplyNetworkView: React.FC = () => {
           <select
             value={selectedShipmentId}
             onChange={(e) => setSelectedShipmentId(e.target.value)}
-            className="bg-white border border-slate-300 text-xs font-bold rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-hidden focus:border-[#154734] focus:ring-2 focus:ring-[#154734]/15 shadow-xs"
+            className="bg-white border border-slate-300 text-xs font-bold rounded-lg px-2.5 py-1.5 text-slate-900 focus:outline-hidden focus:border-accent focus:ring-2 focus:ring-accent/15 shadow-xs"
           >
             {operationalShipments.map((shp) => (
               <option key={shp.id} value={shp.id}>
@@ -64,6 +102,14 @@ export const SupplyNetworkView: React.FC = () => {
               </option>
             ))}
           </select>
+
+          <button
+            onClick={() => setIsAddNodeOpen(true)}
+            className="px-3 py-1.5 bg-primary hover:bg-primary-strong text-ink rounded-lg text-xs font-bold transition-colors shadow-xs flex items-center gap-1.5"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Node</span>
+          </button>
         </div>
       </div>
 
@@ -72,7 +118,7 @@ export const SupplyNetworkView: React.FC = () => {
         <div className="flex items-center gap-4">
           <span className="font-bold text-slate-700">Status:</span>
           <span className="flex items-center gap-1.5 text-slate-600">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+            <span className="h-2.5 w-2.5 rounded-full bg-success" />
             Normal
           </span>
           <span className="flex items-center gap-1.5 text-slate-600">
@@ -112,7 +158,7 @@ export const SupplyNetworkView: React.FC = () => {
       <div className="bg-white rounded-xl border border-slate-200 shadow-xs p-5 space-y-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-            <Network className="w-4 h-4 text-[#154734]" />
+            <Network className="w-4 h-4 text-accent" />
             <span>Multi-Tier Flow: Suppliers → Ports → Refineries → Storage → Transportation → Customer</span>
           </h3>
           <span className="text-xs text-slate-500 font-medium">
@@ -139,13 +185,13 @@ export const SupplyNetworkView: React.FC = () => {
                       onClick={() => setSelectedNodeId(node.id)}
                       className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-[#154734] bg-emerald-50/50 shadow-xs ring-1 ring-[#154734]/30'
+                          ? 'border-accent bg-primary-soft/50 shadow-xs ring-1 ring-accent/30'
                           : 'border-slate-200 bg-slate-50 hover:bg-white'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-1 mb-1">
                         <span className="text-[9px] font-bold text-slate-400">SUPPLIER</span>
-                        <span className={`h-2 w-2 rounded-full ${node.status === 'NORMAL' ? 'bg-emerald-500' : 'bg-red-500'}`} />
+                        <span className={`h-2 w-2 rounded-full ${node.status === 'NORMAL' ? 'bg-success' : 'bg-red-500'}`} />
                       </div>
                       <div className="font-bold text-xs text-slate-900 leading-snug">
                         {node.name}
@@ -177,7 +223,7 @@ export const SupplyNetworkView: React.FC = () => {
                       onClick={() => setSelectedNodeId(node.id)}
                       className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-[#154734] bg-emerald-50/50 shadow-xs ring-1 ring-[#154734]/30'
+                          ? 'border-accent bg-primary-soft/50 shadow-xs ring-1 ring-accent/30'
                           : isDisrupted
                           ? 'border-red-300 bg-red-50/80 ring-1 ring-red-300'
                           : 'border-slate-200 bg-slate-50 hover:bg-white'
@@ -191,7 +237,7 @@ export const SupplyNetworkView: React.FC = () => {
                               ? 'bg-red-500 radar-ping'
                               : node.status === 'UNDER_ANALYSIS'
                               ? 'bg-slate-500'
-                              : 'bg-emerald-500'
+                              : 'bg-success'
                           }`}
                         />
                       </div>
@@ -225,7 +271,7 @@ export const SupplyNetworkView: React.FC = () => {
                       onClick={() => setSelectedNodeId(node.id)}
                       className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-[#154734] bg-emerald-50/50 shadow-xs ring-1 ring-[#154734]/30'
+                          ? 'border-accent bg-primary-soft/50 shadow-xs ring-1 ring-accent/30'
                           : isAtRisk
                           ? 'border-amber-300 bg-amber-50/80 ring-1 ring-amber-300'
                           : 'border-slate-200 bg-slate-50 hover:bg-white'
@@ -264,13 +310,13 @@ export const SupplyNetworkView: React.FC = () => {
                       onClick={() => setSelectedNodeId(node.id)}
                       className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-[#154734] bg-emerald-50/50 shadow-xs ring-1 ring-[#154734]/30'
+                          ? 'border-accent bg-primary-soft/50 shadow-xs ring-1 ring-accent/30'
                           : 'border-slate-200 bg-slate-50 hover:bg-white'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-1 mb-1">
                         <span className="text-[9px] font-bold text-slate-400">STORAGE</span>
-                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                        <span className="h-2 w-2 rounded-full bg-success" />
                       </div>
                       <div className="font-bold text-xs text-slate-900 leading-snug">
                         {node.name}
@@ -301,13 +347,13 @@ export const SupplyNetworkView: React.FC = () => {
                       onClick={() => setSelectedNodeId(node.id)}
                       className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-[#154734] bg-emerald-50/50 shadow-xs ring-1 ring-[#154734]/30'
+                          ? 'border-accent bg-primary-soft/50 shadow-xs ring-1 ring-accent/30'
                           : 'border-slate-200 bg-slate-50 hover:bg-white'
                       }`}
                     >
                       <div className="flex items-center justify-between gap-1 mb-1">
-                        <span className="text-[9px] font-bold text-[#154734]">TRANS</span>
-                        <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                        <span className="text-[9px] font-bold text-accent">TRANS</span>
+                        <span className="h-2 w-2 rounded-full bg-success" />
                       </div>
                       <div className="font-bold text-xs text-slate-900 leading-snug">
                         {node.name}
@@ -338,7 +384,7 @@ export const SupplyNetworkView: React.FC = () => {
                       onClick={() => setSelectedNodeId(node.id)}
                       className={`p-2.5 rounded-lg border text-left cursor-pointer transition-all ${
                         isSelected
-                          ? 'border-[#154734] bg-emerald-50/50 shadow-xs ring-1 ring-[#154734]/30'
+                          ? 'border-accent bg-primary-soft/50 shadow-xs ring-1 ring-accent/30'
                           : isAtRisk
                           ? 'border-purple-300 bg-purple-50/80 ring-1 ring-purple-300'
                           : 'border-slate-200 bg-slate-50 hover:bg-white'
@@ -346,7 +392,7 @@ export const SupplyNetworkView: React.FC = () => {
                     >
                       <div className="flex items-center justify-between gap-1 mb-1">
                         <span className="text-[9px] font-bold text-slate-400">OFFTAKE</span>
-                        <span className={`h-2 w-2 rounded-full ${isAtRisk ? 'bg-amber-500' : 'bg-emerald-500'}`} />
+                        <span className={`h-2 w-2 rounded-full ${isAtRisk ? 'bg-amber-500' : 'bg-success'}`} />
                       </div>
                       <div className="font-bold text-xs text-slate-900 leading-snug">
                         {node.name}
@@ -368,12 +414,89 @@ export const SupplyNetworkView: React.FC = () => {
           </span>
           <button
             onClick={() => setCurrentView('scenarios')}
-            className="text-xs font-bold text-[#154734] hover:text-[#0e3325] whitespace-nowrap self-start sm:self-auto"
+            className="text-xs font-bold text-accent hover:text-accent-strong whitespace-nowrap self-start sm:self-auto"
           >
             Review Reroute Options →
           </button>
         </div>
       </div>
+
+      {/* Add Node Modal */}
+      {isAddNodeOpen && (
+        <FormModal
+          title="Add Node"
+          subtitle="Register a new node in the supply network topology."
+          onClose={() => {
+            resetAddNodeForm();
+            setIsAddNodeOpen(false);
+          }}
+          onSubmit={handleAddNodeSubmit}
+          submitLabel="Add Node"
+        >
+          <Field label="Name" required>
+            <TextInput
+              value={nodeName}
+              onChange={(e) => setNodeName(e.target.value)}
+              placeholder="Kamarajar Port (Ennore)"
+              required
+            />
+          </Field>
+          <Field label="Tier" required>
+            <Select
+              value={nodeTier}
+              onChange={(e) => setNodeTier(e.target.value as SupplyChainNode['tier'])}
+            >
+              <option value="Supplier">Supplier</option>
+              <option value="Port">Port</option>
+              <option value="Refinery">Refinery</option>
+              <option value="Storage">Storage</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Customer">Customer</option>
+            </Select>
+          </Field>
+          <Field label="Location" required>
+            <TextInput
+              value={nodeLocation}
+              onChange={(e) => setNodeLocation(e.target.value)}
+              placeholder="Tamil Nadu, India"
+              required
+            />
+          </Field>
+          <Field label="Throughput (Barrels/Day)" required>
+            <TextInput
+              type="number"
+              value={nodeThroughput}
+              onChange={(e) => setNodeThroughput(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Current Capacity (%)" required>
+            <TextInput
+              type="number"
+              min={0}
+              max={100}
+              value={nodeCurrentCapacityPct}
+              onChange={(e) => setNodeCurrentCapacityPct(Number(e.target.value))}
+              required
+            />
+          </Field>
+          <Field label="Product Handling" required>
+            <TextInput
+              value={nodeProductHandling}
+              onChange={(e) => setNodeProductHandling(e.target.value)}
+              placeholder="Crude Oil, Refined Products"
+              required
+            />
+          </Field>
+          <Field label="Notes">
+            <TextArea
+              value={nodeNotes}
+              onChange={(e) => setNodeNotes(e.target.value)}
+              rows={3}
+            />
+          </Field>
+        </FormModal>
+      )}
     </div>
   );
 };
