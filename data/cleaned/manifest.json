@@ -1,0 +1,1654 @@
+{
+  "generated_at": "2026-09-29T06:42:07.785211+00:00",
+  "command": "python -m backend.services.preprocessing.cleaned.build",
+  "environment": {
+    "python": "3.12.2",
+    "pandas": "2.3.1"
+  },
+  "seconds": 86.5,
+  "raw_sources_unchanged": true,
+  "raw_sha256": {
+    "data/raw/demand_uci_online_retail/Online_Retail.xlsx": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+    "data/raw/emergency_situation_synthetic_kaggle/COLUMN_NULL_COUNTS.csv": "adef43038522cd96aae7386391fc728b2f5c5fb8c12d602e667037173dc9f249",
+    "data/raw/emergency_situation_synthetic_kaggle/COMMODITY_MARKET.csv": "7a8bc47f30cdd58f44af02f31e036a31e788e98b875769a4eaf31a8821e5a48d",
+    "data/raw/emergency_situation_synthetic_kaggle/COUNTRY_METADATA.csv": "0394b3ae3e4ded6d07dbe2e3e8ed1973a9b53bef8512bfbdca6c7eb990ff334b",
+    "data/raw/emergency_situation_synthetic_kaggle/DAILY_DEMAND.csv": "830a87153d9ab7e31f2850fa9f10d31e6fa74d3b821a2e063ae8d81b3b6730f5",
+    "data/raw/emergency_situation_synthetic_kaggle/DUPLICATE_REPORT.csv": "a4ad06351538eeb8fdddd8d9248688abb8fdca6b66cc6e397dafadc10f87a704",
+    "data/raw/emergency_situation_synthetic_kaggle/GEOPOLITICAL_EVENTS.csv": "45c3a9d35af63d91828af504c69e75b9b67ac5e668b9c44a9d775743df936fc3",
+    "data/raw/emergency_situation_synthetic_kaggle/NULL_SUMMARY.csv": "e5084d5d8deea2d0c70c79fe63180a966467bce3c93b286aaab797769d364cea",
+    "data/raw/emergency_situation_synthetic_kaggle/ROUTE_INTEGRATED.csv": "e151a36247e7adbb8910f6a05ffb63f5cdfa132d15825656dc172f3e7a13e47b",
+    "data/raw/emergency_situation_synthetic_kaggle/ROW_NULL_COUNTS.csv": "40e59c7be0eadb03e79db2e6633737310a510d223b103553b2f6d92edb8ad40b",
+    "data/raw/national_ais_release/national_ais_release_manifest.csv": "60805de6979a4593edffc2e133c97ab2446febb38e30362fcf1b81f02aec9faa",
+    "data/raw/ntm_prevalence_sector_unctad/NTM-Prevalence-Sector.csv": "1caea07390c8d8a6cb46b6a32d70bac14bd7775ec07fe92ab5354e40012f2dc6",
+    "data/raw/ports_world_port_index/WPI.cpg": "3ad3031f5503a4404af825262ee8232cc04d4ea6683d42c5dd0a2f2a27ac9824",
+    "data/raw/ports_world_port_index/WPI.dbf": "17c4d560962c322681e98b1d62c109907463d5d041dc5698e75594df80e2a137",
+    "data/raw/ports_world_port_index/WPI.prj": "a02a27b1d1982c8516d83398e85a3c8b1aef1713c13ef4d84d7bde17430c07c4",
+    "data/raw/ports_world_port_index/WPI.sbn": "3dfc6b6da0dd952dd621f9bbdf7e7ee3cafe9bcb816af33aa33f416fdf6477b7",
+    "data/raw/ports_world_port_index/WPI.sbx": "32b6e2302249f75888fade3557a5cd0e1ecac57a79f9330a298f76b713c38295",
+    "data/raw/ports_world_port_index/WPI.shp": "8e00d37a7590da8c381a917c6254d668647c09af0210625cd250324a376ef6f4",
+    "data/raw/ports_world_port_index/WPI.shx": "431e5a0fd164eda2cbc5a841bfdb40264fcb6f090d089084671131a3e086ac64",
+    "data/raw/supply_chain_pressure_dwell_index/analysis_dataset_dwell.csv": "b2596f57aeff3c56a40438ee2648b2dad307f4db5060f4b78d61b366dce03440",
+    "data/raw/tariffs_worldbank_wdi/API_TM.TAX.MRCH.WM.AR.ZS_DS2_en_csv_v2_35363.csv": "4c481398ec3196d7f469c8db54463530dbe5f1ae2d27f60f1b37af2b97cb727b",
+    "data/raw/tariffs_worldbank_wdi/Metadata_Country_API_TM.TAX.MRCH.WM.AR.ZS_DS2_en_csv_v2_35363.csv": "680cad985ce0ecc10c6da6c6d660b7547cf627ba984a65bfd28b17fcd6bb8c28",
+    "data/raw/tariffs_worldbank_wdi/Metadata_Indicator_API_TM.TAX.MRCH.WM.AR.ZS_DS2_en_csv_v2_35363.csv": "6a225e3ac9995f60778b21aa6e24320de0d41d77740ffacae44965058fba4459",
+    "data/raw/weather_noaa_storm_events/StormEvents_details_2024.csv": "e278ecef5b99b6b7a5bfdeff0e7b75da1b14f36a0c893f272c9afb92abf7f3e3",
+    "data/raw/weather_noaa_storm_events_1950/StormEvents_details-ftp_v1.0_d1950_c20260323.csv": "e4315f5bf76272cc851131fdec15ce80e64de44fc4f9426289ca9ef7f9bd1d41"
+  },
+  "processed_layer_unchanged": true,
+  "tables": {
+    "country": {
+      "file": "country.csv",
+      "rows": 217,
+      "columns": 7,
+      "key": [
+        "iso3"
+      ],
+      "provenance": "REAL",
+      "hana_table": "country",
+      "hana_tier": "CORE",
+      "bytes": 13340,
+      "sha256": "c9e1c6d3f1aa704618857f9ec4412f00b622ee896a75d468067e526de2c71c08"
+    },
+    "port": {
+      "file": "port.csv",
+      "rows": 3669,
+      "columns": 10,
+      "key": [
+        "port_id"
+      ],
+      "provenance": "REAL",
+      "hana_table": "port",
+      "hana_tier": "CORE",
+      "bytes": 361211,
+      "sha256": "ccef9f941f612a5d6066a387be9681144c673d28dc49991e541c39274a3e497c"
+    },
+    "product": {
+      "file": "product.csv",
+      "rows": 3798,
+      "columns": 11,
+      "key": [
+        "product_id"
+      ],
+      "provenance": "REAL",
+      "hana_table": "product",
+      "hana_tier": "CORE",
+      "bytes": 335871,
+      "sha256": "b14d1c142ccf1a5f353671fdcf99ed1e10eeda3074001529baf963edb0a096d4"
+    },
+    "warehouse": {
+      "file": "warehouse.csv",
+      "rows": 3,
+      "columns": 6,
+      "key": [
+        "warehouse_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "warehouse",
+      "hana_tier": "CORE",
+      "bytes": 257,
+      "sha256": "95a6fa8e832d45899e1dcf5bd2ebae50f39a345c565ed8304d4e36d24f6a1916"
+    },
+    "supplier": {
+      "file": "supplier.csv",
+      "rows": 8,
+      "columns": 8,
+      "key": [
+        "supplier_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "supplier",
+      "hana_tier": "CORE",
+      "bytes": 644,
+      "sha256": "beeb763315f13aeb35da4d3bc8671606c0137815368aa1c66b1044ee4a6c4e70"
+    },
+    "supplier_product": {
+      "file": "supplier_product.csv",
+      "rows": 14,
+      "columns": 7,
+      "key": [
+        "supplier_id",
+        "product_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "supplier_product",
+      "hana_tier": "CORE",
+      "bytes": 637,
+      "sha256": "235d4b8b29b7acc3e04a798ff51c61ccf76ff1cbc87c7f381ca763b381cc3d59"
+    },
+    "route": {
+      "file": "route.csv",
+      "rows": 10,
+      "columns": 17,
+      "key": [
+        "route_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "route",
+      "hana_tier": "CORE",
+      "bytes": 2551,
+      "sha256": "f5790ac0e9f920a3a738eb2b8a789c07839a1ce3677bd2a995f1d1ca5f7813b3"
+    },
+    "tariff": {
+      "file": "tariff.csv",
+      "rows": 3771,
+      "columns": 9,
+      "key": [
+        "origin_iso3",
+        "dest_iso3",
+        "hs_section",
+        "effective_year"
+      ],
+      "provenance": "REAL",
+      "hana_table": "tariff",
+      "hana_tier": "CORE",
+      "bytes": 472765,
+      "sha256": "c24119666884a90963e7957a93caa3e0dbdbb15cd597baa64a1e90cf95c84ace"
+    },
+    "disruption_event": {
+      "file": "disruption_event.csv",
+      "rows": 4,
+      "columns": 11,
+      "key": [
+        "event_id"
+      ],
+      "provenance": "AUTHORED",
+      "hana_table": "disruption_event",
+      "hana_tier": "CORE",
+      "bytes": 1257,
+      "sha256": "a0b3843dc9a2643a391050ea56cd197fc51aa91f6fb6f5ee915b024b4e422f84"
+    },
+    "disruption_impact": {
+      "file": "disruption_impact.csv",
+      "rows": 4,
+      "columns": 7,
+      "key": [
+        "event_id",
+        "entity_type",
+        "entity_id"
+      ],
+      "provenance": "AUTHORED",
+      "hana_table": "disruption_impact",
+      "hana_tier": "CORE",
+      "bytes": 747,
+      "sha256": "f3e3ff27c6d00f69c811ab350f4bceaf70d8043116e231c888a40092da7f3972"
+    },
+    "scenario": {
+      "file": "scenario.csv",
+      "rows": 9,
+      "columns": 8,
+      "key": [
+        "scenario_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "scenario",
+      "hana_tier": "CORE",
+      "bytes": 1919,
+      "sha256": "6e9a2b9c67466cd1b2aa560733ed4c96e9a80f196cc03316744c9855c51c5c77"
+    },
+    "scenario_state": {
+      "file": "scenario_state.csv",
+      "rows": 13,
+      "columns": 7,
+      "key": [
+        "scenario_id",
+        "entity_type",
+        "entity_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "scenario_state",
+      "hana_tier": "CORE",
+      "bytes": 1734,
+      "sha256": "81d97046b2b773403829ded06cea70aeec142e8950ca078cfca1a353a4f97cea"
+    },
+    "scenario_param": {
+      "file": "scenario_param.csv",
+      "rows": 10,
+      "columns": 8,
+      "key": [
+        "scenario_id",
+        "param_key",
+        "qualifier"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "scenario_param",
+      "hana_tier": "CORE",
+      "bytes": 988,
+      "sha256": "cd434e74f5f576afc5672983761ab635c9e21407cb19e48258b2e8a6b05666d1"
+    },
+    "inventory_policy": {
+      "file": "inventory_policy.csv",
+      "rows": 3,
+      "columns": 9,
+      "key": [
+        "warehouse_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "inventory_policy",
+      "hana_tier": "CORE",
+      "bytes": 272,
+      "sha256": "de71f595fdc7f8af674e73c10841aff0b3ed8219ca1683cfb67307e64322dc94"
+    },
+    "inventory": {
+      "file": "inventory.csv",
+      "rows": 44880,
+      "columns": 13,
+      "key": [
+        "warehouse_id",
+        "product_id",
+        "date"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "inventory_snapshot",
+      "hana_tier": "CORE",
+      "bytes": 2891976,
+      "sha256": "5d5ab8f18ba05b0cb84051e4fd0bfbfbe1f549ce32f7a74bde5b1ed30424158d"
+    },
+    "demand": {
+      "file": "demand.csv",
+      "rows": 300837,
+      "columns": 8,
+      "key": [
+        "date",
+        "product_id",
+        "location_id"
+      ],
+      "provenance": "DERIVED",
+      "hana_table": "demand_daily",
+      "hana_tier": "CORE",
+      "bytes": 14905525,
+      "sha256": "1dabc2c3a95c3352776dadf71a69805d32b1fce8fd9847c2b285e77f8822d0e5"
+    },
+    "demand_modeling_panel": {
+      "file": "demand_modeling_panel.csv",
+      "rows": 14960,
+      "columns": 18,
+      "key": [
+        "date",
+        "product_id",
+        "location_id"
+      ],
+      "provenance": "DERIVED",
+      "hana_table": "ref_demand_panel",
+      "hana_tier": "CORE",
+      "bytes": 2016676,
+      "sha256": "879705774d9d40879da50d1f8daa2c3c470af7e89505d4b025892b60c0f95a49"
+    },
+    "sales_order_line": {
+      "file": "sales_order_line.csv",
+      "rows": 522038,
+      "columns": 14,
+      "key": [
+        "order_id",
+        "line_no"
+      ],
+      "provenance": "REAL",
+      "hana_table": "sales_order_line",
+      "hana_tier": "OPTIONAL",
+      "bytes": 46969138,
+      "sha256": "6a9f1c7aca22c08f8abb5d7e3c07e338d5d9ee129e002f90dce059a3ea70b683"
+    },
+    "tariff_latest": {
+      "file": "tariff_latest.csv",
+      "rows": 217,
+      "columns": 10,
+      "key": [
+        "origin_iso3"
+      ],
+      "provenance": "REAL",
+      "hana_table": "tariff_latest",
+      "hana_tier": "OPTIONAL",
+      "bytes": 29659,
+      "sha256": "5257ff0bba6182ba6ef3c2e846941507f1b6924267abfe457adf80e4b74ed7fd"
+    },
+    "weather_event_noaa": {
+      "file": "weather_event_noaa.csv",
+      "rows": 69801,
+      "columns": 16,
+      "key": [
+        "event_id"
+      ],
+      "provenance": "REAL",
+      "hana_table": "weather_event",
+      "hana_tier": "NOT_LOADED",
+      "bytes": 11580423,
+      "sha256": "db2c65c3450efb8982f78a5a66612bc7bd6ac041f893cf570e6f4c75f86819e6"
+    },
+    "ntm_prevalence_sector": {
+      "file": "ntm_prevalence_sector.csv",
+      "rows": 3943,
+      "columns": 7,
+      "key": [
+        "reporter_iso3",
+        "sector",
+        "ntm_type_count_bucket"
+      ],
+      "provenance": "REAL",
+      "hana_table": "ntm_prevalence_sector",
+      "hana_tier": "NOT_LOADED",
+      "bytes": 769464,
+      "sha256": "398e8da1bd98893b83f3b61597a49d3193d7f3145a50bae051b6fab35373a3a9"
+    },
+    "supply_chain_pressure_index": {
+      "file": "supply_chain_pressure_index.csv",
+      "rows": 297,
+      "columns": 18,
+      "key": [
+        "date"
+      ],
+      "provenance": "REAL",
+      "hana_table": "supply_chain_pressure_index",
+      "hana_tier": "NOT_LOADED",
+      "bytes": 123932,
+      "sha256": "c8aedb4391da133fedf4c1e998d4d9c4bb2d49c91bec8717afa7fa795f2cc77f"
+    },
+    "geopolitical_event_synthetic": {
+      "file": "geopolitical_event_synthetic.csv",
+      "rows": 10003,
+      "columns": 10,
+      "key": [
+        "event_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "geopolitical_event_synthetic",
+      "hana_tier": "NOT_LOADED",
+      "bytes": 1776812,
+      "sha256": "f97b5ba24e3809448066bde97cd32ae323847e4527089f67fdb096f73074e61b"
+    },
+    "trade_route_synthetic": {
+      "file": "trade_route_synthetic.csv",
+      "rows": 31300,
+      "columns": 22,
+      "key": [
+        "week_date",
+        "route_id"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "trade_route_synthetic",
+      "hana_tier": "NOT_LOADED",
+      "bytes": 8054517,
+      "sha256": "50f33191e1e72f80a31dc6878f1e11b67af7a84d27e80af4d7dfb5569a2c4731"
+    },
+    "commodity_market_synthetic": {
+      "file": "commodity_market_synthetic.csv",
+      "rows": 626,
+      "columns": 9,
+      "key": [
+        "week_date"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "commodity_market_synthetic",
+      "hana_tier": "NOT_LOADED",
+      "bytes": 140701,
+      "sha256": "774d52040530b0edfb34b6bea379eaa20a5627ae7662a49ccad89788ddcc2f00"
+    },
+    "country_metadata_synthetic": {
+      "file": "country_metadata_synthetic.csv",
+      "rows": 10,
+      "columns": 11,
+      "key": [
+        "iso3"
+      ],
+      "provenance": "SYNTHETIC",
+      "hana_table": "country_metadata_synthetic",
+      "hana_tier": "NOT_LOADED",
+      "bytes": 2131,
+      "sha256": "5e28a7815bf343e8a6c9d77fa20df71ff12f071650908cf9cecd955d29d4ebe3"
+    }
+  },
+  "steps": {
+    "cancellations": {
+      "workbook_rows": 541909,
+      "dispositions": {
+        "CANCELLATION": 8667,
+        "DUPLICATE_ROW": 5268,
+        "NON_POSITIVE_PRICE": 1156,
+        "NON_PRODUCT_CODE": 2944,
+        "SALE": 522038,
+        "STOCK_ADJUSTMENT": 1336,
+        "UNSPECIFIED_COUNTRY": 500
+      },
+      "sale_lines": 522038,
+      "sale_lines_fully_cancelled": 2768,
+      "sale_lines_partly_cancelled": 4561,
+      "units_gross": 5557599,
+      "units_cancelled_and_removed": 248962,
+      "units_net": 5308637,
+      "cancellation_outcomes": {
+        "MATCHED_FULL": {
+          "cancellations": 7397,
+          "units": 248507
+        },
+        "MATCHED_PARTIAL": {
+          "cancellations": 56,
+          "units": 1012
+        },
+        "UNMATCHED_NO_CUSTOMER": {
+          "cancellations": 162,
+          "units": 2306
+        },
+        "UNMATCHED_NO_PRIOR_SALE": {
+          "cancellations": 1052,
+          "units": 18190
+        }
+      },
+      "cancelled_units_by_lag": {
+        "within_1_day": 182843,
+        "1_to_30_days": 41363,
+        "over_30_days": 24756
+      },
+      "median_lag_days": 9.87,
+      "quantity_outlier_upper_fence": 41.0,
+      "quantity_outlier_lines": 18932,
+      "bridge_to_phase3_demand": {
+        "legacy_units": 5625725,
+        "removed_because_not_a_priced_sale_or_not_a_product": {
+          "NON_POSITIVE_PRICE": 68018,
+          "NON_PRODUCT_CODE": 108
+        },
+        "removed_because_cancelled": 248962,
+        "new_net_units": 5308637
+      }
+    },
+    "demand_panel": {
+      "series_selected": 40,
+      "series_eligible_by_active_days": 981,
+      "series_total": 18907,
+      "calendar_days": 374,
+      "calendar": [
+        "2010-12-01",
+        "2011-12-09"
+      ],
+      "panel_rows": 14960,
+      "split_counts": {
+        "train": 10440,
+        "test": 2280,
+        "val": 2240
+      },
+      "disruption_active_rows": 0,
+      "rows_with_outlier_line": 2440,
+      "locations": [
+        "United Kingdom"
+      ],
+      "selected_series": [
+        {
+          "product_id": "22197",
+          "location_id": "United Kingdom",
+          "total_demand": 52910,
+          "active_days": 291
+        },
+        {
+          "product_id": "84077",
+          "location_id": "United Kingdom",
+          "total_demand": 48230,
+          "active_days": 223
+        },
+        {
+          "product_id": "85099B",
+          "location_id": "United Kingdom",
+          "total_demand": 43154,
+          "active_days": 300
+        },
+        {
+          "product_id": "84879",
+          "location_id": "United Kingdom",
+          "total_demand": 33590,
+          "active_days": 298
+        },
+        {
+          "product_id": "85123A",
+          "location_id": "United Kingdom",
+          "total_demand": 33237,
+          "active_days": 305
+        },
+        {
+          "product_id": "22616",
+          "location_id": "United Kingdom",
+          "total_demand": 25087,
+          "active_days": 236
+        },
+        {
+          "product_id": "21212",
+          "location_id": "United Kingdom",
+          "total_demand": 24748,
+          "active_days": 294
+        },
+        {
+          "product_id": "22178",
+          "location_id": "United Kingdom",
+          "total_demand": 23219,
+          "active_days": 288
+        },
+        {
+          "product_id": "17003",
+          "location_id": "United Kingdom",
+          "total_demand": 22765,
+          "active_days": 152
+        },
+        {
+          "product_id": "15036",
+          "location_id": "United Kingdom",
+          "total_demand": 20970,
+          "active_days": 228
+        },
+        {
+          "product_id": "21977",
+          "location_id": "United Kingdom",
+          "total_demand": 20258,
+          "active_days": 273
+        },
+        {
+          "product_id": "22386",
+          "location_id": "United Kingdom",
+          "total_demand": 18921,
+          "active_days": 288
+        },
+        {
+          "product_id": "84946",
+          "location_id": "United Kingdom",
+          "total_demand": 18653,
+          "active_days": 275
+        },
+        {
+          "product_id": "22086",
+          "location_id": "United Kingdom",
+          "total_demand": 18223,
+          "active_days": 161
+        },
+        {
+          "product_id": "21915",
+          "location_id": "United Kingdom",
+          "total_demand": 17740,
+          "active_days": 230
+        },
+        {
+          "product_id": "22469",
+          "location_id": "United Kingdom",
+          "total_demand": 17388,
+          "active_days": 257
+        },
+        {
+          "product_id": "23203",
+          "location_id": "United Kingdom",
+          "total_demand": 17370,
+          "active_days": 183
+        },
+        {
+          "product_id": "47566",
+          "location_id": "United Kingdom",
+          "total_demand": 16693,
+          "active_days": 291
+        },
+        {
+          "product_id": "85099F",
+          "location_id": "United Kingdom",
+          "total_demand": 16029,
+          "active_days": 263
+        },
+        {
+          "product_id": "22355",
+          "location_id": "United Kingdom",
+          "total_demand": 15953,
+          "active_days": 281
+        },
+        {
+          "product_id": "84755",
+          "location_id": "United Kingdom",
+          "total_demand": 15353,
+          "active_days": 244
+        },
+        {
+          "product_id": "23084",
+          "location_id": "United Kingdom",
+          "total_demand": 15153,
+          "active_days": 134
+        },
+        {
+          "product_id": "22693",
+          "location_id": "United Kingdom",
+          "total_demand": 14900,
+          "active_days": 166
+        },
+        {
+          "product_id": "20725",
+          "location_id": "United Kingdom",
+          "total_demand": 14553,
+          "active_days": 296
+        },
+        {
+          "product_id": "22492",
+          "location_id": "United Kingdom",
+          "total_demand": 13921,
+          "active_days": 168
+        },
+        {
+          "product_id": "84991",
+          "location_id": "United Kingdom",
+          "total_demand": 13589,
+          "active_days": 262
+        },
+        {
+          "product_id": "20724",
+          "location_id": "United Kingdom",
+          "total_demand": 13318,
+          "active_days": 282
+        },
+        {
+          "product_id": "85099C",
+          "location_id": "United Kingdom",
+          "total_demand": 12971,
+          "active_days": 281
+        },
+        {
+          "product_id": "22151",
+          "location_id": "United Kingdom",
+          "total_demand": 12835,
+          "active_days": 189
+        },
+        {
+          "product_id": "21790",
+          "location_id": "United Kingdom",
+          "total_demand": 12811,
+          "active_days": 278
+        },
+        {
+          "product_id": "22952",
+          "location_id": "United Kingdom",
+          "total_demand": 12732,
+          "active_days": 151
+        },
+        {
+          "product_id": "20668",
+          "location_id": "United Kingdom",
+          "total_demand": 12667,
+          "active_days": 121
+        },
+        {
+          "product_id": "21931",
+          "location_id": "United Kingdom",
+          "total_demand": 12639,
+          "active_days": 287
+        },
+        {
+          "product_id": "71459",
+          "location_id": "United Kingdom",
+          "total_demand": 12540,
+          "active_days": 209
+        },
+        {
+          "product_id": "21213",
+          "location_id": "United Kingdom",
+          "total_demand": 12448,
+          "active_days": 261
+        },
+        {
+          "product_id": "23199",
+          "location_id": "United Kingdom",
+          "total_demand": 12233,
+          "active_days": 197
+        },
+        {
+          "product_id": "22961",
+          "location_id": "United Kingdom",
+          "total_demand": 11967,
+          "active_days": 282
+        },
+        {
+          "product_id": "22998",
+          "location_id": "United Kingdom",
+          "total_demand": 11965,
+          "active_days": 214
+        },
+        {
+          "product_id": "84568",
+          "location_id": "United Kingdom",
+          "total_demand": 11578,
+          "active_days": 105
+        },
+        {
+          "product_id": "23201",
+          "location_id": "United Kingdom",
+          "total_demand": 11491,
+          "active_days": 197
+        }
+      ]
+    },
+    "inventory": {
+      "rows": 44880,
+      "warehouses": [
+        "Mumbai",
+        "Chennai",
+        "Delhi"
+      ],
+      "products": 40,
+      "days": 374,
+      "total_demand_units": 766802,
+      "total_outbound_units": 762945,
+      "total_unfilled_units": 3857,
+      "unfilled_share_pct": 0.503,
+      "stockout_rows": 26,
+      "stockout_rows_by_warehouse": {
+        "Chennai": 9,
+        "Delhi": 7,
+        "Mumbai": 10
+      },
+      "replenishment_events": 2066,
+      "products_never_replenished": 0
+    },
+    "ports": {
+      "input_rows": 3669,
+      "rows": 3669,
+      "skipped_missing_or_zero_coordinates": 0,
+      "with_iso3": 2410,
+      "without_iso3": 1259,
+      "duplicate_name_and_country": 24
+    },
+    "routes": {
+      "rows": 10,
+      "added_lanes": [
+        "MUM-ROT-CAPE",
+        "CHE-ROT-CAPE"
+      ],
+      "distance_change_km": {
+        "SHA-ROT-SUEZ": {
+          "legacy": 11425.6,
+          "now": 20040.6
+        },
+        "SHA-ROT-CAPE": {
+          "legacy": 22618.8,
+          "now": 27457.5
+        },
+        "SIN-ROT-SUEZ": {
+          "legacy": 11406.6,
+          "now": 15927.7
+        },
+        "SIN-ROT-CAPE": {
+          "legacy": 19304.7,
+          "now": 23344.6
+        },
+        "MUM-ROT-SUEZ": {
+          "legacy": 7500.3,
+          "now": 12350.4
+        },
+        "CHE-ROT-SUEZ": {
+          "legacy": 8510.3,
+          "now": 14256.7
+        }
+      },
+      "cape_over_suez": {
+        "SHA": 1.37,
+        "SIN": 1.466,
+        "MUM": 1.731,
+        "CHE": 1.52
+      }
+    },
+    "tariffs": {
+      "reference_year": 2022,
+      "observations": 3771,
+      "countries_with_data": 188,
+      "countries_total": 217,
+      "status_counts": {
+        "CURRENT": 143,
+        "STALE": 45,
+        "NO_DATA": 29
+      },
+      "flag_counts": {
+        "OK": 3707,
+        "JUMP_GE_10PP": 55,
+        "EXTREME_VALUE;JUMP_GE_10PP": 6,
+        "EXTREME_VALUE": 3
+      },
+      "values_altered_or_filled": 0,
+      "max_staleness_years": 20
+    },
+    "weather": {
+      "rows": 69801,
+      "input_rows": 69801,
+      "dropped_unparseable_dates": 0,
+      "date_range": [
+        "2024-01-01 00:00:00",
+        "2024-12-31 23:30:00"
+      ],
+      "event_types": 50,
+      "severity_counts": {
+        "LOW": 63471,
+        "MEDIUM": 4864,
+        "CRITICAL": 1079,
+        "HIGH": 387
+      },
+      "rows_without_coordinates": 27611,
+      "end_before_start": 0
+    },
+    "authored_events": {
+      "events": 4,
+      "impact_rows": 4,
+      "tariff_event_us_jump_pp_2018_to_2019": 12.19,
+      "tariff_event_corroborated": true,
+      "verification_status_counts": {
+        "UNVERIFIED_IN_WORKSPACE": 3,
+        "CORROBORATED_BY_WDI": 1
+      }
+    },
+    "supplier_products": {
+      "products": [
+        "22197",
+        "84077",
+        "85099B"
+      ]
+    },
+    "ntm_prevalence": {
+      "rows": 3943,
+      "reporters": 75,
+      "sectors": 17,
+      "buckets": [
+        "1 type",
+        "2 types",
+        "3+ types",
+        "No NTMs"
+      ],
+      "share_pct_range": [
+        0.02,
+        100.0
+      ]
+    },
+    "supply_chain_pressure_index": {
+      "rows": 297,
+      "date_range": [
+        "2001-01-01",
+        "2025-09-01"
+      ],
+      "dwell_columns_first_populated": "2009-01-01",
+      "dwell_columns_null_count": 96,
+      "gscpi_range": [
+        -1.5792072457474595,
+        4.476788014421103
+      ]
+    },
+    "geopolitical_event_synthetic": {
+      "rows": 10003,
+      "named_real_event_rows": 3,
+      "event_types": [
+        "Border Conflict",
+        "COVID Supply Shock",
+        "Cyber Attack",
+        "Diplomatic Crisis",
+        "Export Restriction",
+        "Maritime Conflict",
+        "Political Unrest",
+        "Port Strike",
+        "Red Sea Crisis",
+        "Russia Ukraine War",
+        "Terrorism",
+        "Trade Sanction",
+        "War"
+      ],
+      "date_range": [
+        "2015-01-01",
+        "2026-12-31"
+      ]
+    },
+    "trade_route_synthetic": {
+      "rows": 31300,
+      "route_ids": 50,
+      "date_range": [
+        "2015-01-04",
+        "2026-12-27"
+      ],
+      "route_status_counts": {
+        "Delayed": 20038,
+        "Normal": 10264,
+        "Disrupted": 998
+      }
+    },
+    "commodity_market_synthetic": {
+      "rows": 626,
+      "date_range": [
+        "2015-01-04",
+        "2026-12-27"
+      ]
+    },
+    "country_metadata_synthetic": {
+      "rows": 10,
+      "iso3_values": [
+        "AUS",
+        "BRA",
+        "CAN",
+        "CHN",
+        "DEU",
+        "FRA",
+        "GBR",
+        "IND",
+        "JPN",
+        "USA"
+      ],
+      "warning": "iso3 correctly identifies real countries; every other attribute (population, gdp_per_capita, income_group, ...) is synthetic/randomized and must not be treated as that country's real statistic"
+    }
+  },
+  "legacy_comparison": {
+    "phase3_inventory_rows": 302884,
+    "phase3_inventory_repeated_keys": 27901,
+    "phase3_inventory_warehouse_ids": [
+      "DEFAULT"
+    ],
+    "phase3_supplier_status_in_master": {
+      "S001": "DISRUPTED",
+      "S002": "REDUCED",
+      "S003": "ACTIVE",
+      "S004": "ACTIVE",
+      "S005": "ACTIVE",
+      "S006": "ACTIVE",
+      "S007": "ACTIVE",
+      "S008": "ACTIVE"
+    },
+    "phase3_supplier_products": [
+      "22197",
+      "23166",
+      "84077"
+    ],
+    "cleaned_supplier_products": [
+      "22197",
+      "84077",
+      "85099B"
+    ],
+    "phase3_demand_units": 5625725,
+    "cleaned_demand_units": 5308637,
+    "phase3_panel_products": 40,
+    "cleaned_panel_products": 40,
+    "panel_products_kept": 38,
+    "panel_products_dropped": [
+      "20713",
+      "23166"
+    ],
+    "panel_products_added": [
+      "23201",
+      "84568"
+    ]
+  },
+  "checks": [
+    {
+      "name": "country: key ['iso3'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "country: key ['iso3'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 217 rows"
+    },
+    {
+      "name": "country: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "port: key ['port_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "port: key ['port_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 3,669 rows"
+    },
+    {
+      "name": "port: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "port.country_iso3 -> country.iso3 resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "product: key ['product_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "product: key ['product_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 3,798 rows"
+    },
+    {
+      "name": "product: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "supplier: key ['supplier_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "supplier: key ['supplier_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 8 rows"
+    },
+    {
+      "name": "supplier: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "supplier.country_iso3 -> country.iso3 resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "supplier.origin_port_id -> port.port_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "supplier_product: key ['supplier_id', 'product_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "supplier_product: key ['supplier_id', 'product_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 14 rows"
+    },
+    {
+      "name": "supplier_product: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "supplier_product.supplier_id -> supplier.supplier_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "supplier_product.product_id -> product.product_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "warehouse: key ['warehouse_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "warehouse: key ['warehouse_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 3 rows"
+    },
+    {
+      "name": "warehouse: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "warehouse.country_iso3 -> country.iso3 resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "warehouse.nearest_port_id -> port.port_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "route: key ['route_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "route: key ['route_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 10 rows"
+    },
+    {
+      "name": "route: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "route.origin_port_id -> port.port_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "route.destination_port_id -> port.port_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "sales_order_line: key ['order_id', 'line_no'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "sales_order_line: key ['order_id', 'line_no'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 522,038 rows"
+    },
+    {
+      "name": "sales_order_line: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "sales_order_line.product_id -> product.product_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "sales_order_line.country_iso3 -> country.iso3 resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "demand: key ['date', 'product_id', 'location_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "demand: key ['date', 'product_id', 'location_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 300,837 rows"
+    },
+    {
+      "name": "demand: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "demand.product_id -> product.product_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "demand.country_iso3 -> country.iso3 resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "demand_modeling_panel: key ['date', 'product_id', 'location_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "demand_modeling_panel: key ['date', 'product_id', 'location_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 14,960 rows"
+    },
+    {
+      "name": "demand_modeling_panel: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "demand_modeling_panel.product_id -> product.product_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "inventory: key ['warehouse_id', 'product_id', 'date'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "inventory: key ['warehouse_id', 'product_id', 'date'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 44,880 rows"
+    },
+    {
+      "name": "inventory: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "inventory.warehouse_id -> warehouse.warehouse_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "inventory.product_id -> product.product_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "inventory_policy: key ['warehouse_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "inventory_policy: key ['warehouse_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 3 rows"
+    },
+    {
+      "name": "inventory_policy: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "inventory_policy.warehouse_id -> warehouse.warehouse_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "tariff: key ['origin_iso3', 'dest_iso3', 'hs_section', 'effective_year'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "tariff: key ['origin_iso3', 'dest_iso3', 'hs_section', 'effective_year'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 3,771 rows"
+    },
+    {
+      "name": "tariff: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "tariff.origin_iso3 -> country.iso3 resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "tariff_latest: key ['origin_iso3'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "tariff_latest: key ['origin_iso3'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 217 rows"
+    },
+    {
+      "name": "tariff_latest: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "tariff_latest.origin_iso3 -> country.iso3 resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "weather_event_noaa: key ['event_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "weather_event_noaa: key ['event_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 69,801 rows"
+    },
+    {
+      "name": "weather_event_noaa: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "disruption_event: key ['event_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "disruption_event: key ['event_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 4 rows"
+    },
+    {
+      "name": "disruption_event: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "disruption_impact: key ['event_id', 'entity_type', 'entity_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "disruption_impact: key ['event_id', 'entity_type', 'entity_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 4 rows"
+    },
+    {
+      "name": "disruption_impact: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "disruption_impact.event_id -> disruption_event.event_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "scenario: key ['scenario_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "scenario: key ['scenario_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 9 rows"
+    },
+    {
+      "name": "scenario: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "scenario.based_on_event_id -> disruption_event.event_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "scenario_state: key ['scenario_id', 'entity_type', 'entity_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "scenario_state: key ['scenario_id', 'entity_type', 'entity_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 13 rows"
+    },
+    {
+      "name": "scenario_state: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "scenario_state.scenario_id -> scenario.scenario_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "scenario_param: key ['scenario_id', 'param_key', 'qualifier'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "scenario_param: key ['scenario_id', 'param_key', 'qualifier'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 10 rows"
+    },
+    {
+      "name": "scenario_param: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "scenario_param.scenario_id -> scenario.scenario_id resolves",
+      "passed": true,
+      "detail": "0 orphan rows"
+    },
+    {
+      "name": "ntm_prevalence_sector: key ['reporter_iso3', 'sector', 'ntm_type_count_bucket'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "ntm_prevalence_sector: key ['reporter_iso3', 'sector', 'ntm_type_count_bucket'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 3,943 rows"
+    },
+    {
+      "name": "ntm_prevalence_sector: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "supply_chain_pressure_index: key ['date'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "supply_chain_pressure_index: key ['date'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 297 rows"
+    },
+    {
+      "name": "supply_chain_pressure_index: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "geopolitical_event_synthetic: key ['event_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "geopolitical_event_synthetic: key ['event_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 10,003 rows"
+    },
+    {
+      "name": "geopolitical_event_synthetic: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "trade_route_synthetic: key ['week_date', 'route_id'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "trade_route_synthetic: key ['week_date', 'route_id'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 31,300 rows"
+    },
+    {
+      "name": "trade_route_synthetic: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "commodity_market_synthetic: key ['week_date'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "commodity_market_synthetic: key ['week_date'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 626 rows"
+    },
+    {
+      "name": "commodity_market_synthetic: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "country_metadata_synthetic: key ['iso3'] has no nulls",
+      "passed": true,
+      "detail": "0 null-key rows"
+    },
+    {
+      "name": "country_metadata_synthetic: key ['iso3'] is unique",
+      "passed": true,
+      "detail": "0 repeated keys in 10 rows"
+    },
+    {
+      "name": "country_metadata_synthetic: every row has a valid provenance",
+      "passed": true,
+      "detail": "invalid: []"
+    },
+    {
+      "name": "demand: gross - cancelled = net on every sale line, and net is never negative",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "demand: total net units on sale lines = total units in demand.csv",
+      "passed": true,
+      "detail": "5,308,637 vs 5,308,637"
+    },
+    {
+      "name": "demand: the two known cancelled orders (74,215 and 80,995 units) contribute nothing",
+      "passed": true,
+      "detail": "largest daily demand is 4,848"
+    },
+    {
+      "name": "demand: no non-positive demand rows",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "demand: every sale line is a priced sale",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "panel: each series' total equals its total in demand.csv (densifying only adds zero days)",
+      "passed": true,
+      "detail": "766,802 vs 766,802"
+    },
+    {
+      "name": "panel: dense calendar (every series has every day)",
+      "passed": true,
+      "detail": "374 days"
+    },
+    {
+      "name": "panel: 40 series",
+      "passed": true,
+      "detail": "40 series"
+    },
+    {
+      "name": "inventory: (warehouse_id, product_id, date) is unique AND the grid is complete",
+      "passed": true,
+      "detail": "44,880 rows, grid 44,880"
+    },
+    {
+      "name": "inventory: closing = opening + inbound - outbound exactly, with no clipping",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "inventory: stock and flows are never negative",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "inventory: each day opens with the previous day's closing stock",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "inventory: outbound + unfilled = demand, and stockout_flag = (unfilled > 0)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "inventory: the warehouses' demand sums to the panel's demand on every product-day (no unit lost or invented)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "inventory: only products of the modeling panel",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "suppliers: no disruption state in the master tables",
+      "passed": true,
+      "detail": "state columns found: []"
+    },
+    {
+      "name": "suppliers: supplier_id alone repeats in supplier_product (so the pair is the key), and is unique in supplier",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "suppliers: every supplier is named SYNTHETIC",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "suppliers: every supplier carries a product and every product has at least two suppliers",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "suppliers: nominal capacity is positive for every pair (a disruption is not baked in)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "suppliers: supplier products are products of the modeling panel and of the inventory ledger",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "scenarios: BASELINE_NORMAL exists and changes nothing (no state rows: every supplier ACTIVE, every lane NORMAL)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "scenarios: the old demo start (S001 DISRUPTED, S002 REDUCED) is kept as a scenario",
+      "passed": true,
+      "detail": "{'S001': 'DISRUPTED', 'S002': 'REDUCED'}"
+    },
+    {
+      "name": "scenarios: every scenario of scenarios.yaml is present",
+      "passed": true,
+      "detail": "missing []"
+    },
+    {
+      "name": "scenarios: every scenario_state entity is a real route or supplier",
+      "passed": true,
+      "detail": "0 unknown entities"
+    },
+    {
+      "name": "scenarios: every historical impact names a real route",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "scenarios: scenario_param keys are unique per scenario and qualifier",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "routes: each of the four origins has both a SUEZ and a CAPE lane",
+      "passed": true,
+      "detail": "{'CHE': True, 'MUM': True, 'SHA': True, 'SIN': True}"
+    },
+    {
+      "name": "routes: the Cape lane is longer than the Suez lane for every origin",
+      "passed": true,
+      "detail": "{'CHE': 1.52, 'MUM': 1.73, 'SHA': 1.37, 'SIN': 1.47}"
+    },
+    {
+      "name": "routes: every Phase 3 route id is kept",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "routes: the lanes scenarios.yaml says a Suez closure blocks are exactly the lanes through the canal",
+      "passed": true,
+      "detail": "['CHE-ROT-SUEZ', 'MUM-ROT-SUEZ', 'SHA-ROT-SUEZ', 'SIN-ROT-SUEZ'] vs ['CHE-ROT-SUEZ', 'MUM-ROT-SUEZ', 'SHA-ROT-SUEZ', 'SIN-ROT-SUEZ']"
+    },
+    {
+      "name": "tariffs: every value equals the World Bank file, none added, filled or rounded",
+      "passed": true,
+      "detail": "3,771 observations"
+    },
+    {
+      "name": "tariffs: every country is CURRENT, STALE or NO_DATA",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "events: NOAA rows are all REAL and never mixed with AUTHORED events",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "provenance: everything invented is SYNTHETIC",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "provenance: the real sources are REAL",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "checks_failed": 0
+}

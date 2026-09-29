@@ -1,0 +1,11 @@
+scenario_id,param_key,qualifier,param_value,param_text,unit,basis,provenance
+SUEZ_CLOSURE,duration_days,ALL,10.0,,days,backend/config/scenarios.yaml estimated_duration,SYNTHETIC
+SUEZ_CLOSURE,severity,ALL,,CRITICAL,,backend/config/scenarios.yaml,SYNTHETIC
+SUPPLIER_FAILURE,duration_days,ALL,30.0,,days,backend/config/scenarios.yaml estimated_duration,SYNTHETIC
+SUPPLIER_FAILURE,severity,ALL,,HIGH,,backend/config/scenarios.yaml,SYNTHETIC
+SEVERE_WEATHER,duration_days,ALL,5.0,,days,backend/config/scenarios.yaml estimated_duration,SYNTHETIC
+SEVERE_WEATHER,severity,ALL,,HIGH,,backend/config/scenarios.yaml,SYNTHETIC
+TARIFF_INCREASE,duration_days,ALL,60.0,,days,backend/config/scenarios.yaml estimated_duration,SYNTHETIC
+TARIFF_INCREASE,severity,ALL,,MEDIUM,,backend/config/scenarios.yaml,SYNTHETIC
+TARIFF_INCREASE,tariff_add_pct,TUR,25.0,,percentage points,added to the World Bank baseline rate,SYNTHETIC
+RED_SEA_DIVERSION,duration_days,ALL,90.0,,days,illustrative duration (A17),SYNTHETIC

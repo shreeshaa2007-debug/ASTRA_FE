@@ -548,12 +548,13 @@ def test_a_step_that_fails_is_counted_by_step_and_the_run_is_recorded_as_failed(
 
 
 @requires_built_data
-def test_readiness_lists_what_it_checked_and_is_ready_when_the_core_is_there():
+def test_readiness_lists_what_it_checked_and_is_ready_when_the_core_is_there(monkeypatch):
+    monkeypatch.setenv("GROQ_API_KEY", "test-groq-key")  # so compliance_llm reads as configured too, like the llm check's injected fake
     client, _, _ = make()
     response = client.get("/api/ready")
     body = data(response)
     assert response.status_code == 200 and body["ready"] is True
-    assert [c["name"] for c in body["checks"]] == ["database", "datasets", "forecast_model", "llm", "llm_circuit"]
+    assert [c["name"] for c in body["checks"]] == ["database", "datasets", "forecast_model", "llm", "llm_circuit", "compliance_llm"]
     assert all(c["ok"] for c in body["checks"]) and body["degraded"] is False
 
 
@@ -579,6 +580,19 @@ def test_a_missing_llm_key_is_degraded_not_down(monkeypatch):
     assert response.status_code == 200 and body["ready"] is True and body["degraded"] is True
     llm = next(c for c in body["checks"] if c["name"] == "llm")
     assert llm["ok"] is False and llm["required"] is False and "scenarios still run" in llm["detail"]
+
+
+@requires_built_data
+def test_a_missing_groq_key_is_degraded_not_down_and_never_blocks_compliance(monkeypatch):
+    monkeypatch.delenv("GROQ_API_KEY", raising=False)
+    store = WorldStateStore(SqlAlchemyWorldStateRepository("sqlite:///:memory:"))
+    ctx = AppContext(store, Orchestrator(store, SensingAgent(llm=NeverCalledLLM())), RunRegistry(None))
+    client = TestClient(create_app(context=ctx), raise_server_exceptions=False)
+    response = client.get("/api/ready")
+    body = response.json()["data"]
+    assert response.status_code == 200 and body["ready"] is True and body["degraded"] is True
+    check = next(c for c in body["checks"] if c["name"] == "compliance_llm")
+    assert check["ok"] is False and check["required"] is False and "written rationale" in check["detail"]
 
 
 @requires_built_data

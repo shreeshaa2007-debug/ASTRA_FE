@@ -1,0 +1,14 @@
+scenario_id,entity_type,entity_id,status,capacity_factor,basis,provenance
+SUEZ_CLOSURE,ROUTE,SHA-ROT-SUEZ,DISRUPTED,0.0,from backend/config/scenarios.yaml through the state layer's EVENT_EFFECTS,SYNTHETIC
+SUEZ_CLOSURE,ROUTE,SIN-ROT-SUEZ,DISRUPTED,0.0,from backend/config/scenarios.yaml through the state layer's EVENT_EFFECTS,SYNTHETIC
+SUEZ_CLOSURE,ROUTE,MUM-ROT-SUEZ,DISRUPTED,0.0,from backend/config/scenarios.yaml through the state layer's EVENT_EFFECTS,SYNTHETIC
+SUEZ_CLOSURE,ROUTE,CHE-ROT-SUEZ,DISRUPTED,0.0,from backend/config/scenarios.yaml through the state layer's EVENT_EFFECTS,SYNTHETIC
+SUPPLIER_FAILURE,SUPPLIER,S007,DISRUPTED,0.0,from backend/config/scenarios.yaml through the state layer's EVENT_EFFECTS,SYNTHETIC
+SEVERE_WEATHER,ROUTE,MUM-ROT-CAPE,DISRUPTED,0.0,from backend/config/scenarios.yaml through the state layer's EVENT_EFFECTS; a port closure also closes the port's other lanes,SYNTHETIC
+SEVERE_WEATHER,ROUTE,MUM-ROT-SUEZ,DISRUPTED,0.0,from backend/config/scenarios.yaml through the state layer's EVENT_EFFECTS; a port closure also closes the port's other lanes,SYNTHETIC
+RED_SEA_DIVERSION,ROUTE,SHA-ROT-SUEZ,DISRUPTED,0.0,every lane whose chokepoints include Bab-el-Mandeb (A17),SYNTHETIC
+RED_SEA_DIVERSION,ROUTE,SIN-ROT-SUEZ,DISRUPTED,0.0,every lane whose chokepoints include Bab-el-Mandeb (A17),SYNTHETIC
+RED_SEA_DIVERSION,ROUTE,MUM-ROT-SUEZ,DISRUPTED,0.0,every lane whose chokepoints include Bab-el-Mandeb (A17),SYNTHETIC
+RED_SEA_DIVERSION,ROUTE,CHE-ROT-SUEZ,DISRUPTED,0.0,every lane whose chokepoints include Bab-el-Mandeb (A17),SYNTHETIC
+DEMO_LEGACY_START,SUPPLIER,S001,DISRUPTED,0.0,as in Phase 3 suppliers.csv,SYNTHETIC
+DEMO_LEGACY_START,SUPPLIER,S002,REDUCED,0.5,as in Phase 3 suppliers.csv,SYNTHETIC

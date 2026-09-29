@@ -1,25 +1,23 @@
 """Logistics Agent tool functions — per agent-plan.md: get_routes(),
 check_route_capacity(), calculate_transport_cost(), calculate_eta(),
-generate_alternative_routes(). Reads data/processed/routes.csv (Phase 3/7 —
+generate_alternative_routes(). Reads the `routes` dataset (Phase 3/7 —
 real port coordinates, documented-heuristic cost/time, see
-backend/services/preprocessing/ports_routes.py). No shared world state exists
+backend/services/preprocessing/ports_routes.py) through backend/data, so
+it comes from routes.csv or a `ref_routes` table. No shared world state exists
 yet (Phase 12), so "which routes are currently disrupted" is passed in as a
 parameter here rather than read from live state — the same pattern the
 Inventory Agent uses.
 """
 from __future__ import annotations
 
-from functools import lru_cache
-from pathlib import Path
-
 import pandas as pd
 
-ROUTES_PATH = Path("data/processed/routes.csv")
+from backend.data import cached_dataset_loader, get_datasets
 
 
-@lru_cache(maxsize=1)
+@cached_dataset_loader()
 def _load_routes() -> pd.DataFrame:
-    return pd.read_csv(ROUTES_PATH)
+    return get_datasets().load("routes")
 
 
 def get_routes(

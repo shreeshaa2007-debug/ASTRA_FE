@@ -56,6 +56,11 @@ SAP services actually do today, not assumed:
 | Shared world state persistence | In-process store, snapshotted to **SQLite** file per simulation | **SAP HANA Cloud** tables | Swap the persistence adapter only; the state schema (§5) is written to be a valid HANA Cloud table design from day one |
 | Shipment/supplier/inventory/route data | Flat files in `data/processed`, loaded into SQLite | SAP HANA Cloud / S/4HANA extension tables | n/a — MVP-only concern |
 
+**Update (Phase 21):** that promise is now true for four rows of the table above — the world-state store, the reference
+data, sign-in and integration — and there is an event/signal contract for SAP Integration Suite. They are built and tested
+against SQLite, local servers and the real HANA SQL dialect, and **not yet against a live SAP tenant**. What each seam is,
+how it is configured and what is unverified: [sap-readiness.md](sap-readiness.md).
+
 **What this buys us:** the frontend (and every test) talks to the same REST
 contract regardless of which row above is "real." Section 11
 (`OptimizationEngine`) is the sharpest example — the prompt for this project
@@ -297,7 +302,10 @@ ResilientSC/
 │   ├── tools/                 the controlled tool functions agents call (§16)
 │   ├── services/               cross-cutting: world-state store, config, logging
 │   ├── schemas/                 pydantic models = the internal schemas in §5 of the brief
-│   ├── database/                 SQLite adapter now, HANA Cloud adapter later, same interface
+│   ├── database/                 world-state repository + engine selection (SQLite, HANA Cloud via DATABASE_URL / binding) + DDL export
+│   ├── data/                     reference-data access: CSV files or ref_* tables (Phase 21)
+│   ├── integration/              CloudEvents out (Integration Suite), disruption signals in (Phase 21)
+│   ├── sap/                      the only code that knows SAP formats: VCAP_SERVICES, HANA, XSUAA, OAuth (Phase 21)
 │   ├── simulation/                 scenario definitions + generic disruption framework (§19)
 │   ├── orchestration/               the state machine (§15)
 │   ├── monitoring/                    structured run logs, drift stub (§20, §26)

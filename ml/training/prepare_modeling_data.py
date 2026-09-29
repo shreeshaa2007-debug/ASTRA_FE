@@ -1,6 +1,6 @@
-"""Phase 4 step 1: turns Phase 3's sparse demand panel (data/processed/demand.csv
-— one row per day a sale actually happened) into a proper dense daily panel
-for forecasting.
+"""Phase 4 step 1: turns the corrected demand table (data/cleaned/demand.csv —
+one row per day a sale actually happened, cancellations netted out) into a
+proper dense daily panel for forecasting.
 
 This fixes a real methodology gap found while starting Phase 4: Phase 3's
 lag_1/lag_7/rolling_mean_* columns were computed on the SPARSE series, so
@@ -8,9 +8,23 @@ lag_1/lag_7/rolling_mean_* columns were computed on the SPARSE series, so
 for an intermittent product that sells once a week, that silently turns a
 1-day lag into a week-old value. Densifying to a full daily calendar (missing
 days = demand_quantity 0) and recomputing features on that is what makes
-lag/rolling actually mean what their names say. Phase 3's demand.csv itself is
-left untouched — it's still a valid "total demand by day-it-occurred" table for
-other uses; this module builds a separate, modeling-specific dense panel.
+lag/rolling actually mean what their names say.
+
+As of the retrain that fixed ml/artifacts/xgboost_demand's documented
+staleness (see data/cleaned/DATA_READINESS_REPORT.md section 6, "the trained
+forecast model is stale"), this reads data/cleaned/demand.csv (cancellations
+correctly netted per sale line) rather than the earlier data/processed/demand.csv
+(which double-counted some cancelled orders as demand). The corrected panel's
+top-40 series differ from Phase 3's (2 products swap, per the readiness
+report), so OUTPUT_PATH must NOT be data/processed/demand_modeling_panel.csv:
+the running application's forecast_series() reads that exact file for live
+demand history regardless of which model checkpoint is loaded, and
+data/processed/suppliers.csv (an unrelated, untouched Phase 3 file) still
+names the old product set — overwriting it in place breaks that file's
+product_id contract out from under it. This writes a sibling file instead, so
+data/processed/demand_modeling_panel.csv and everything that reads it (the
+live app, backend/tests/test_sourcing_agent.py's product-id consistency
+check, ...) are unaffected by a retrain.
 
 Scope: full-catalog dense forecasting (19,133 product x location series) is a
 production scaling concern, not a hackathon-MVP one. This selects the top
@@ -29,8 +43,8 @@ import pandas as pd
 from backend.services.preprocessing import disruptions as disruptions_mod
 from backend.services.preprocessing.features import build_feature_panel
 
-DEMAND_PATH = Path("data/processed/demand.csv")
-OUTPUT_PATH = Path("data/processed/demand_modeling_panel.csv")
+DEMAND_PATH = Path("data/cleaned/demand.csv")
+OUTPUT_PATH = Path("data/processed/demand_modeling_panel_cleaned.csv")
 
 TOP_K = 40
 MIN_ACTIVE_DAYS = 100

@@ -31,7 +31,7 @@ has a `provenance` of `real`, `derived` or `synthetic`) and in [data/dataset_reg
 | Inventory / Logistics / Sourcing agents | **Real, deterministic** | Tool functions over the data above: forecast → stockout risk → transfer; route capacity, cost, ETA, alternatives; supplier capacity and landed cost including tariffs. |
 | Optimization Engine | **Real** | An integer program solved with HiGHS (scipy) — a "Prototype Optimization", labelled as such in every response. Every plan is re-checked by an independent validator; infeasible problems return a diagnosis, never a fake plan. |
 | Compliance Agent | **Real, deterministic** | Four rule checks read from `backend/config/compliance_rules.yaml`. **No LLM.** The sanctions and restricted-country lists ship **empty** — inventing a list would be irresponsible — so a rejection appears only if someone configures one (tests do). |
-| Human approval | **Real workflow, unauthenticated** | A named decider, tied to the plan version they were shown, recorded in an append-only audit trail. There is no login: the name is typed. |
+| Human approval | **Real workflow; sign-in optional** | A named decider, tied to the plan version they were shown, recorded in an append-only audit trail. By default there is no login: the name is typed. With authentication on (`AUTH_MODE=jwt`, XSUAA) the name is taken from the verified token instead — built and tested locally, not yet against a real identity provider. |
 | Scenario comparison | **Real, simple** | "Do nothing" = the baseline plan with what the disruption invalidates removed. A modelled counterfactual — not a simulation of how an organisation would scramble. |
 | Port congestion, demand surge | **Not modelled** | The pipeline records such events but nothing acts on them; the Scenarios page says so instead of showing a number. |
 
@@ -40,6 +40,7 @@ has a `provenance` of `real`, `derived` or `synthetic`) and in [data/dataset_reg
 | | Status |
 |---|---|
 | SAP IBP / S/4HANA / BTP / AI Core / Event Mesh | **Not connected.** A target architecture is documented in [architecture.md](architecture.md) §2 and the optimizer and the world-state store sit behind interfaces so an SAP-backed adapter is a swap, not a rewrite. The UI's footer says "not connected". |
+| SAP HANA Cloud, XSUAA, Integration Suite | **Prepared, not connected.** Adapters exist and were tested against SQLite, local HTTP servers and the real HANA SQL dialect; no live tenant was available. What is and is not proven is tabulated in [sap-readiness.md](sap-readiness.md) §6 — say "ready to connect", never "integrated". |
 | Purchase orders, ERP write-back | **None.** "Approve" finalizes the plan *in this app's world state* and nothing else. |
 | Live data feeds (AIS, news, weather APIs) | **None.** A report is typed in or comes from a scenario definition. |
 

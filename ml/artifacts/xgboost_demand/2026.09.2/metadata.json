@@ -1,0 +1,25 @@
+{
+  "model_name": "xgboost_demand",
+  "model_version": "2026.09.2",
+  "training_dataset": "data/processed/demand_modeling_panel_cleaned.csv",
+  "demand_source": "data/cleaned/demand.csv",
+  "training_dataset_rows": 14960,
+  "training_date": "2026-09-29T10:19:10.706895+00:00",
+  "feature_schema": [
+    "lag_1",
+    "lag_2",
+    "lag_7",
+    "lag_14",
+    "lag_28",
+    "rolling_mean_7",
+    "rolling_mean_14",
+    "rolling_mean_28",
+    "day_of_week",
+    "month",
+    "disruption_active",
+    "product_id",
+    "location_id"
+  ],
+  "best_iteration": 37,
+  "xgboost_version": "3.0.5"
+}

@@ -135,7 +135,8 @@ def save_artifacts(result: dict, panel_report: dict, comparison: dict, version: 
     metadata = {
         "model_name": "xgboost_demand",
         "model_version": version,
-        "training_dataset": "data/processed/demand_modeling_panel.csv",
+        "training_dataset": "data/processed/demand_modeling_panel_cleaned.csv",
+        "demand_source": "data/cleaned/demand.csv",
         "training_dataset_rows": panel_report["dense_panel_rows"],
         "training_date": datetime.now(timezone.utc).isoformat(),
         "feature_schema": FEATURE_COLUMNS,

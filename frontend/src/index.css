@@ -1,68 +1,94 @@
 @import "tailwindcss";
 
+/*
+ * OilShield — Agentic AI Oil Supply Chain Control Tower
+ * Enterprise Design System inspired by SAP Fiori Horizon & Modern Supply Chain Control Towers
+ */
 @theme {
-  --color-surface: #0b1326;
-  --color-surface-dim: #0b1326;
-  --color-surface-bright: #31394d;
-  --color-surface-container-lowest: #060e20;
-  --color-surface-container-low: #131b2e;
-  --color-surface-container: #171f33;
-  --color-surface-container-high: #222a3d;
-  --color-surface-container-highest: #2d3449;
-  --color-on-surface: #dae2fd;
-  --color-on-surface-variant: #bec8d2;
-  --color-outline: #88929b;
-  --color-outline-variant: #3e4850;
-  --color-primary: #89ceff;
-  --color-on-primary: #00344d;
-  --color-primary-container: #0ea5e9;
-  --color-on-primary-container: #003751;
-  --color-secondary: #4edea3;
-  --color-on-secondary: #003824;
-  --color-secondary-container: #00a572;
-  --color-on-secondary-container: #00311f;
-  --color-tertiary: #ffb95f;
-  --color-on-tertiary: #472a00;
-  --color-tertiary-container: #d88a00;
-  --color-error: #ffb4ab;
-  --color-error-container: #93000a;
-  --font-headline: 'Space Grotesk', sans-serif;
-  --font-body: 'Hanken Grotesk', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --color-canvas: #f8fafc;
+  --color-card: #ffffff;
+  --color-inset: #f1f5f9;
+  --color-raised: #e2e8f0;
+  --color-line: #e2e8f0;
+
+  --color-ink: #111827;
+  --color-ink-2: #374151;
+  --color-muted: #6b7280;
+
+  /* Figma-Inspired Logistics Theme: Deep Forest Green */
+  --color-primary: #154734;
+  --color-primary-strong: #0e3325;
+  --color-primary-soft: #f0fdf4;
+  --color-primary-border: #bbf7d0;
+  --color-primary-hover: #1b5941;
+
+  /* Muted Green Accent */
+  --color-accent: #2d6a4f;
+  --color-accent-soft: #ecfdf5;
+
+  /* Charcoal / Dark Sections used selectively */
+  --color-charcoal-dark: #111827;
+  --color-charcoal-card: #1f2937;
+  --color-charcoal-border: #374151;
+  --color-charcoal-hover: #283548;
+
+  /* Backward compatibility for navy tokens mapped to selective charcoal */
+  --color-navy-dark: #111827;
+  --color-navy-card: #1f2937;
+  --color-navy-border: #374151;
+  --color-navy-hover: #283548;
+  --color-navy-accent: #154734;
+
+  /* Distinct, Accessible Status Colors */
+  --color-success: #15803d;
+  --color-success-soft: #f0fdf4;
+  --color-warning: #d97706;
+  --color-warning-soft: #fffbeb;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fef2f2;
+  --color-info: #0284c7;
+  --color-info-soft: #f0f9ff;
+
+  --font-headline: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+
+  --shadow-card: 0 1px 3px 0 rgb(17 24 39 / 0.05), 0 1px 2px -1px rgb(17 24 39 / 0.05);
+  --shadow-elevated: 0 10px 15px -3px rgb(17 24 39 / 0.07), 0 4px 6px -4px rgb(17 24 39 / 0.04);
+  --shadow-pop: 0 20px 25px -5px rgb(17 24 39 / 0.10), 0 8px 10px -6px rgb(17 24 39 / 0.06);
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  font-family: 'Hanken Grotesk', sans-serif;
-  background-color: #0b1326;
-  color: #dae2fd;
+  font-family: var(--font-body);
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
 }
 
-.font-headline {
-  font-family: 'Space Grotesk', sans-serif;
-}
-
-.font-mono {
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* Custom scrollbar */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #060e20;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #222a3d;
-  border-radius: 3px;
+  background: #cbd5e1;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3e4850;
+  background: #94a3b8;
 }
 
 .radar-ping {
@@ -76,7 +102,63 @@ body {
   }
 }
 
-.grid-bg {
-  background-image: radial-gradient(#1e293b 1px, transparent 1px);
-  background-size: 20px 20px;
+.pulse-slow {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* SVG and Flow Line styles */
+.flow-line {
+  stroke-dasharray: 8 6;
+  animation: flow-dash 1.6s linear infinite;
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+/* Figma-inspired theme utilities */
+.btn-forest-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  transition: all 150ms ease;
+  box-shadow: 0 1px 2px 0 rgb(17 24 39 / 0.05);
+}
+
+.btn-forest-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-forest-secondary {
+  background-color: #ffffff;
+  color: #374151;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-xl);
+  font-weight: 600;
+  transition: all 150ms ease;
+}
+
+.btn-forest-secondary:hover {
+  background-color: #f8fafc;
+  color: #111827;
+}
+
+.card-panel {
+  background-color: #ffffff;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+

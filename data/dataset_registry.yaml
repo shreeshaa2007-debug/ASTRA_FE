@@ -183,6 +183,119 @@ datasets:
       closure's real dates and duration) — this is Phase 3 work, not
       fabricated here.
 
+  - name: ntm_prevalence_sector_unctad
+    status: ACQUIRED
+    category: "G. Tariffs / trade"
+    source: "Structure matches the UNCTAD/World Bank Non-Tariff Measures (NTM) database's prevalence-by-sector export (the WITS/TRAINS NTM data family). Provided directly, not downloaded from a logged URL in this environment, so the exact publisher URL and vintage are NOT independently verified here — verify before citing externally."
+    url: "not verified in this workspace"
+    download_url: "not verified in this workspace"
+    license: "not verified in this workspace — UNCTAD/WITS NTM data is typically open, but confirm before redistribution"
+    file_format: csv
+    local_path: "data/raw/ntm_prevalence_sector_unctad/NTM-Prevalence-Sector.csv"
+    rows: 3943
+    columns: 5
+    column_names: ["ReporterIS03 (sic — header has a digit '0', not the letter 'O', and a UTF-8 BOM on the first cell; read with encoding='utf-8-sig')", "Sector", "NTM Type Count", "Share %", "NTM affected product - count"]
+    reporters: 75
+    sectors: 16
+    sector_values: ["All Import Products", "Animal", "Chemicals", "Food Products", "Footwear", "Fuels", "Hides and Skins", "Mach and Elec", "Metals", "Minerals", "Miscellaneous", "Plastic or Rubber", "Stone and Glass", "Textiles and Clothing", "Transportation", "Vegetable", "Wood"]
+    ntm_type_count_buckets: [" No NTMs (sic — leading space in the raw value)", "1 type", "2 types", "3+ types"]
+    missing_values: "none observed across all 5 columns"
+    data_quality_issues:
+      - "grain is (reporter ISO3, sector, NTM-type-count bucket) -> share of that reporter-sector's products falling in that bucket, NOT a tariff rate; complements tariff.csv (applied tariff %) rather than extending it — the two must not be merged into one column"
+      - "'NTM Type Count' is a categorical bucket string ('1 type', '2 types', '3+ types', ' No NTMs'), not a number; a numeric NTM-count feature would need bucket midpoints assumed, which has not been done here"
+      - "'All Import Products' is a reporter-sector aggregate row mixed in alongside the 16 named sectors — must be filtered out (or kept separate) before treating the 15 named sectors as a partition"
+    internal_schema_mapping: "No existing table in tables.py covers non-tariff measures; this is a new category, not a fit for TARIFF. Intended as a future ntm_prevalence_sector table (REAL) alongside tariff.csv, not yet built into data/cleaned (see docs/architecture.md follow-up)."
+    intended_use: "Would enrich the Compliance/Sourcing agents' view of non-tariff trade friction per country/sector, alongside tariff.csv's applied-tariff-rate signal."
+    redistribution: "Not verified in this workspace — confirm the source's license before external redistribution."
+
+  - name: supply_chain_pressure_dwell_index
+    status: ACQUIRED
+    category: "I. Macro / supply-chain-pressure indicators (new category)"
+    source: "Column names strongly match well-known published series — NY Fed Global Supply Chain Pressure Index ('gscpi'), BLS/FRED CPI-U all-items/goods/services ('cpi_us'/'cpi_goods'/'cpi_services'), Federal Reserve G.17 Industrial Production Index ('indpro'), a crude oil price series ('oil_price'), and Port of LA / Marine Exchange of Southern California vessel dwell time ('dwell_la_raw', 'la_unique_vessels'). Provided directly, not downloaded from a logged URL, so this attribution is inferred from column semantics and NOT independently re-verified against each publisher in this environment."
+    url: "not verified in this workspace"
+    download_url: "not verified in this workspace"
+    license: "not verified in this workspace — the underlying series (BLS, Federal Reserve, NY Fed) are typically public-domain US government/central-bank data, but this specific compiled file's own license is unconfirmed"
+    file_format: csv
+    local_path: "data/raw/supply_chain_pressure_dwell_index/analysis_dataset_dwell.csv"
+    rows: 297
+    columns: 16
+    column_names: [date, cpi_us, cpi_goods, cpi_services, indpro, oil_price, gscpi, cpi_yoy, cpi_goods_yoy, cpi_services_yoy, indpro_yoy, oil_yoy, dwell_composite, dwell_la_raw, la_unique_vessels, dwell_la_detrended]
+    date_range: "2001-01-01 to 2025-09-01, monthly"
+    missing_values:
+      "dwell_composite, dwell_la_raw, la_unique_vessels, dwell_la_detrended": "blank from 2001-01 through 2008-12 (96 rows), populated from 2009-01 onward — Port-of-LA vessel-dwell tracking in this file evidently starts in 2009, not 2001; the macro columns (cpi_*, indpro, oil_price, gscpi) are populated for the full 2001-2025 range"
+    data_quality_issues:
+      - "two duplicate copies of this file were provided ('analysis_dataset_dwell.csv' and 'analysis_dataset_dwell (1).csv'); byte-for-byte identical (diff confirmed) — only one copy was kept"
+      - "monthly grain; the existing demand.csv/demand_modeling_panel.csv are daily (2010-12 to 2011-12) — any join to the demand panel would be many-to-one by month, not a like-for-like merge"
+      - "gscpi (Global Supply Chain Pressure Index) is the one column most directly on-theme for a supply-chain resilience platform; it was NOT added as a model feature in this pass (scope was 'retrain on the corrected panel', not 'add new features') — noted here as a concrete follow-up"
+    internal_schema_mapping: "No existing table in tables.py covers macro/pressure indices; this is a new category. Intended as a future supply_chain_pressure_index table (REAL/DERIVED) — not yet built into data/cleaned."
+    intended_use: "Candidate exogenous signal for the Sensing agent's disruption context and, later, as an XGBoost demand-model feature (joined by month) — flagged for a future pass, not done in this one."
+    redistribution: "Not verified in this workspace — confirm each underlying series' license before external redistribution."
+
+  - name: weather_noaa_storm_events_1950
+    status: PARTIAL
+    category: "H. Weather"
+    source: "NOAA National Centers for Environmental Information — Storm Events Database (same source family as weather_noaa_storm_events, which holds 2024)"
+    url: "https://www.ncei.noaa.gov/stormevents/"
+    download_url: "not logged in this workspace — provided directly"
+    license: "Public domain (US government work), consistent with the existing weather_noaa_storm_events entry"
+    file_format: csv
+    local_path: "data/raw/weather_noaa_storm_events_1950/StormEvents_details-ftp_v1.0_d1950_c20260323.csv"
+    rows: 223
+    columns: 51
+    date_range: "1950-01 to 1950-12 (tornado-only reporting era — NOAA's storm-event tracking in 1950 covered far fewer event types than 2024)"
+    data_quality_issues:
+      - "covers a single year, 1950, 74 years before the existing weather_noaa_storm_events table's year (2024) — the two do NOT form a continuous time series; merging them into one table would misleadingly imply continuous multi-decade coverage that does not exist"
+      - "NOT merged into weather_event_noaa.csv in data/cleaned for this reason — kept as a separate acquisition, documented but not built into a cleaned table in this pass"
+    intended_use: "A single additional historical reference point if a future pass wants multi-decade NOAA coverage; would need the intervening years acquired too before it adds real time-series value."
+    redistribution: "Public domain; safe to redistribute."
+
+  - name: emergency_situation_synthetic_kaggle
+    status: ACQUIRED
+    category: "F. Disruptions / events (synthetic) + E. Ports/routes (synthetic) + macro (synthetic)"
+    source: "A 9-file extract from a larger multi-topic Kaggle sample-data bundle (the accompanying national_ais_release_manifest-style audit files reference sibling tables in the same bundle — Train, supply_chain_dataset1, c2k_data_comma, mnist_train_small, california_housing_test/train, mnist_test — confirming this is a generic practice/sample-datasets collection, not a dedicated real-world supply-chain research dataset)."
+    url: "not verified in this workspace"
+    file_format: csv (zipped as 'EMERGENCY_SITUATION DATASET.zip')
+    local_path: "data/raw/emergency_situation_synthetic_kaggle/*.csv"
+    provenance_finding: >
+      GEOPOLITICAL_EVENTS.csv, ROUTE_INTEGRATED.csv, COMMODITY_MARKET.csv and COUNTRY_METADATA.csv are SYNTHETIC, not
+      real historical/observed data — verified three independent ways, not assumed: (1) date coverage runs from
+      2015-01-01 to 2026-12-31, i.e. into the future relative to today (2026-09-29); no real dataset has 2026-12-31
+      history already recorded. (2) COMMODITY_MARKET.csv's oil_price shows no crash during the real March-April 2020
+      COVID oil-price collapse (stays in the $38-47 range; WTI briefly went negative in reality). (3) COUNTRY_METADATA.csv
+      lists the United States as income_group 'Low income' with population 250,467,210 and India as 'High income' with
+      population 430,389,014 — both real countries' real attributes are scrambled/randomized, not measured.
+      GEOPOLITICAL_EVENTS.csv's 10,000 base rows (E000001-E010000) are near-uniformly distributed across 9 event-type
+      categories (~1,000 each) — a synthetic-generator signature — but it also contains 3 hand-labeled rows (MAJOR001
+      'COVID Supply Shock' 2020-03-15, MAJOR002 'Russia Ukraine War' 2022-02-24, MAJOR003 'Red Sea Crisis' 2024-01-01)
+      whose names and dates DO match real events; their numeric fields (duration_days, risk_increase) are still not
+      sourced/measured, so even these 3 rows are provenance SYNTHETIC as a whole row, with only the name/date being
+      real-world-anchored — documented per-row in geopolitical_event_synthetic's build, not silently treated as REAL.
+    tables:
+      - {file: GEOPOLITICAL_EVENTS.csv, rows: 10003, columns: 7, column_names: [event_id, date, event_type, severity, affected_region, duration_days, risk_increase], missing_values: "0 (per the bundle's own COLUMN_NULL_COUNTS.csv audit)"}
+      - {file: ROUTE_INTEGRATED.csv, rows: 31300, columns: 20, column_names: [date, route_id, trade_volume_tonnes, shipping_delay_days, freight_cost_usd, container_availability_index, port_congestion_index, fuel_cost_index, commodity_price_index, weather_disruption_score, geopolitical_risk_score, route_status, carbon_emissions_tonnes, origin_country, destination_country, distance_km, shipping_method, trade_route_type, estimated_transit_days, Route_Risk_Score], missing_values: "0", note: "a pre-joined/denormalized table (per the manifest, merges the bundle's own weekly_route_operations + trade_routes + commodity_market + geopolitical_events sub-tables)"}
+      - {file: COMMODITY_MARKET.csv, rows: 626, columns: 7, column_names: [date, oil_price, natural_gas_price, steel_price, wheat_price, copper_price, commodity_stress_index], missing_values: "0", date_range: "2015-01-04 to 2026-12-27, weekly"}
+      - {file: COUNTRY_METADATA.csv, rows: 10, columns: 9, column_names: [country, iso3, region, income_group, population, gdp_per_capita, trade_dependency_score, port_capacity_index, logistics_performance_index], missing_values: "0", note: "iso3 codes correctly identify 10 real countries; every other attribute value is synthetic/randomized (see provenance_finding) — do NOT treat as real country facts, and do NOT merge into country.csv"}
+      - {file: DAILY_DEMAND.csv, rows: 60, columns: 13, status: "REAL, not synthetic — this is the UCI 'Daily Demand Forecasting Orders' dataset (a Brazilian logistics company, order-category counts by week/day), confirmed by exact column match and by the sibling bundle's own manifest naming it 'Daily_Demand_Forecasting_Orders'", data_quality_issues: ["stored semicolon-delimited inside a .csv with a malformed multi-field header and trailing empty comma columns — needs a real parse (sep=';'), not pandas.read_csv defaults", "grain is (week-of-month, day-of-week) order-category counts for one unnamed company — no product_id or location_id, so it does NOT fit DEMAND's (date, product_id, location_id) grain and was not merged into demand.csv"], intended_use: "Acquired and documented; not integrated into any cleaned table this pass due to the grain mismatch (parallels the registry's existing NOT_ACQUIRED-style honesty about gaps, applied here to an acquired-but-not-yet-integrated file)."}
+      - {file: "NULL_SUMMARY.csv, DUPLICATE_REPORT.csv, COLUMN_NULL_COUNTS.csv, ROW_NULL_COUNTS.csv", note: "the bundle's own internal QA/audit output about ALL of its tables (including ones outside this extract, like mnist_train_small) — kept alongside as provenance evidence for the null/duplicate counts cited above, not themselves a data source to build a cleaned table from"}
+    internal_schema_mapping: "Built into data/cleaned as 4 new, clearly-labeled SYNTHETIC tables (geopolitical_event_synthetic, trade_route_synthetic, commodity_market_synthetic, country_metadata_synthetic) — see backend/services/preprocessing/cleaned/emergency_synthetic.py. Never merged into or presented alongside the REAL disruption_event/route/country tables; usable for Sensing-agent stress-testing volume, same role as the project's own scenario*.csv synthetic tables."
+    intended_use: "Stress-test / demo volume for scenario simulation — NOT a source of real disruption or trade history."
+    redistribution: "Not verified in this workspace."
+
+  - name: national_ais_release
+    status: NOT_ACQUIRED
+    category: "D. Transportation / logistics"
+    reason: >
+      Only a manifest (national_ais_release_manifest.csv: filename, byte size, sha256 per file) was provided, listing
+      18 files of a national AIS (vessel-tracking) data release — the actual data files (national_port_ais_2015.zip
+      through national_port_ais_2025.zip, 300-500MB each per the manifest's own byte counts, plus a 12.4MB
+      code_and_protocols.zip, vessel_characteristics.csv, and a port_areas_usace.geojson) are NOT present in this
+      workspace. Per the Phase 1 rule against fabricating dataset statistics, nothing about their contents is asserted
+      here beyond what the manifest itself states (names, sizes, hashes) — those files would need to be downloaded
+      before any AIS-derived table could be built and honestly described.
+    local_path: "data/raw/national_ais_release/national_ais_release_manifest.csv (manifest only)"
+    attempted_sources:
+      - {name: "the 18 files the manifest names", result: "not present in this workspace; only their manifest (names/sizes/hashes) was provided"}
+
 # Phase 2 summary
 # Acquired (4): demand_uci_online_retail, ports_world_port_index,
 #   tariffs_worldbank_wdi, weather_noaa_storm_events — all real, all
@@ -192,3 +305,23 @@ datasets:
 #   requirement, documented rather than worked around silently.
 # Partial (1): disruption_event_log — real statistical grounding for one
 #   scenario type, curated log needed for the rest.
+
+# Phase 3 summary (datasets dropped into ResilientSC-optimized/ and relocated here)
+# Acquired, REAL, built into data/cleaned (2): none yet built as of this entry for
+#   ntm_prevalence_sector_unctad / supply_chain_pressure_dwell_index — both ACQUIRED
+#   and inspected, but registered as a new category with no existing tables.py slot;
+#   see backend/services/preprocessing/cleaned/trade_measures.py and macro.py for the
+#   modules that DO build them into data/cleaned as ntm_prevalence_sector and
+#   supply_chain_pressure_index.
+# Acquired, SYNTHETIC, built into data/cleaned (1 bundle -> 4 tables):
+#   emergency_situation_synthetic_kaggle -> geopolitical_event_synthetic,
+#   trade_route_synthetic, commodity_market_synthetic, country_metadata_synthetic —
+#   verified synthetic (future dates, scrambled country facts, no COVID oil crash),
+#   never mixed with the REAL disruption_event/route/country tables.
+# Acquired, REAL, not integrated (1): DAILY_DEMAND.csv (UCI Daily Demand
+#   Forecasting Orders) — real but wrong grain (no product_id/location_id),
+#   documented, not merged into demand.csv.
+# Partial (1): weather_noaa_storm_events_1950 — real NOAA data for 1950 only;
+#   not merged with the 2024 table (74-year gap would misrepresent coverage).
+# Not acquired (1): national_ais_release — only a file manifest was provided,
+#   not the actual 300-500MB/year AIS data files.

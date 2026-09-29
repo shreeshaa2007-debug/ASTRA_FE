@@ -1,0 +1,218 @@
+origin_iso3,country_name,latest_year,tariff_rate_pct,reference_year,staleness_years,data_status,quality_flag,source,provenance
+ABW,Aruba,2021,9.66,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+AFG,Afghanistan,2018,5.63,2022,4,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+AGO,Angola,2022,8.85,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ALB,Albania,2022,0.26,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+AND,Andorra,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ARE,United Arab Emirates,2021,2.63,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ARG,Argentina,2022,6.45,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ARM,Armenia,2021,3.61,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ASM,American Samoa,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ATG,Antigua and Barbuda,2021,13.07,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+AUS,Australia,2022,0.99,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+AUT,Austria,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+AZE,Azerbaijan,2022,5.45,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BDI,Burundi,2022,8.96,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BEL,Belgium,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BEN,Benin,2022,10.16,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BFA,Burkina Faso,2022,7.25,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BGD,Bangladesh,2022,10.56,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BGR,Bulgaria,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BHR,Bahrain,2022,3.66,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BHS,"Bahamas, The",2022,16.34,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BIH,Bosnia and Herzegovina,2022,4.04,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BLR,Belarus,2021,2.27,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BLZ,Belize,2022,18.05,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BMU,Bermuda,2022,29.52,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BOL,Bolivia,2022,5.08,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BRA,Brazil,2022,7.26,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BRB,Barbados,2022,14.58,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BRN,Brunei Darussalam,2022,0.01,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BTN,Bhutan,2022,4.79,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+BWA,Botswana,2022,3.23,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CAF,Central African Republic,2022,14.48,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CAN,Canada,2022,1.37,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CHE,Switzerland,2022,1.3,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CHI,Channel Islands,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CHL,Chile,2022,0.46,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CHN,China,2022,2.18,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CIV,Côte d'Ivoire,2022,7.25,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CMR,Cameroon,2022,18.08,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+COD,"Congo, Dem. Rep.",2020,8.4,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+COG,"Congo, Rep.",2022,18.18,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+COL,Colombia,2022,2.83,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+COM,Comoros,2021,4.34,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CPV,Cabo Verde,2022,12.56,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CRI,Costa Rica,2022,1.3,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CUB,Cuba,2022,9.16,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CUW,Curaçao,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CYM,Cayman Islands,2021,20.39,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CYP,Cyprus,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+CZE,Czechia,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+DEU,Germany,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+DJI,Djibouti,2014,17.56,2022,8,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+DMA,Dominica,2020,7.84,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+DNK,Denmark,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+DOM,Dominican Republic,2022,3.97,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+DZA,Algeria,2022,9.25,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ECU,Ecuador,2022,5.19,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+EGY,"Egypt, Arab Rep.",2019,10.43,2022,3,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ERI,Eritrea,2006,5.43,2022,16,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ESP,Spain,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+EST,Estonia,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ETH,Ethiopia,2021,12.66,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+FIN,Finland,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+FJI,Fiji,2021,8.35,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+FRA,France,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+FRO,Faroe Islands,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+FSM,"Micronesia, Fed. Sts.",,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GAB,Gabon,2022,16.57,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GBR,United Kingdom,2022,1.0,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GEO,Georgia,2022,0.42,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GHA,Ghana,2022,12.51,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GIB,Gibraltar,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GIN,Guinea,2022,12.6,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GMB,"Gambia, The",2022,16.44,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GNB,Guinea-Bissau,2022,11.7,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GNQ,Equatorial Guinea,2022,18.18,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GRC,Greece,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GRD,Grenada,2022,12.98,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GRL,Greenland,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GTM,Guatemala,2022,2.39,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GUM,Guam,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+GUY,Guyana,2022,9.27,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+HKG,"Hong Kong SAR, China",2022,0.0,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+HND,Honduras,2022,2.11,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+HRV,Croatia,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+HTI,Haiti,2020,6.76,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+HUN,Hungary,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+IDN,Indonesia,2022,1.83,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+IMN,Isle of Man,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+IND,India,2022,4.59,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+IRL,Ireland,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+IRN,"Iran, Islamic Rep.",2020,12.09,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+IRQ,Iraq,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ISL,Iceland,2022,1.63,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ISR,Israel,2022,2.62,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ITA,Italy,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+JAM,Jamaica,2022,9.24,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+JOR,Jordan,2022,3.2,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+JPN,Japan,2022,1.64,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KAZ,Kazakhstan,2022,2.9,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KEN,Kenya,2022,11.7,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KGZ,Kyrgyz Republic,2021,3.01,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KHM,Cambodia,2022,7.2,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KIR,Kiribati,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KNA,St. Kitts and Nevis,2020,8.84,2022,2,STALE,JUMP_GE_10PP,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KOR,"Korea, Rep.",2022,5.66,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+KWT,Kuwait,2022,4.01,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LAO,Lao PDR,2022,1.41,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LBN,Lebanon,2020,2.83,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LBR,Liberia,2022,6.22,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LBY,Libya,2021,4.03,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LCA,St. Lucia,2020,9.08,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LIE,Liechtenstein,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LKA,Sri Lanka,2021,4.36,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LSO,Lesotho,2022,3.36,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LTU,Lithuania,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LUX,Luxembourg,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+LVA,Latvia,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MAC,"Macao SAR, China",2022,0.0,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MAF,St. Martin (French part),,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MAR,Morocco,2021,4.23,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MCO,Monaco,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MDA,Moldova,2022,1.16,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MDG,Madagascar,2022,8.74,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MDV,Maldives,2022,11.12,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MEX,Mexico,2022,1.62,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MHL,Marshall Islands,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MKD,North Macedonia,2022,2.34,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MLI,Mali,2022,8.9,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MLT,Malta,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MMR,Myanmar,2022,0.82,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MNE,Montenegro,2022,2.9,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MNG,Mongolia,2022,5.35,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MNP,Northern Mariana Islands,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MOZ,Mozambique,2021,4.19,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MRT,Mauritania,2022,8.68,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MUS,Mauritius,2022,1.2,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MWI,Malawi,2021,5.95,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+MYS,Malaysia,2022,3.42,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NAM,Namibia,2022,3.58,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NCL,New Caledonia,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NER,Niger,2022,8.36,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NGA,Nigeria,2022,9.34,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NIC,Nicaragua,2022,2.04,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NLD,Netherlands,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NOR,Norway,2022,2.31,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NPL,Nepal,2022,11.2,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NRU,Naoero,2021,14.07,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+NZL,New Zealand,2022,1.7,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+OMN,Oman,2022,2.14,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PAK,Pakistan,2022,7.61,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PAN,Panama,2022,5.93,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PER,Peru,2022,0.66,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PHL,Philippines,2022,1.76,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PLW,Palau,2021,9.49,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PNG,Papua New Guinea,2021,3.58,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+POL,Poland,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PRI,Puerto Rico (US),,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PRK,"Korea, Dem. People's Rep.",,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PRT,Portugal,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PRY,Paraguay,2022,4.63,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PSE,West Bank and Gaza,2017,2.18,2022,5,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+PYF,French Polynesia,2021,5.75,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+QAT,Qatar,2022,3.69,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ROU,Romania,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+RUS,Russian Federation,2021,4.17,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+RWA,Rwanda,2022,11.11,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SAU,Saudi Arabia,2022,5.4,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SDN,Sudan,2021,0.0,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SEN,Senegal,2022,8.4,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SGP,Singapore,2022,0.0,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SLB,Solomon Islands,2022,20.66,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SLE,Sierra Leone,2022,13.65,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SLV,El Salvador,2022,2.16,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SMR,San Marino,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SOM,"Somalia, Fed. Rep.",,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SRB,Serbia,2021,1.72,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SSD,South Sudan,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+STP,São Tomé and Principe,2019,9.97,2022,3,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SUR,Suriname,2022,7.8,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SVK,Slovak Republic,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SVN,Slovenia,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SWE,Sweden,2022,1.33,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SWZ,Eswatini,2022,2.98,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SXM,Sint Maarten (Dutch part),,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SYC,Seychelles,2022,1.27,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+SYR,Syrian Arab Republic,2020,9.21,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TCA,Turks and Caicos Islands,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TCD,Chad,2022,16.8,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TGO,Togo,2022,13.56,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+THA,Thailand,2022,3.67,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TJK,Tajikistan,2021,2.31,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TKM,Turkmenistan,2002,2.88,2022,20,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TLS,Timor-Leste,2021,2.53,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TON,Tonga,2022,6.44,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TTO,Trinidad and Tobago,2022,7.51,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TUN,Tunisia,2016,9.35,2022,6,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TUR,Türkiye,2022,4.31,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TUV,Tuvalu,2017,2.43,2022,5,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+TZA,Tanzania,2022,8.64,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+UGA,Uganda,2022,7.86,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+UKR,Ukraine,2022,1.86,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+URY,Uruguay,2022,4.85,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+USA,United States,2022,1.49,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+UZB,Uzbekistan,2021,2.56,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+VCT,St. Vincent and the Grenadines,2022,9.17,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+VEN,"Venezuela, RB",2022,12.84,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+VGB,British Virgin Islands,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+VIR,Virgin Islands (US),,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+VNM,Viet Nam,2022,1.07,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+VUT,Vanuatu,2022,11.48,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+WSM,Samoa,2020,10.38,2022,2,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+XKX,Kosovo,,,2022,,NO_DATA,,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+YEM,"Yemen, Rep.",2017,5.03,2022,5,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ZAF,South Africa,2022,4.66,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ZMB,Zambia,2022,4.08,2022,0,CURRENT,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL
+ZWE,Zimbabwe,2021,11.37,2022,1,STALE,OK,"World Bank WDI TM.TAX.MRCH.WM.AR.ZS (tariff rate, applied, weighted mean, all products)",REAL

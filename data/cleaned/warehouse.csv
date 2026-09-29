@@ -1,0 +1,4 @@
+warehouse_id,warehouse_name,city,country_iso3,nearest_port_id,provenance
+Mumbai,Mumbai warehouse (SYNTHETIC),Mumbai,IND,48840,SYNTHETIC
+Chennai,Chennai warehouse (SYNTHETIC),Chennai,IND,49450,SYNTHETIC
+Delhi,Delhi warehouse (SYNTHETIC),Delhi,IND,,SYNTHETIC

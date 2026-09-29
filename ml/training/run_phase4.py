@@ -19,7 +19,7 @@ from ml.training.metrics import wape
 from ml.training.prepare_modeling_data import build_modeling_panel
 from ml.training.train_xgboost import save_artifacts, train
 
-VERSION = "2026.09.1"
+VERSION = "2026.09.2"
 
 
 def per_series_wape(df: pd.DataFrame, pred_col: str) -> pd.DataFrame:

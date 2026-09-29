@@ -1,0 +1,5 @@
+event_id,entity_type,entity_id,delay_days,capacity_factor,basis,provenance
+CURATED-SUEZ-2021,ROUTE,SHA-ROT-SUEZ,6.0,0.0,every lane through the canal is blocked while the canal is (an inference); the six days are the authored estimate,AUTHORED
+CURATED-SUEZ-2021,ROUTE,SIN-ROT-SUEZ,6.0,0.0,every lane through the canal is blocked while the canal is (an inference); the six days are the authored estimate,AUTHORED
+CURATED-SUEZ-2021,ROUTE,MUM-ROT-SUEZ,6.0,0.0,every lane through the canal is blocked while the canal is (an inference); the six days are the authored estimate,AUTHORED
+CURATED-SUEZ-2021,ROUTE,CHE-ROT-SUEZ,6.0,0.0,every lane through the canal is blocked while the canal is (an inference); the six days are the authored estimate,AUTHORED

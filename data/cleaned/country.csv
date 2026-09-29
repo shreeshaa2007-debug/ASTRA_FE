@@ -1,0 +1,218 @@
+iso3,iso2,name,region,income_group,retail_label,provenance
+ABW,,Aruba,Latin America & Caribbean,High income,,REAL
+AFG,,Afghanistan,Middle East & North Africa,Low income,,REAL
+AGO,,Angola,Sub-Saharan Africa,Lower middle income,,REAL
+ALB,,Albania,Europe & Central Asia,Upper middle income,,REAL
+AND,,Andorra,Europe & Central Asia,High income,,REAL
+ARE,AE,United Arab Emirates,Middle East & North Africa,High income,United Arab Emirates,REAL
+ARG,,Argentina,Latin America & Caribbean,Upper middle income,,REAL
+ARM,,Armenia,Europe & Central Asia,Upper middle income,,REAL
+ASM,,American Samoa,East Asia & Pacific,High income,,REAL
+ATG,,Antigua and Barbuda,Latin America & Caribbean,High income,,REAL
+AUS,AU,Australia,East Asia & Pacific,High income,Australia,REAL
+AUT,AT,Austria,Europe & Central Asia,High income,Austria,REAL
+AZE,,Azerbaijan,Europe & Central Asia,Upper middle income,,REAL
+BDI,,Burundi,Sub-Saharan Africa,Low income,,REAL
+BEL,BE,Belgium,Europe & Central Asia,High income,Belgium,REAL
+BEN,,Benin,Sub-Saharan Africa,Lower middle income,,REAL
+BFA,,Burkina Faso,Sub-Saharan Africa,Low income,,REAL
+BGD,,Bangladesh,South Asia,Lower middle income,,REAL
+BGR,,Bulgaria,Europe & Central Asia,High income,,REAL
+BHR,BH,Bahrain,Middle East & North Africa,High income,Bahrain,REAL
+BHS,,"Bahamas, The",Latin America & Caribbean,High income,,REAL
+BIH,,Bosnia and Herzegovina,Europe & Central Asia,Upper middle income,,REAL
+BLR,,Belarus,Europe & Central Asia,Upper middle income,,REAL
+BLZ,,Belize,Latin America & Caribbean,Upper middle income,,REAL
+BMU,,Bermuda,North America,High income,,REAL
+BOL,,Bolivia,Latin America & Caribbean,Lower middle income,,REAL
+BRA,BR,Brazil,Latin America & Caribbean,Upper middle income,Brazil,REAL
+BRB,,Barbados,Latin America & Caribbean,High income,,REAL
+BRN,,Brunei Darussalam,East Asia & Pacific,High income,,REAL
+BTN,,Bhutan,South Asia,Lower middle income,,REAL
+BWA,,Botswana,Sub-Saharan Africa,Upper middle income,,REAL
+CAF,,Central African Republic,Sub-Saharan Africa,Low income,,REAL
+CAN,CA,Canada,North America,High income,Canada,REAL
+CHE,CH,Switzerland,Europe & Central Asia,High income,Switzerland,REAL
+CHI,,Channel Islands,Europe & Central Asia,High income,Channel Islands,REAL
+CHL,,Chile,Latin America & Caribbean,High income,,REAL
+CHN,CN,China,East Asia & Pacific,Upper middle income,,REAL
+CIV,,Côte d'Ivoire,Sub-Saharan Africa,Lower middle income,,REAL
+CMR,,Cameroon,Sub-Saharan Africa,Lower middle income,,REAL
+COD,,"Congo, Dem. Rep.",Sub-Saharan Africa,Low income,,REAL
+COG,,"Congo, Rep.",Sub-Saharan Africa,Lower middle income,,REAL
+COL,,Colombia,Latin America & Caribbean,Upper middle income,,REAL
+COM,,Comoros,Sub-Saharan Africa,Lower middle income,,REAL
+CPV,,Cabo Verde,Sub-Saharan Africa,Upper middle income,,REAL
+CRI,,Costa Rica,Latin America & Caribbean,High income,,REAL
+CUB,,Cuba,Latin America & Caribbean,Upper middle income,,REAL
+CUW,,Curaçao,Latin America & Caribbean,High income,,REAL
+CYM,,Cayman Islands,Latin America & Caribbean,High income,,REAL
+CYP,CY,Cyprus,Europe & Central Asia,High income,Cyprus,REAL
+CZE,CZ,Czechia,Europe & Central Asia,High income,Czech Republic,REAL
+DEU,DE,Germany,Europe & Central Asia,High income,Germany,REAL
+DJI,,Djibouti,Middle East & North Africa,Lower middle income,,REAL
+DMA,,Dominica,Latin America & Caribbean,Upper middle income,,REAL
+DNK,DK,Denmark,Europe & Central Asia,High income,Denmark,REAL
+DOM,,Dominican Republic,Latin America & Caribbean,Upper middle income,,REAL
+DZA,,Algeria,Middle East & North Africa,Upper middle income,,REAL
+ECU,,Ecuador,Latin America & Caribbean,Upper middle income,,REAL
+EGY,EG,"Egypt, Arab Rep.",Middle East & North Africa,Lower middle income,,REAL
+ERI,,Eritrea,Sub-Saharan Africa,Low income,,REAL
+ESP,ES,Spain,Europe & Central Asia,High income,Spain,REAL
+EST,,Estonia,Europe & Central Asia,High income,,REAL
+ETH,,Ethiopia,Sub-Saharan Africa,Low income,,REAL
+FIN,FI,Finland,Europe & Central Asia,High income,Finland,REAL
+FJI,,Fiji,East Asia & Pacific,Upper middle income,,REAL
+FRA,FR,France,Europe & Central Asia,High income,France,REAL
+FRO,,Faroe Islands,Europe & Central Asia,High income,,REAL
+FSM,,"Micronesia, Fed. Sts.",East Asia & Pacific,Upper middle income,,REAL
+GAB,,Gabon,Sub-Saharan Africa,Upper middle income,,REAL
+GBR,GB,United Kingdom,Europe & Central Asia,High income,United Kingdom,REAL
+GEO,,Georgia,Europe & Central Asia,Upper middle income,,REAL
+GHA,,Ghana,Sub-Saharan Africa,Lower middle income,,REAL
+GIB,,Gibraltar,Europe & Central Asia,High income,,REAL
+GIN,,Guinea,Sub-Saharan Africa,Lower middle income,,REAL
+GMB,,"Gambia, The",Sub-Saharan Africa,Low income,,REAL
+GNB,,Guinea-Bissau,Sub-Saharan Africa,Low income,,REAL
+GNQ,,Equatorial Guinea,Sub-Saharan Africa,Upper middle income,,REAL
+GRC,GR,Greece,Europe & Central Asia,High income,Greece,REAL
+GRD,,Grenada,Latin America & Caribbean,Upper middle income,,REAL
+GRL,,Greenland,Europe & Central Asia,High income,,REAL
+GTM,,Guatemala,Latin America & Caribbean,Upper middle income,,REAL
+GUM,,Guam,East Asia & Pacific,High income,,REAL
+GUY,,Guyana,Latin America & Caribbean,High income,,REAL
+HKG,HK,"Hong Kong SAR, China",East Asia & Pacific,High income,Hong Kong,REAL
+HND,,Honduras,Latin America & Caribbean,Lower middle income,,REAL
+HRV,,Croatia,Europe & Central Asia,High income,,REAL
+HTI,,Haiti,Latin America & Caribbean,Lower middle income,,REAL
+HUN,,Hungary,Europe & Central Asia,High income,,REAL
+IDN,,Indonesia,East Asia & Pacific,Upper middle income,,REAL
+IMN,,Isle of Man,Europe & Central Asia,High income,,REAL
+IND,IN,India,South Asia,Lower middle income,,REAL
+IRL,IE,Ireland,Europe & Central Asia,High income,EIRE,REAL
+IRN,,"Iran, Islamic Rep.",Middle East & North Africa,Upper middle income,,REAL
+IRQ,,Iraq,Middle East & North Africa,Upper middle income,,REAL
+ISL,IS,Iceland,Europe & Central Asia,High income,Iceland,REAL
+ISR,IL,Israel,Middle East & North Africa,High income,Israel,REAL
+ITA,IT,Italy,Europe & Central Asia,High income,Italy,REAL
+JAM,,Jamaica,Latin America & Caribbean,Upper middle income,,REAL
+JOR,,Jordan,Middle East & North Africa,Upper middle income,,REAL
+JPN,JP,Japan,East Asia & Pacific,High income,Japan,REAL
+KAZ,,Kazakhstan,Europe & Central Asia,Upper middle income,,REAL
+KEN,,Kenya,Sub-Saharan Africa,Lower middle income,,REAL
+KGZ,,Kyrgyz Republic,Europe & Central Asia,Lower middle income,,REAL
+KHM,,Cambodia,East Asia & Pacific,Lower middle income,,REAL
+KIR,,Kiribati,East Asia & Pacific,Lower middle income,,REAL
+KNA,,St. Kitts and Nevis,Latin America & Caribbean,High income,,REAL
+KOR,,"Korea, Rep.",East Asia & Pacific,High income,,REAL
+KWT,,Kuwait,Middle East & North Africa,High income,,REAL
+LAO,,Lao PDR,East Asia & Pacific,Lower middle income,,REAL
+LBN,LB,Lebanon,Middle East & North Africa,Lower middle income,Lebanon,REAL
+LBR,,Liberia,Sub-Saharan Africa,Low income,,REAL
+LBY,,Libya,Middle East & North Africa,Upper middle income,,REAL
+LCA,,St. Lucia,Latin America & Caribbean,Upper middle income,,REAL
+LIE,,Liechtenstein,Europe & Central Asia,High income,,REAL
+LKA,,Sri Lanka,South Asia,Upper middle income,,REAL
+LSO,,Lesotho,Sub-Saharan Africa,Lower middle income,,REAL
+LTU,LT,Lithuania,Europe & Central Asia,High income,Lithuania,REAL
+LUX,,Luxembourg,Europe & Central Asia,High income,,REAL
+LVA,,Latvia,Europe & Central Asia,High income,,REAL
+MAC,,"Macao SAR, China",East Asia & Pacific,High income,,REAL
+MAF,,St. Martin (French part),Latin America & Caribbean,High income,,REAL
+MAR,,Morocco,Middle East & North Africa,Lower middle income,,REAL
+MCO,,Monaco,Europe & Central Asia,High income,,REAL
+MDA,,Moldova,Europe & Central Asia,Upper middle income,,REAL
+MDG,,Madagascar,Sub-Saharan Africa,Low income,,REAL
+MDV,,Maldives,South Asia,Upper middle income,,REAL
+MEX,,Mexico,Latin America & Caribbean,Upper middle income,,REAL
+MHL,,Marshall Islands,East Asia & Pacific,Upper middle income,,REAL
+MKD,,North Macedonia,Europe & Central Asia,Upper middle income,,REAL
+MLI,,Mali,Sub-Saharan Africa,Low income,,REAL
+MLT,MT,Malta,Middle East & North Africa,High income,Malta,REAL
+MMR,,Myanmar,East Asia & Pacific,Lower middle income,,REAL
+MNE,,Montenegro,Europe & Central Asia,Upper middle income,,REAL
+MNG,,Mongolia,East Asia & Pacific,Upper middle income,,REAL
+MNP,,Northern Mariana Islands,East Asia & Pacific,High income,,REAL
+MOZ,,Mozambique,Sub-Saharan Africa,Low income,,REAL
+MRT,,Mauritania,Sub-Saharan Africa,Lower middle income,,REAL
+MUS,,Mauritius,Sub-Saharan Africa,Upper middle income,,REAL
+MWI,,Malawi,Sub-Saharan Africa,Low income,,REAL
+MYS,,Malaysia,East Asia & Pacific,Upper middle income,,REAL
+NAM,,Namibia,Sub-Saharan Africa,Lower middle income,,REAL
+NCL,,New Caledonia,East Asia & Pacific,High income,,REAL
+NER,,Niger,Sub-Saharan Africa,Low income,,REAL
+NGA,,Nigeria,Sub-Saharan Africa,Lower middle income,,REAL
+NIC,,Nicaragua,Latin America & Caribbean,Lower middle income,,REAL
+NLD,NL,Netherlands,Europe & Central Asia,High income,Netherlands,REAL
+NOR,NO,Norway,Europe & Central Asia,High income,Norway,REAL
+NPL,,Nepal,South Asia,Lower middle income,,REAL
+NRU,,Naoero,East Asia & Pacific,High income,,REAL
+NZL,,New Zealand,East Asia & Pacific,High income,,REAL
+OMN,,Oman,Middle East & North Africa,High income,,REAL
+PAK,,Pakistan,Middle East & North Africa,Lower middle income,,REAL
+PAN,,Panama,Latin America & Caribbean,High income,,REAL
+PER,,Peru,Latin America & Caribbean,Upper middle income,,REAL
+PHL,,Philippines,East Asia & Pacific,Upper middle income,,REAL
+PLW,,Palau,East Asia & Pacific,High income,,REAL
+PNG,,Papua New Guinea,East Asia & Pacific,Lower middle income,,REAL
+POL,PL,Poland,Europe & Central Asia,High income,Poland,REAL
+PRI,,Puerto Rico (US),Latin America & Caribbean,High income,,REAL
+PRK,,"Korea, Dem. People's Rep.",East Asia & Pacific,Low income,,REAL
+PRT,PT,Portugal,Europe & Central Asia,High income,Portugal,REAL
+PRY,,Paraguay,Latin America & Caribbean,Upper middle income,,REAL
+PSE,,West Bank and Gaza,Middle East & North Africa,Lower middle income,,REAL
+PYF,,French Polynesia,East Asia & Pacific,High income,,REAL
+QAT,,Qatar,Middle East & North Africa,High income,,REAL
+ROU,,Romania,Europe & Central Asia,High income,,REAL
+RUS,,Russian Federation,Europe & Central Asia,High income,,REAL
+RWA,,Rwanda,Sub-Saharan Africa,Low income,,REAL
+SAU,SA,Saudi Arabia,Middle East & North Africa,High income,Saudi Arabia,REAL
+SDN,,Sudan,Sub-Saharan Africa,Low income,,REAL
+SEN,,Senegal,Sub-Saharan Africa,Lower middle income,,REAL
+SGP,SG,Singapore,East Asia & Pacific,High income,Singapore,REAL
+SLB,,Solomon Islands,East Asia & Pacific,Lower middle income,,REAL
+SLE,,Sierra Leone,Sub-Saharan Africa,Low income,,REAL
+SLV,,El Salvador,Latin America & Caribbean,Upper middle income,,REAL
+SMR,,San Marino,Europe & Central Asia,High income,,REAL
+SOM,,"Somalia, Fed. Rep.",Sub-Saharan Africa,Low income,,REAL
+SRB,,Serbia,Europe & Central Asia,Upper middle income,,REAL
+SSD,,South Sudan,Sub-Saharan Africa,Low income,,REAL
+STP,,São Tomé and Principe,Sub-Saharan Africa,Lower middle income,,REAL
+SUR,,Suriname,Latin America & Caribbean,Upper middle income,,REAL
+SVK,,Slovak Republic,Europe & Central Asia,High income,,REAL
+SVN,,Slovenia,Europe & Central Asia,High income,,REAL
+SWE,SE,Sweden,Europe & Central Asia,High income,Sweden,REAL
+SWZ,,Eswatini,Sub-Saharan Africa,Lower middle income,,REAL
+SXM,,Sint Maarten (Dutch part),Latin America & Caribbean,High income,,REAL
+SYC,,Seychelles,Sub-Saharan Africa,High income,,REAL
+SYR,,Syrian Arab Republic,Middle East & North Africa,Low income,,REAL
+TCA,,Turks and Caicos Islands,Latin America & Caribbean,High income,,REAL
+TCD,,Chad,Sub-Saharan Africa,Low income,,REAL
+TGO,,Togo,Sub-Saharan Africa,Lower middle income,,REAL
+THA,,Thailand,East Asia & Pacific,Upper middle income,,REAL
+TJK,,Tajikistan,Europe & Central Asia,Lower middle income,,REAL
+TKM,,Turkmenistan,Europe & Central Asia,Upper middle income,,REAL
+TLS,,Timor-Leste,East Asia & Pacific,Lower middle income,,REAL
+TON,,Tonga,East Asia & Pacific,Upper middle income,,REAL
+TTO,,Trinidad and Tobago,Latin America & Caribbean,High income,,REAL
+TUN,,Tunisia,Middle East & North Africa,Lower middle income,,REAL
+TUR,TR,Türkiye,Europe & Central Asia,Upper middle income,,REAL
+TUV,,Tuvalu,East Asia & Pacific,Upper middle income,,REAL
+TZA,,Tanzania,Sub-Saharan Africa,Lower middle income,,REAL
+UGA,,Uganda,Sub-Saharan Africa,Low income,,REAL
+UKR,,Ukraine,Europe & Central Asia,Upper middle income,,REAL
+URY,,Uruguay,Latin America & Caribbean,High income,,REAL
+USA,US,United States,North America,High income,USA,REAL
+UZB,,Uzbekistan,Europe & Central Asia,Lower middle income,,REAL
+VCT,,St. Vincent and the Grenadines,Latin America & Caribbean,Upper middle income,,REAL
+VEN,,"Venezuela, RB",Latin America & Caribbean,Lower middle income,,REAL
+VGB,,British Virgin Islands,Latin America & Caribbean,High income,,REAL
+VIR,,Virgin Islands (US),Latin America & Caribbean,High income,,REAL
+VNM,VN,Viet Nam,East Asia & Pacific,Upper middle income,,REAL
+VUT,,Vanuatu,East Asia & Pacific,Lower middle income,,REAL
+WSM,,Samoa,East Asia & Pacific,Upper middle income,,REAL
+XKX,,Kosovo,Europe & Central Asia,Upper middle income,,REAL
+YEM,,"Yemen, Rep.",Middle East & North Africa,Low income,,REAL
+ZAF,ZA,South Africa,Sub-Saharan Africa,Upper middle income,RSA,REAL
+ZMB,,Zambia,Sub-Saharan Africa,Lower middle income,,REAL
+ZWE,,Zimbabwe,Sub-Saharan Africa,Lower middle income,,REAL

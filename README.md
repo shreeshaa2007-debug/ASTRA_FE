@@ -10,6 +10,11 @@ there is no SAP environment) — data, forecasting, five agents, the optimizer, 
 state, the orchestrator, the API, the frontend, scenario simulation, an end-to-end suite,
 observability, and demo prep. Try it: `python scripts/demo.py`.**
 
+**Ready for SAP (Phase 21):** the database, the reference data, sign-in, integration events and the
+deployment are each behind a seam with a SAP alternative — **SAP HANA Cloud**, **SAP BTP** (XSUAA,
+Application Router, Cloud Foundry) and **SAP Integration Suite** — all off until configured, none yet
+verified against a live tenant. Start at [docs/sap-readiness.md](docs/sap-readiness.md).
+
 ## Run the demo (one command)
 
 ```bash
@@ -36,6 +41,8 @@ The presenter's script, the "what is real vs. simulated" statement and backup sc
 - [docs/agent-plan.md](docs/agent-plan.md) — each agent's contract and tools
 - [docs/api-plan.md](docs/api-plan.md) — REST endpoint plan
 - [docs/demo-script.md](docs/demo-script.md) and [docs/real-vs-simulated.md](docs/real-vs-simulated.md) — how to present it, and what to (not) claim
+- [docs/sap-readiness.md](docs/sap-readiness.md) — moving onto SAP HANA Cloud / BTP / Integration Suite: what is ready, the
+  configuration, the contracts, and what is still unverified
 
 ## How the build is phased
 
@@ -51,8 +58,13 @@ backend/    API, agents, optimization, models, services, schemas, database,
             simulation (scenarios + comparison), orchestration, monitoring,
             tests (unit, integration, end-to-end), config
 frontend/   React/Vite command-center UI; every screen reads backend/api
+            sap/ (BTP bindings, HANA, XSUAA, OAuth), data/ (reference-data access),
+            integration/ (events out, signals in)
 scripts/    demo.py (one-command run), capture_demo.mjs (screenshots of the
-            demo path), fetch_fonts.py (self-hosts the UI's fonts)
+            demo path), fetch_fonts.py (self-hosts the UI's fonts),
+            load_reference_data.py (CSV -> HANA tables), check_sap_connection.py
+approuter/  SAP Application Router (serves the UI on BTP)   db/hana/  generated HANA DDL
+mta.yaml, xs-security.json    the BTP deployment and its roles (not yet deployed)
 data/       raw/ (gitignored, 4 real datasets — see dataset_registry.yaml)
             interim/ processed/
 ml/         training / evaluation / artifacts
@@ -91,6 +103,7 @@ python -m pytest                       # everything: unit, integration, and the 
 python -m pytest -m "not e2e"          # ~75s: no subprocesses, no browser
 python -m pytest -m "e2e and not browser"   # real uvicorn processes over real HTTP (~1 min)
 python -m pytest -m browser            # the UI in headless Chrome against a real backend (~1.5 min)
+python -m pytest backend/tests/e2e/test_sap_e2e.py   # the SAP wiring as a real process (JWT, SQL data, events)
 RUN_LIVE_LLM_TESTS=1 python -m pytest  # also the opt-in tests that call the real Gemini (LLM_API_KEY exported)
 ```
 

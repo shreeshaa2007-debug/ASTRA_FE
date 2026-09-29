@@ -25,8 +25,20 @@ import {
 } from '../types/api';
 
 // The real API (docs/api-plan.md), backed by the actual pipeline (Phase 15).
-// Override the host with VITE_API_BASE_URL.
+// Override the host with VITE_API_BASE_URL. An empty value means "this origin": behind the SAP Approuter (BTP) the UI and
+// the API share one host, and the browser session — not this code — carries the sign-in (`npm run build:btp`).
 const API_BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000';
+
+// Behind the Approuter every state-changing request must carry its CSRF token. The protocol is the Approuter's: ask for a
+// token with `X-CSRF-Token: Fetch` on a GET, send it back on POSTs, and ask again when a POST is refused with
+// `X-CSRF-Token: Required` (the session was renewed). Off unless the build turns it on: the local API has no Approuter.
+const USE_CSRF = import.meta.env.VITE_CSRF_TOKEN === 'true';
+let csrfToken: string | null = null;
+
+async function refreshCsrfToken(): Promise<void> {
+  const res = await fetch(`${API_BASE}/api/health`, { headers: { 'X-CSRF-Token': 'Fetch' } });
+  csrfToken = res.headers.get('X-CSRF-Token');
+}
 
 export class ApiError extends Error {
   code?: string;
@@ -67,11 +79,18 @@ async function apiGet<T>(path: string): Promise<T> {
 }
 
 async function apiPost<T>(path: string, body?: unknown): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body ?? {}),
-  });
+  const send = () =>
+    fetch(`${API_BASE}${path}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...(USE_CSRF && csrfToken ? { 'X-CSRF-Token': csrfToken } : {}) },
+      body: JSON.stringify(body ?? {}),
+    });
+  if (USE_CSRF && !csrfToken) await refreshCsrfToken();
+  let res = await send();
+  if (USE_CSRF && res.status === 403 && res.headers.get('X-CSRF-Token')?.toLowerCase() === 'required') {
+    await refreshCsrfToken();
+    res = await send();
+  }
   return unwrap<T>(res);
 }
 

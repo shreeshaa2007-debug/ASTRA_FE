@@ -6,13 +6,20 @@ marked final.
 """
 from __future__ import annotations
 
-from backend.agents.compliance import tools
+from backend.agents.compliance import llm, tools
 from backend.agents.sourcing import tools as sourcing_tools
 
 
 class ComplianceAgent:
     def validate_plan(self, plan: dict) -> dict:
         return tools.validate_plan(plan)
+
+    def explain_verdict(self, verdict: dict) -> str | None:
+        """Plain-English narration of an already-decided verdict, for the human
+        reviewer — see backend/agents/compliance/llm.py's module docstring for
+        why this never influences the verdict itself. None if GROQ_API_KEY
+        isn't set or the call fails; that is not an error for this method."""
+        return llm.explain_verdict(verdict)
 
     def validate_sourcing_and_logistics(self, sourcing_result: dict, logistics_result: dict | None = None) -> dict:
         """`sourcing_result`: SourcingAgent.generate_sourcing_mix()'s output.

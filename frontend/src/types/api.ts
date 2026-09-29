@@ -57,6 +57,10 @@ export interface ComplianceStatus {
   checks: ComplianceCheck[];
   reason: string;
   requires_human: boolean;
+  // Groq-generated plain-English narration of this verdict, for the human reviewer. Never
+  // decides it — the deterministic checks above already have (backend/agents/compliance/llm.py).
+  // null when GROQ_API_KEY isn't configured or the call failed; that is not an error state.
+  rationale?: string | null;
 }
 
 export interface Allocation {

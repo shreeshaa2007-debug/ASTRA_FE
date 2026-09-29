@@ -1,0 +1,165 @@
+TABLE,COLUMN,DATA TYPE,NULLABLE,PRIMARY KEY,FOREIGN KEY,PROVENANCE,DESCRIPTION
+COUNTRY,ISO3,NVARCHAR(3),NO,YES,,REAL,"ISO 3166-1 alpha-3 country code as the World Bank writes it (CHI for the Channel Islands, which ISO does not code). The key every country reference points at."
+COUNTRY,ISO2,NVARCHAR(2),YES,NO,,AUTHORED,"ISO 3166-1 alpha-2 code. Filled only for the countries the cleaned data uses; NULL for the rest, so it is not a complete ISO table."
+COUNTRY,NAME,NVARCHAR(100),NO,NO,,REAL,Country name as the World Bank writes it.
+COUNTRY,REGION,NVARCHAR(64),NO,NO,,REAL,World Bank region.
+COUNTRY,INCOME_GROUP,NVARCHAR(32),NO,NO,,REAL,World Bank income group.
+COUNTRY,RETAIL_LABEL,NVARCHAR(64),YES,NO,,AUTHORED,"The label the retail dataset uses for this country ('EIRE', 'RSA', ...). NULL if the retail data never names it. Matches DEMAND.LOCATION_ID."
+COUNTRY,PROVENANCE,NVARCHAR(12),NO,NO,,REAL,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+PORT,PORT_ID,INTEGER,NO,YES,,REAL,World Port Index INDEX_NO.
+PORT,PORT_NAME,NVARCHAR(128),NO,NO,,REAL,"Port name as the World Port Index writes it, upper case. Not unique: some names repeat within a country, so the key is PORT_ID."
+PORT,COUNTRY_ISO2,NVARCHAR(2),NO,NO,,REAL,The World Port Index's 2-letter country code. Not a foreign key: COUNTRY.ISO2 is filled only for some countries.
+PORT,COUNTRY_ISO3,NVARCHAR(3),YES,NO,COUNTRY.ISO3,DERIVED,"ISO-3 country, derived from COUNTRY_ISO2 where the country table can map it; NULL for the rest."
+PORT,LATITUDE,"DECIMAL(9,6)",NO,NO,,REAL,"Decimal degrees, north positive."
+PORT,LONGITUDE,"DECIMAL(9,6)",NO,NO,,REAL,"Decimal degrees, east positive."
+PORT,HARBOR_SIZE,NVARCHAR(1),YES,NO,,REAL,"World Port Index harbour size code (L, M, S, V). NULL where the index does not report it."
+PORT,HARBOR_TYPE,NVARCHAR(2),YES,NO,,REAL,World Port Index harbour type code. NULL where not reported.
+PORT,SOURCE,NVARCHAR(256),NO,NO,,REAL,The dataset and vintage the row comes from.
+PORT,PROVENANCE,NVARCHAR(12),NO,NO,,REAL,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+PRODUCT,PRODUCT_ID,NVARCHAR(32),NO,YES,,REAL,"The retail stock code, as text ('85123A', '22197'). Never a number."
+PRODUCT,PRODUCT_NAME,NVARCHAR(200),NO,NO,,REAL,The description most often used for the code.
+PRODUCT,AVG_UNIT_PRICE_GBP,DOUBLE,YES,NO,,DERIVED,"Median unit price of the product's net-positive sale lines, in GBP. DOUBLE and not DECIMAL because a few medians of two prices carry floating-point noise in the cleaned file that must not be rounded away silently. NULL for a product whose every sale was cancelled."
+PRODUCT,ABC_CLASS,NVARCHAR(1),NO,NO,,DERIVED,"A, B or C by cumulative net revenue (80% / 95%). A revenue ranking, not a measure of criticality."
+PRODUCT,NET_UNITS,INTEGER,NO,NO,,DERIVED,Units sold net of cancellations.
+PRODUCT,NET_REVENUE_GBP,"DECIMAL(16,4)",NO,NO,,DERIVED,"Net units times price, in GBP."
+PRODUCT,ACTIVE_DAYS,INTEGER,NO,NO,,DERIVED,Days with a net sale.
+PRODUCT,FIRST_SALE_DATE,DATE,YES,NO,,DERIVED,First day with a net sale. NULL if none.
+PRODUCT,LAST_SALE_DATE,DATE,YES,NO,,DERIVED,Last day with a net sale. NULL if none.
+PRODUCT,IS_FORECAST_SERIES,BOOLEAN,NO,NO,,DERIVED,True for the 40 products of the modeling panel.
+PRODUCT,PROVENANCE,NVARCHAR(12),NO,NO,,REAL,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+WAREHOUSE,WAREHOUSE_ID,NVARCHAR(32),NO,YES,,SYNTHETIC,Warehouse code (the city's name).
+WAREHOUSE,WAREHOUSE_NAME,NVARCHAR(128),NO,NO,,SYNTHETIC,"Display name, marked SYNTHETIC."
+WAREHOUSE,CITY,NVARCHAR(64),NO,NO,,SYNTHETIC,City.
+WAREHOUSE,COUNTRY_ISO3,NVARCHAR(3),NO,NO,COUNTRY.ISO3,SYNTHETIC,Country of the warehouse.
+WAREHOUSE,NEAREST_PORT_ID,INTEGER,YES,NO,PORT.PORT_ID,SYNTHETIC,Nearest World Port Index port; NULL for inland Delhi.
+WAREHOUSE,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+SUPPLIER,SUPPLIER_ID,NVARCHAR(16),NO,YES,,SYNTHETIC,"Supplier code S001-S008. Unique here; it repeats in SUPPLIER_PRODUCT, whose key is the pair."
+SUPPLIER,SUPPLIER_NAME,NVARCHAR(128),NO,NO,,SYNTHETIC,'SYNTHETIC Supplier S00x': nothing implies a real company.
+SUPPLIER,CITY,NVARCHAR(64),NO,NO,,SYNTHETIC,The hypothetical location.
+SUPPLIER,COUNTRY_ISO3,NVARCHAR(3),NO,NO,COUNTRY.ISO3,SYNTHETIC,Country of the supplier.
+SUPPLIER,REGION,NVARCHAR(64),NO,NO,,SYNTHETIC,"Country name, as the optimizer's configuration calls it."
+SUPPLIER,RISK_LEVEL,NVARCHAR(16),NO,NO,,SYNTHETIC,"Static risk tier, assigned by country. Not derived from reliability."
+SUPPLIER,ORIGIN_PORT_ID,INTEGER,YES,NO,PORT.PORT_ID,SYNTHETIC,The port whose lanes carry this supplier's goods (from the optimizer's configuration). NULL where no freight leg is modeled.
+SUPPLIER,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+SUPPLIER_PRODUCT,SUPPLIER_ID,NVARCHAR(16),NO,YES,SUPPLIER.SUPPLIER_ID,SYNTHETIC,The supplier.
+SUPPLIER_PRODUCT,PRODUCT_ID,NVARCHAR(32),NO,YES,PRODUCT.PRODUCT_ID,SYNTHETIC,The product.
+SUPPLIER_PRODUCT,CAPACITY,INTEGER,NO,NO,,SYNTHETIC,Nominal maximum units of this product the supplier can provide in one planning run. The source states NO time unit and none is assumed here.
+SUPPLIER_PRODUCT,UNIT_COST,"DECIMAL(16,4)",NO,NO,,SYNTHETIC,"Cost per unit in ABSTRACT cost units: not pounds, and not commensurate with PRODUCT.AVG_UNIT_PRICE_GBP."
+SUPPLIER_PRODUCT,LEAD_TIME_DAYS,INTEGER,NO,NO,,SYNTHETIC,Days from order to shipment.
+SUPPLIER_PRODUCT,RELIABILITY,"DECIMAL(5,4)",NO,NO,,SYNTHETIC,"Share of orders delivered as promised, 0 to 1; follows the supplier's risk tier."
+SUPPLIER_PRODUCT,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+ROUTE,ROUTE_ID,NVARCHAR(32),NO,YES,,SYNTHETIC,"Lane code, e.g. SHA-ROT-SUEZ."
+ROUTE,ORIGIN,NVARCHAR(64),NO,NO,,SYNTHETIC,Origin port name as the routes have always called it.
+ROUTE,DESTINATION,NVARCHAR(64),NO,NO,,SYNTHETIC,Destination port name.
+ROUTE,ORIGIN_PORT_ID,INTEGER,NO,NO,PORT.PORT_ID,AUTHORED,"Origin, as a World Port Index port."
+ROUTE,DESTINATION_PORT_ID,INTEGER,NO,NO,PORT.PORT_ID,AUTHORED,"Destination, as a World Port Index port."
+ROUTE,TRANSPORT_MODE,NVARCHAR(16),NO,NO,,SYNTHETIC,"sea, rail or air (lower case, as delivered)."
+ROUTE,LANE_ROLE,NVARCHAR(16),NO,NO,,SYNTHETIC,"PRIMARY or ALTERNATIVE. A role, never a disruption: disruption is scenario data."
+ROUTE,VIA,NVARCHAR(16),NO,NO,,DERIVED,"SUEZ, CAPE, RAIL or AIR."
+ROUTE,CHOKEPOINTS,NVARCHAR(256),YES,NO,,DERIVED,"Chokepoints the lane passes, separated by '|'. NULL for rail and air."
+ROUTE,DISTANCE_KM,"DECIMAL(10,2)",NO,NO,,DERIVED,Kilometres. Sea lanes: summed great-circle legs along land-checked waypoints (approximate; see DISTANCE_BASIS).
+ROUTE,DISTANCE_BASIS,NVARCHAR(32),NO,NO,,SYNTHETIC,"How DISTANCE_KM was obtained: WAYPOINT_POLYLINE, GREAT_CIRCLE or REPORTED_SERVICE_RANGE."
+ROUTE,LEGACY_DISTANCE_KM,"DECIMAL(10,2)",YES,NO,,DERIVED,"The Phase 3 distance, kept so the correction is visible. NULL for the two lanes Phase 3 did not have."
+ROUTE,CAPACITY,INTEGER,NO,NO,,SYNTHETIC,Abstract capacity units compared with unit quantities. No time unit is stated or assumed.
+ROUTE,TRANSIT_TIME_DAYS,"DECIMAL(8,2)",NO,NO,,DERIVED,"Days door to door, from the distance and an assumed speed."
+ROUTE,COST_PER_UNIT,"DECIMAL(16,4)",NO,NO,,SYNTHETIC,Freight cost per unit in abstract cost units.
+ROUTE,ROUTE_NOTE,NVARCHAR(500),NO,NO,,SYNTHETIC,How the lane was built and what to be careful of.
+ROUTE,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+TARIFF,ORIGIN_ISO3,NVARCHAR(3),NO,YES,COUNTRY.ISO3,REAL,Country whose tariff this is.
+TARIFF,DEST_ISO3,NVARCHAR(3),NO,YES,,REAL,"Always 'ANY': the source has no partner dimension. A sentinel, not a country, so not a foreign key."
+TARIFF,HS_SECTION,NVARCHAR(8),NO,YES,,REAL,Always 'ALL': the source has no product dimension.
+TARIFF,EFFECTIVE_YEAR,INTEGER,NO,YES,,REAL,Year of the observation.
+TARIFF,TARIFF_RATE_PCT,DOUBLE,NO,NO,,REAL,"Weighted-mean applied tariff, percent, at the World Bank's own precision. DOUBLE so no value is rounded."
+TARIFF,IS_COUNTRY_LEVEL_PROXY,BOOLEAN,NO,NO,,REAL,"True: the value is a country-level proxy, not a country-pair by product rate."
+TARIFF,QUALITY_FLAG,NVARCHAR(32),NO,NO,,REAL,"OK, EXTREME_VALUE (above 50%), JUMP_GE_10PP (10 points or more from the previous observation) or both. Informational: no value was changed."
+TARIFF,SOURCE,NVARCHAR(256),NO,NO,,REAL,Indicator and publisher.
+TARIFF,PROVENANCE,NVARCHAR(12),NO,NO,,REAL,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+DISRUPTION_EVENT,EVENT_ID,NVARCHAR(64),NO,YES,,AUTHORED,Event code.
+DISRUPTION_EVENT,EVENT_TYPE,NVARCHAR(64),NO,NO,,AUTHORED,Kind of event.
+DISRUPTION_EVENT,LOCATION,NVARCHAR(255),NO,NO,,AUTHORED,Where it happened.
+DISRUPTION_EVENT,START_TS,TIMESTAMP,NO,NO,,AUTHORED,"Start, no time zone."
+DISRUPTION_EVENT,END_TS,TIMESTAMP,YES,NO,,AUTHORED,End; NULL if open-ended.
+DISRUPTION_EVENT,SEVERITY,NVARCHAR(16),NO,NO,,AUTHORED,"LOW, MEDIUM, HIGH or CRITICAL."
+DISRUPTION_EVENT,ESTIMATED_DELAY_DAYS,"DECIMAL(8,2)",YES,NO,,AUTHORED,The authors' estimate of the delay in days; NULL where none is estimated.
+DISRUPTION_EVENT,STATUS,NVARCHAR(16),NO,NO,,AUTHORED,HISTORICAL for these events.
+DISRUPTION_EVENT,SOURCE_NOTE,NVARCHAR(500),NO,NO,,AUTHORED,What the event was and how far to trust the dates.
+DISRUPTION_EVENT,VERIFICATION_STATUS,NVARCHAR(32),NO,NO,,AUTHORED,"UNVERIFIED_IN_WORKSPACE, or CORROBORATED_BY_WDI where the World Bank series confirms it."
+DISRUPTION_EVENT,PROVENANCE,NVARCHAR(12),NO,NO,,AUTHORED,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+DISRUPTION_IMPACT,EVENT_ID,NVARCHAR(64),NO,YES,DISRUPTION_EVENT.EVENT_ID,AUTHORED,The event.
+DISRUPTION_IMPACT,ENTITY_TYPE,NVARCHAR(16),NO,YES,,AUTHORED,ROUTE or SUPPLIER: what ENTITY_ID names.
+DISRUPTION_IMPACT,ENTITY_ID,NVARCHAR(64),NO,YES,,AUTHORED,"A route id or a supplier id according to ENTITY_TYPE, so it has no foreign key; the validation SQL checks it."
+DISRUPTION_IMPACT,DELAY_DAYS,"DECIMAL(8,2)",YES,NO,,AUTHORED,Days of delay the event caused there.
+DISRUPTION_IMPACT,CAPACITY_FACTOR,"DECIMAL(5,4)",YES,NO,,AUTHORED,"Share of nominal capacity left, 0 to 1."
+DISRUPTION_IMPACT,BASIS,NVARCHAR(500),NO,NO,,AUTHORED,Why this entity is listed.
+DISRUPTION_IMPACT,PROVENANCE,NVARCHAR(12),NO,NO,,AUTHORED,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+SCENARIO,SCENARIO_ID,NVARCHAR(32),NO,YES,,SYNTHETIC,Scenario code.
+SCENARIO,SCENARIO_NAME,NVARCHAR(128),NO,NO,,SYNTHETIC,Display name.
+SCENARIO,DESCRIPTION,NVARCHAR(500),NO,NO,,SYNTHETIC,What the scenario simulates.
+SCENARIO,SCENARIO_TYPE,NVARCHAR(16),NO,NO,,SYNTHETIC,"BASELINE, DISRUPTION or LEGACY_STATE."
+SCENARIO,IS_MODELED,BOOLEAN,NO,NO,,SYNTHETIC,False if the pipeline records this kind of event but nothing acts on it yet.
+SCENARIO,BASED_ON_EVENT_ID,NVARCHAR(64),YES,NO,DISRUPTION_EVENT.EVENT_ID,SYNTHETIC,"The historical event the scenario is grounded in, if any (only the Suez closure)."
+SCENARIO,SOURCE,NVARCHAR(256),NO,NO,,SYNTHETIC,Where the definition comes from.
+SCENARIO,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+SCENARIO_STATE,SCENARIO_ID,NVARCHAR(32),NO,YES,SCENARIO.SCENARIO_ID,SYNTHETIC,The scenario.
+SCENARIO_STATE,ENTITY_TYPE,NVARCHAR(16),NO,YES,,SYNTHETIC,ROUTE or SUPPLIER: what ENTITY_ID names.
+SCENARIO_STATE,ENTITY_ID,NVARCHAR(64),NO,YES,,SYNTHETIC,"A route id or a supplier id according to ENTITY_TYPE, so it has no foreign key; the validation SQL checks it."
+SCENARIO_STATE,STATUS,NVARCHAR(16),NO,NO,,SYNTHETIC,"DISRUPTED, REDUCED or DELAYED."
+SCENARIO_STATE,CAPACITY_FACTOR,"DECIMAL(5,4)",YES,NO,,SYNTHETIC,"Share of nominal capacity left, 0 to 1. A placeholder for REDUCED."
+SCENARIO_STATE,BASIS,NVARCHAR(500),NO,NO,,SYNTHETIC,Why the entity is affected.
+SCENARIO_STATE,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+SCENARIO_PARAM,SCENARIO_ID,NVARCHAR(32),NO,YES,SCENARIO.SCENARIO_ID,SYNTHETIC,The scenario.
+SCENARIO_PARAM,PARAM_KEY,NVARCHAR(64),NO,YES,,SYNTHETIC,"duration_days, severity or tariff_add_pct."
+SCENARIO_PARAM,QUALIFIER,NVARCHAR(16),NO,YES,,SYNTHETIC,"ISO-3 country for a per-country parameter, else 'ALL'. Part of the key, so never NULL."
+SCENARIO_PARAM,PARAM_VALUE,"DECIMAL(14,4)",YES,NO,,SYNTHETIC,"Numeric value, in UNIT."
+SCENARIO_PARAM,PARAM_TEXT,NVARCHAR(64),YES,NO,,SYNTHETIC,"Text value, for a parameter that is not a number."
+SCENARIO_PARAM,UNIT,NVARCHAR(32),YES,NO,,SYNTHETIC,Unit of PARAM_VALUE.
+SCENARIO_PARAM,BASIS,NVARCHAR(500),NO,NO,,SYNTHETIC,Where the number comes from.
+SCENARIO_PARAM,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+INVENTORY_POLICY,WAREHOUSE_ID,NVARCHAR(32),NO,YES,WAREHOUSE.WAREHOUSE_ID,SYNTHETIC,The warehouse.
+INVENTORY_POLICY,DEMAND_SHARE,"DECIMAL(5,4)",NO,NO,,SYNTHETIC,Share of each product's demand this warehouse gets; the shares sum to 1.
+INVENTORY_POLICY,COVER_MULTIPLIER,"DECIMAL(6,4)",NO,NO,,SYNTHETIC,Multiplies the starting days of cover.
+INVENTORY_POLICY,SAFETY_MULTIPLIER,"DECIMAL(6,4)",NO,NO,,SYNTHETIC,Multiplies the safety days.
+INVENTORY_POLICY,TARGET_DAYS_OF_COVER,INTEGER,NO,NO,,SYNTHETIC,Days of mean demand held at the start.
+INVENTORY_POLICY,SAFETY_DAYS,INTEGER,NO,NO,,SYNTHETIC,Days of mean demand held as safety stock.
+INVENTORY_POLICY,REPLENISH_DAYS,INTEGER,NO,NO,,SYNTHETIC,Days of mean demand ordered when stock falls below safety.
+INVENTORY_POLICY,REPLENISHMENT_LEAD_TIME_DAYS,INTEGER,NO,NO,,SYNTHETIC,Days between ordering and arrival. 0 means a replenishment arrives the day it is triggered.
+INVENTORY_POLICY,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+INVENTORY,WAREHOUSE_ID,NVARCHAR(32),NO,YES,WAREHOUSE.WAREHOUSE_ID,SYNTHETIC,The warehouse.
+INVENTORY,PRODUCT_ID,NVARCHAR(32),NO,YES,PRODUCT.PRODUCT_ID,SYNTHETIC,The product.
+INVENTORY,DATE,DATE,NO,YES,,SYNTHETIC,The day.
+INVENTORY,OPENING_STOCK,INTEGER,NO,NO,,SYNTHETIC,Units on hand at the start of the day.
+INVENTORY,INBOUND_QUANTITY,INTEGER,NO,NO,,SYNTHETIC,Units received.
+INVENTORY,OUTBOUND_QUANTITY,INTEGER,NO,NO,,SYNTHETIC,Units actually shipped.
+INVENTORY,CLOSING_STOCK,INTEGER,NO,NO,,SYNTHETIC,"Units on hand at the end: opening + inbound - outbound, exactly."
+INVENTORY,SAFETY_STOCK,INTEGER,NO,NO,,SYNTHETIC,Safety stock for this warehouse and product.
+INVENTORY,REORDER_POINT,INTEGER,NO,NO,,SYNTHETIC,Reorder point; equal to safety stock under instant replenishment.
+INVENTORY,DEMAND_QUANTITY,INTEGER,NO,NO,,SYNTHETIC,Net demand allocated to this warehouse: outbound + unfilled.
+INVENTORY,UNFILLED_QUANTITY,INTEGER,NO,NO,,SYNTHETIC,"Demand that could not be shipped: a lost sale, recorded not hidden."
+INVENTORY,STOCKOUT_FLAG,BOOLEAN,NO,NO,,SYNTHETIC,True when UNFILLED_QUANTITY is above zero.
+INVENTORY,PROVENANCE,NVARCHAR(12),NO,NO,,SYNTHETIC,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+DEMAND,DATE,DATE,NO,YES,,DERIVED,The day.
+DEMAND,PRODUCT_ID,NVARCHAR(32),NO,YES,PRODUCT.PRODUCT_ID,DERIVED,The product.
+DEMAND,LOCATION_ID,NVARCHAR(64),NO,YES,,DERIVED,"The retail country label, as text ('United Kingdom', 'EIRE'). Equivalent to COUNTRY_ISO3 (1:1) but no foreign key: the label column of COUNTRY is neither a key nor unique."
+DEMAND,COUNTRY_ISO3,NVARCHAR(3),NO,NO,COUNTRY.ISO3,DERIVED,The customer's country.
+DEMAND,DEMAND_QUANTITY,INTEGER,NO,NO,,DERIVED,Net units demanded that day: sale lines less the cancellations that reversed them. Always above zero: a day with no net sale has no row.
+DEMAND,N_ORDER_LINES,INTEGER,NO,NO,,DERIVED,Sale lines behind the number.
+DEMAND,N_OUTLIER_LINES,INTEGER,NO,NO,,DERIVED,"Of those, lines flagged as unusually large (kept, not removed)."
+DEMAND,PROVENANCE,NVARCHAR(12),NO,NO,,DERIVED,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."
+DEMAND_MODELING_PANEL,DATE,DATE,NO,YES,,DERIVED,The day.
+DEMAND_MODELING_PANEL,PRODUCT_ID,NVARCHAR(32),NO,YES,PRODUCT.PRODUCT_ID,DERIVED,The product.
+DEMAND_MODELING_PANEL,LOCATION_ID,NVARCHAR(64),NO,YES,,DERIVED,"The retail country label. Always 'United Kingdom' in this panel. No foreign key (see DEMAND.LOCATION_ID), and the panel has no ISO-3 column."
+DEMAND_MODELING_PANEL,DEMAND_QUANTITY,INTEGER,NO,NO,,DERIVED,Net units that day; 0 on a day without a sale.
+DEMAND_MODELING_PANEL,LAG_1,DOUBLE,YES,NO,,DERIVED,Demand one day earlier. NULL at the start of a series. Whole numbers stored as the float the cleaned file delivers.
+DEMAND_MODELING_PANEL,LAG_2,DOUBLE,YES,NO,,DERIVED,Demand two days earlier.
+DEMAND_MODELING_PANEL,LAG_7,DOUBLE,YES,NO,,DERIVED,Demand seven days earlier.
+DEMAND_MODELING_PANEL,LAG_14,DOUBLE,YES,NO,,DERIVED,Demand fourteen days earlier.
+DEMAND_MODELING_PANEL,LAG_28,DOUBLE,YES,NO,,DERIVED,Demand twenty-eight days earlier.
+DEMAND_MODELING_PANEL,ROLLING_MEAN_7,DOUBLE,YES,NO,,DERIVED,"Mean of the previous 7 days, current day excluded (no leakage). DOUBLE keeps full precision."
+DEMAND_MODELING_PANEL,ROLLING_MEAN_14,DOUBLE,YES,NO,,DERIVED,Mean of the previous 14 days.
+DEMAND_MODELING_PANEL,ROLLING_MEAN_28,DOUBLE,YES,NO,,DERIVED,Mean of the previous 28 days.
+DEMAND_MODELING_PANEL,DAY_OF_WEEK,INTEGER,NO,NO,,DERIVED,0 = Monday to 6 = Sunday.
+DEMAND_MODELING_PANEL,MONTH,INTEGER,NO,NO,,DERIVED,1 to 12.
+DEMAND_MODELING_PANEL,DISRUPTION_ACTIVE,BOOLEAN,NO,NO,,DERIVED,Constant False: no disruption overlaps 2010-2011. Do not use as a feature.
+DEMAND_MODELING_PANEL,SPLIT,NVARCHAR(8),NO,NO,,DERIVED,"train, val or test: a chronological 70/15/15 split."
+DEMAND_MODELING_PANEL,HAS_OUTLIER_LINE,BOOLEAN,NO,NO,,DERIVED,True if an unusually large order line contributes to the day.
+DEMAND_MODELING_PANEL,PROVENANCE,NVARCHAR(12),NO,NO,,DERIVED,"Where the row's facts come from: REAL, DERIVED, SYNTHETIC or AUTHORED (see DATA_READINESS_REPORT.md section 4)."

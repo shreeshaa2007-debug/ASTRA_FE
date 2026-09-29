@@ -1,0 +1,12 @@
+{
+  "name": "resilientsc-approuter",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Serves the ResilientSC UI, signs users in through XSUAA, and forwards /api/* to the backend with the user's token",
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js"
+  },
+  "dependencies": {
+    "@sap/approuter": "^16.0.0"
+  }
+}

@@ -1,14 +1,19 @@
-// Real backend response types live in ./api.ts. This file holds only the UI's own navigation type.
+export * from './oilshield';
 
 export type ViewMode =
   | 'overview'
   | 'disruptions'
+  | 'agents'
+  | 'network'
+  | 'suppliers'
+  | 'logistics'
+  | 'inventory'
+  | 'scenarios'
+  | 'compliance'
+  | 'decisions'
+  | 'audit'
+  | 'settings'
   | 'simulator'
   | 'orchestration'
-  | 'decisions'
-  | 'inventory'
-  | 'logistics'
   | 'sourcing'
-  | 'compliance'
-  | 'scenarios'
   | 'monitor';

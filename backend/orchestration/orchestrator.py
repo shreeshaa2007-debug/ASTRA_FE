@@ -37,6 +37,7 @@ from typing import Any, Callable, Literal, Mapping, Optional
 
 from pydantic import BaseModel, Field, ValidationError
 
+from backend.agents.compliance import llm as compliance_llm
 from backend.agents.compliance import tools as compliance_tools
 from backend.agents.sensing.agent import SensingAgent
 from backend.monitoring.metrics import metrics
@@ -113,10 +114,19 @@ class Orchestrator:
         self.sensing = sensing
         self._rules = compliance_rules
         # injectable so a test can force a verdict the real rules would not produce
-        self._validate_plan = validate_plan or (lambda plan: compliance_tools.validate_plan(plan, self._rules))
+        self._validate_plan = validate_plan or self._validate_plan_and_explain
         self._engine = engine
         self._overrides = dict(parameter_overrides or {})
         self._clock = clock
+
+    def _validate_plan_and_explain(self, plan: dict) -> dict:
+        """The default compliance step: the deterministic rules engine decides
+        the verdict, then (best-effort, optional) Groq narrates it in plain
+        English for the human reviewer. The narration can never change
+        `status`, `checks`, or `reason` above it — see agents/compliance/llm.py."""
+        verdict = compliance_tools.validate_plan(plan, self._rules)
+        verdict["rationale"] = compliance_llm.explain_verdict(verdict)
+        return verdict
 
     # ------------------------------------------------------------------ run
     def run(

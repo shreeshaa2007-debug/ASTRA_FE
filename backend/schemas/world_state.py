@@ -82,6 +82,7 @@ class ComplianceStatus(BaseModel):
     checks: list[dict[str, Any]] = Field(default_factory=list)
     reason: str
     requires_human: bool
+    rationale: Optional[str] = None  # Groq-generated plain-English narration of this verdict; never decides it (see agents/compliance/llm.py)
 
 
 class ApprovalDecision(BaseModel):

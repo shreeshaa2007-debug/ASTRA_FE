@@ -47,6 +47,8 @@ special-case which layer produced an error, per §22:
 | `GET /api/metrics` | Counters, gauges and latency summaries for this process (`?format=prometheus` for the text format) | Phase 19; per-process |
 | `GET /api/monitoring/model` | The demand model's health: inferences, latency, version, missing-feature rate, drift warnings, backtests (`?backtest_product_id=`) | Phase 19 |
 | `GET /api/products` | The 40 ledger products and how many suppliers each has | Phase 17; only three have any, so only those can be planned |
+| `GET /api/me` | Who the API thinks you are and which scopes you hold | Phase 21; with authentication off, an anonymous caller holding every scope |
+| `POST /api/integration/signals` | A disruption reported by another system (an SAP Integration Suite flow): starts the pipeline on it | Phase 21; scope `Operate`; idempotent per (`source_system`, `external_id`): 202 the first time, 200 `duplicate: true` on a redelivery |
 
 ## What every response includes, regardless of endpoint
 
@@ -81,7 +83,10 @@ the HTTP status is what a client should branch on.
 | `DATABASE_UNAVAILABLE` | 503 | the world-state database cannot be reached (no SQL is echoed); `GET /api/ready` says which dependency |
 | `SCENARIO_NOT_FOUND` / `SCENARIO_NOT_MODELED` | 404 / 422 | an unknown scenario id / a scenario the pipeline cannot represent yet (the message says why) |
 | `PLAN_NOT_READY` | 409 | `/decisions` or `/compliance` before there is a plan / a verdict |
-| `DATASET_UNAVAILABLE` / `MODEL_UNAVAILABLE` | 503 | a processed dataset / the forecasting artifact isn't built |
+| `DATASET_UNAVAILABLE` / `MODEL_UNAVAILABLE` | 503 | a reference dataset (a file, or a `ref_*` table) / the forecasting artifact isn't there |
+| `UNAUTHENTICATED` | 401 | authentication is on and no valid bearer token was sent (with `WWW-Authenticate: Bearer`; the message never says which check failed) |
+| `FORBIDDEN` | 403 | the token is valid but lacks the scope this endpoint needs (`view`, `operate` or `approve`) |
+| `AUTH_UNAVAILABLE` | 503 | the identity provider's signing keys could not be fetched |
 | `LLM_UNAVAILABLE` | 503 | (surfaces in a run's outcome as `SENSING_ERROR`) the LLM can't be reached or no key is set |
 | `INTERNAL_ERROR` | 500 | anything unexpected; logged, never echoed |
 
@@ -126,6 +131,19 @@ price for them — never observed shipments, never a loss estimate (`exposure_no
 they are still null, with the reason in `unavailable`, when nothing is finalized, the plan
 is infeasible, or the run used an earlier as-of date than the ledger's latest.
 The pre-integration fixture endpoints (`/api/legacy/*`) were deleted in Phase 17; every screen reads the real API.
+
+**Authentication (Phase 21).** Off by default (`AUTH_MODE=none`): every caller is anonymous and holds every scope, and
+the API behaves as described above. With `AUTH_MODE=jwt` (or an XSUAA instance bound, which turns it on) every endpoint
+except `/api/health` and `/api/ready` needs `Authorization: Bearer <JWT>`. Scopes: `view` (all reads, and `POST /forecast`),
+`operate` (create / run / reset a simulation, run a scenario, send a signal), `approve` (approve / reject). With
+authentication on, an approval is recorded under the **token's** identity, not the `decided_by` in the body — except for a
+technical client (a workflow calling back), which may name the human and is recorded as `<name> (via <client>)`. See
+[sap-readiness.md](sap-readiness.md).
+
+**Integration (Phase 21).** `POST /api/integration/signals` takes `{source_system, external_id, product_id, report,
+candidate?, tariff_overrides?}`; the simulation id is derived from `(source_system, external_id)`, which is what makes a
+redelivery recognisable. The events the application publishes (CloudEvents, `com.resilientsc.*`) are specified in
+[sap-readiness.md §5](sap-readiness.md#5-sap-integration-suite).
 
 ## Relationship to the earlier frontend concept
 

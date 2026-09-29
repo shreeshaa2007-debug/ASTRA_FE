@@ -32,3 +32,6 @@ sqlalchemy>=2.0        # SQLAlchemy Core; DATABASE_URL picks the database (SQLit
 
 # Phase 15 (backend API) — in use, see backend/api/
 httpx>=0.27             # FastAPI's TestClient
+
+# Phase 21 (SAP BTP / HANA Cloud / XSUAA) — optional at runtime, see requirements-sap.txt
+-r requirements-sap.txt

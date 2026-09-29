@@ -1,0 +1,4 @@
+warehouse_id,demand_share,cover_multiplier,safety_multiplier,target_days_of_cover,safety_days,replenish_days,replenishment_lead_time_days,provenance
+Mumbai,0.45,0.35,0.5,30,10,21,0,SYNTHETIC
+Chennai,0.3,1.0,1.0,30,10,21,0,SYNTHETIC
+Delhi,0.25,1.6,1.2,30,10,21,0,SYNTHETIC

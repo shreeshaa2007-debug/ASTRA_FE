@@ -1,0 +1,9 @@
+supplier_id,supplier_name,city,country_iso3,region,risk_level,origin_port_id,provenance
+S001,SYNTHETIC Supplier S001,Chengdu,CHN,China,HIGH,59970,SYNTHETIC
+S002,SYNTHETIC Supplier S002,Shenzhen,CHN,China,HIGH,59970,SYNTHETIC
+S003,SYNTHETIC Supplier S003,Pune,IND,India,LOW,48840,SYNTHETIC
+S004,SYNTHETIC Supplier S004,Chennai,IND,India,LOW,49450,SYNTHETIC
+S005,SYNTHETIC Supplier S005,Hanoi,VNM,Vietnam,MEDIUM,50000,SYNTHETIC
+S006,SYNTHETIC Supplier S006,Ho Chi Minh City,VNM,Vietnam,MEDIUM,50000,SYNTHETIC
+S007,SYNTHETIC Supplier S007,Istanbul,TUR,Turkey,MEDIUM,,SYNTHETIC
+S008,SYNTHETIC Supplier S008,Rotterdam,NLD,Netherlands,LOW,,SYNTHETIC

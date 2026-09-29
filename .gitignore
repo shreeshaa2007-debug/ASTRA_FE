@@ -29,3 +29,8 @@ ml/artifacts/*
 .DS_Store
 Thumbs.db
 .demo-logs/
+
+# SAP BTP build output (npm run build:btp writes the UI here)
+approuter/resources/
+approuter/node_modules/
+mta_archives/

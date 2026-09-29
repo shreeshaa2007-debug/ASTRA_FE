@@ -1,0 +1,10 @@
+scenario_id,scenario_name,description,scenario_type,is_modeled,based_on_event_id,source,provenance
+BASELINE_NORMAL,Normal supply chain,Every supplier ACTIVE and every lane NORMAL. It has no scenario_state rows because it changes nothing.,BASELINE,True,,cleaned layer,SYNTHETIC
+SUEZ_CLOSURE,Suez Canal Closure,A grounded vessel blocks the canal; every lane routed through Suez is unavailable.,DISRUPTION,True,CURATED-SUEZ-2021,backend/config/scenarios.yaml,SYNTHETIC
+SUPPLIER_FAILURE,Supplier Failure (Istanbul),"A plant fire takes supplier S007 (Istanbul, Turkey) offline; no route is affected.",DISRUPTION,True,,backend/config/scenarios.yaml,SYNTHETIC
+SEVERE_WEATHER,Severe Weather (Mumbai cyclone),"A cyclone makes landfall at Mumbai and closes the port; the Mumbai lane is unavailable, and supplier S003, which ships through it, is stranded.",DISRUPTION,True,,backend/config/scenarios.yaml,SYNTHETIC
+TARIFF_INCREASE,Tariff Increase (Turkey),A sharp rise in tariffs on imports from Turkey; raises the landed cost of Turkish suppliers and blocks nothing.,DISRUPTION,True,,backend/config/scenarios.yaml,SYNTHETIC
+PORT_CONGESTION,Port Congestion (Rotterdam),A berth bottleneck at Rotterdam delays every inbound lane.,DISRUPTION,False,,backend/config/scenarios.yaml,SYNTHETIC
+DEMAND_SURGE,Demand Surge,An unexpected jump in demand outstrips the warehouses' buffers.,DISRUPTION,False,,backend/config/scenarios.yaml,SYNTHETIC
+RED_SEA_DIVERSION,Red Sea diversion,"Shipping avoids the Red Sea: every lane through Bab-el-Mandeb is unavailable and the Cape lanes are the way round. A prolonged stress test, not a claim about any real event.",DISRUPTION,True,,cleaned layer,SYNTHETIC
+DEMO_LEGACY_START,"Legacy demo start (S001 disrupted, S002 reduced)","The state the Phase 3 supplier file baked into master data, kept as a scenario so it can still be shown.",LEGACY_STATE,True,,data/processed/suppliers.csv (Phase 3),SYNTHETIC
