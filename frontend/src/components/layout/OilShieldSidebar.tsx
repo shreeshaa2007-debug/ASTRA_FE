@@ -79,6 +79,7 @@ export const OilShieldSidebar: React.FC<SidebarProps> = ({
     { id: 'suppliers', label: 'Supplier Intelligence', icon: Building2 },
     { id: 'logistics', label: 'Logistics & Transport', icon: Truck },
     { id: 'scenarios', label: 'Recovery Options', icon: GitBranch },
+    { id: 'compliance', label: 'Compliance', icon: ShieldCheck },
     {
       id: 'decisions',
       label: 'Approvals & Decisions',

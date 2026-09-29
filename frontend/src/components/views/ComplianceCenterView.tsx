@@ -15,6 +15,7 @@ import {
 import { useOilShield } from '../../context/OilShieldContext';
 import { ComplianceCheckRule, ScenarioCompliance } from '../../types/oilshield';
 import { StatusBadge } from '../common/StatusBadge';
+import { LiveComplianceVerdict } from '../common/LiveComplianceVerdict';
 
 export const ComplianceCenterView: React.FC = () => {
   const { complianceRules, scenarios, setCurrentView, selectedIncident } = useOilShield();
@@ -82,6 +83,9 @@ export const ComplianceCenterView: React.FC = () => {
           </span>
         </div>
       </div>
+
+      {/* The real Compliance Agent's verdict, read from the backend */}
+      <LiveComplianceVerdict />
 
       {/* Scenario Compliance Overview Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

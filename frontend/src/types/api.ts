@@ -57,6 +57,8 @@ export interface ComplianceStatus {
   checks: ComplianceCheck[];
   reason: string;
   requires_human: boolean;
+  /** Plain-English narration of the verdict (Groq). It explains the verdict; it never decides it. Null without GROQ_API_KEY. */
+  rationale?: string | null;
 }
 
 export interface Allocation {
