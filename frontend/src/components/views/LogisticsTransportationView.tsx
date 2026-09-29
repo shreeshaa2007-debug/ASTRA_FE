@@ -11,25 +11,12 @@ import {
   ExternalLink,
   Plus,
 } from 'lucide-react';
-import { MapContainer, TileLayer, Polyline, Marker, Tooltip } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 import { useOilShield } from '../../context/OilShieldContext';
 import { TransportMode, LogisticsOption } from '../../types/oilshield';
 import { StatusBadge } from '../common/StatusBadge';
+import { RouteMap } from '../common/RouteMap';
+import { MODE_STYLE } from '../../data/routeGeometry';
 import { FormModal, Field, TextInput, TextArea, Select } from '../common/FormModal';
-
-// Helper for divIcon
-const createMapMarkerIcon = (color: string, label: string, isAlert = false) =>
-  L.divIcon({
-    className: '',
-    html: `<div style="display:flex;align-items:center;gap:5px;background:#0f172a;color:#ffffff;padding:3px 8px;border-radius:8px;border:1.5px solid ${color};font-size:11px;font-weight:700;white-space:nowrap;box-shadow:0 4px 10px rgba(0,0,0,0.35);">
-      <span style="display:inline-block;width:8px;height:8px;border-radius:9999px;background:${color};${isAlert ? 'box-shadow:0 0 8px #ef4444;' : ''}"></span>
-      <span>${label}</span>
-    </div>`,
-    iconSize: [120, 26],
-    iconAnchor: [60, 13],
-  });
 
 export const LogisticsTransportationView: React.FC = () => {
   const {
@@ -111,46 +98,6 @@ export const LogisticsTransportationView: React.FC = () => {
         return Compass;
     }
   };
-
-  // Coordinates for the selected shipment routes
-  // Ras Tanura, Saudi Arabia
-  const rasTanuraCoords: [number, number] = [26.64, 50.16];
-  // Chennai Port (Disrupted)
-  const chennaiPortCoords: [number, number] = [13.0827, 80.2707];
-  // Kamarajar Port (Ennore)
-  const ennorePortCoords: [number, number] = [13.2464, 80.334];
-  // Kochi Terminal
-  const kochiCoords: [number, number] = [9.9312, 76.2673];
-
-  // Route paths (approximated navigation lanes)
-  const disruptedRoutePath: [number, number][] = [
-    rasTanuraCoords,
-    [25.0, 56.5],
-    [22.5, 60.0],
-    [15.5, 68.0],
-    [10.0, 75.5],
-    [8.0, 77.5],
-    chennaiPortCoords,
-  ];
-
-  const ennoreAlternativePath: [number, number][] = [
-    rasTanuraCoords,
-    [25.0, 56.5],
-    [22.5, 60.0],
-    [15.5, 68.0],
-    [10.0, 75.5],
-    [8.0, 77.5],
-    [12.8, 80.4],
-    ennorePortCoords,
-  ];
-
-  const kochiPipelinePath: [number, number][] = [
-    kochiCoords,
-    [11.0, 76.9],
-    [11.6, 78.1],
-    [12.5, 79.5],
-    chennaiPortCoords,
-  ];
 
   return (
     <div className="space-y-4">
@@ -234,19 +181,19 @@ export const LogisticsTransportationView: React.FC = () => {
             <span className="font-bold text-slate-800">Shipment Route Map</span>
             <span className="text-slate-300">•</span>
             <span className="text-[11px] text-slate-500 font-mono">
-              Origin to Destination Transit & Feasible Diversions
+              Selected route, drawn by its transport mode
             </span>
           </div>
 
           <div className="flex items-center gap-3">
+            {(Object.keys(MODE_STYLE) as TransportMode[]).map((m) => (
+              <span key={m} className="flex items-center gap-1.5 text-slate-600 text-[11px]">
+                <span className="w-4 h-0 border-t-[3px]" style={{ borderColor: MODE_STYLE[m].color, borderTopStyle: MODE_STYLE[m].dashArray ? 'dotted' : 'solid' }} />
+                {MODE_STYLE[m].label}
+              </span>
+            ))}
             <span className="flex items-center gap-1.5 text-slate-600 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-red-500" /> Disrupted Passage
-            </span>
-            <span className="flex items-center gap-1.5 text-slate-600 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-success" /> Recommended Diversion (Ennore)
-            </span>
-            <span className="flex items-center gap-1.5 text-slate-600 text-[11px]">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> Pipeline Corridor (Kochi)
+              <span className="w-4 h-0 border-t-[3px] border-red-600" /> Disrupted / congested
             </span>
 
             {/* Honest Provider Badge */}
@@ -258,78 +205,7 @@ export const LogisticsTransportationView: React.FC = () => {
 
         {/* Leaflet Map Canvas — isolate so its internal panes/controls (z-index up to 1000) never stack above page overlays like modals */}
         <div className="w-full relative isolate" style={{ height: '360px' }}>
-          <MapContainer
-            center={[16.0, 68.0]}
-            zoom={4}
-            style={{ height: '100%', width: '100%', backgroundColor: '#f1f5f9' }}
-            scrollWheelZoom={false}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-
-            {/* Markers */}
-            <Marker
-              position={rasTanuraCoords}
-              icon={createMapMarkerIcon('#3b82f6', 'Origin: Ras Tanura')}
-            >
-              <Tooltip>Origin Terminal: Ras Tanura, Saudi Arabia</Tooltip>
-            </Marker>
-
-            <Marker
-              position={chennaiPortCoords}
-              icon={createMapMarkerIcon('#ef4444', 'Chennai Port (Disrupted)', true)}
-            >
-              <Tooltip>Destination: Chennai Port Crude Berth 3 (+18h Delay)</Tooltip>
-            </Marker>
-
-            <Marker
-              position={ennorePortCoords}
-              icon={createMapMarkerIcon('#10b981', 'Ennore Port (+6.5h)')}
-            >
-              <Tooltip>Recommended Diversion: Kamarajar Port (Ennore) - 16.5m draft clear</Tooltip>
-            </Marker>
-
-            <Marker
-              position={kochiCoords}
-              icon={createMapMarkerIcon('#2563eb', 'Kochi Terminal')}
-            >
-              <Tooltip>Internal Reserve: Kochi BPCL Terminal</Tooltip>
-            </Marker>
-
-            {/* Disrupted Route Line (Red, Dashed) */}
-            <Polyline
-              positions={disruptedRoutePath}
-              pathOptions={{
-                color: '#ef4444',
-                weight: selectedRouteId === 'LOG-01' ? 4 : 2.5,
-                dashArray: '8, 6',
-                opacity: 0.85,
-              }}
-            />
-
-            {/* Recommended Ennore Diversion (Green, Solid) */}
-            <Polyline
-              positions={ennoreAlternativePath}
-              pathOptions={{
-                color: '#10b981',
-                weight: selectedRouteId === 'LOG-02' ? 4 : 2.5,
-                opacity: 0.9,
-              }}
-            />
-
-            {/* Kochi Pipeline Corridor (Blue) */}
-            <Polyline
-              positions={kochiPipelinePath}
-              pathOptions={{
-                color: '#2563eb',
-                weight: selectedRouteId === 'LOG-04' ? 4 : 2,
-                dashArray: '6, 6',
-                opacity: 0.8,
-              }}
-            />
-          </MapContainer>
+          <RouteMap routes={filteredRoutes} selectedId={selectedRoute.id} />
         </div>
       </div>
 
